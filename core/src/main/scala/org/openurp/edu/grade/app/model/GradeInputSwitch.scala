@@ -22,7 +22,7 @@ import java.time.Instant
 
 import org.beangle.commons.collection.Collections
 import org.beangle.data.model.LongId
-import org.openurp.edu.base.code.model.GradeType
+import org.openurp.code.edu.model.GradeType
 import org.openurp.edu.base.model.Project
 import org.openurp.edu.base.model.Semester
 

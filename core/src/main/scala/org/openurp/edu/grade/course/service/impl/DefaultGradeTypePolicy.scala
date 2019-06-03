@@ -18,10 +18,10 @@
  */
 package org.openurp.edu.grade.course.service.impl
 
-import org.openurp.edu.base.code.model.GradeType
+import org.openurp.code.edu.model.GradeType
 import org.openurp.edu.grade.course.service.GradeTypePolicy
 import org.openurp.edu.course.model.CourseTaker
-import org.openurp.edu.course.model.ExamTaker
+import org.openurp.edu.exam.model.ExamTaker
 
 class DefaultGradeTypePolicy extends GradeTypePolicy {
 

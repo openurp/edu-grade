@@ -21,7 +21,7 @@ package org.openurp.edu.grade.course.service
 import org.beangle.commons.collection.Collections
 import org.beangle.data.dao.EntityDao
 import org.beangle.commons.lang.Numbers
-import org.openurp.edu.base.code.model.GradingMode
+import org.openurp.code.edu.model.GradingMode
 import org.openurp.edu.grade.model.GradeRateConfig
 import org.openurp.edu.grade.model.GradeRateItem
 

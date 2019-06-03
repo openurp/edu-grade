@@ -14,11 +14,11 @@
   <properties>
     <bundle.symbolicName>org.openurp.edu.grade</bundle.symbolicName>
     <bundle.namespace>org.openurp.edu.grade</bundle.namespace>
-	<openurp.api.version>0.10.0</openurp.api.version>
+	  <openurp.api.version>0.10.0</openurp.api.version>
+    <spring.version>4.3.22.RELEASE</spring.version>
   </properties>
 
   <modules>
     <module>core</module>
-    <!--<module>web</module>-->
   </modules>
 </project>

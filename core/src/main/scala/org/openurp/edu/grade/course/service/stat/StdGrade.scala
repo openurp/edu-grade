@@ -90,7 +90,7 @@ class StdGrade {
    */
   def credits: Float = {
     if (null == grades || grades.isEmpty) {
-      return new java.lang.Float(0)
+      return 0f
     }
     var credits = 0f
     grades.foreach { g =>

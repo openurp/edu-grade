@@ -24,7 +24,7 @@ import org.beangle.data.dao.EntityDao
 import org.beangle.data.dao.OqlBuilder
 import org.openurp.base.model.Department
 import org.openurp.edu.base.model.Semester
-import org.openurp.edu.base.code.model.GradeType
+import org.openurp.code.edu.model.GradeType
 import org.openurp.edu.base.model.Course
 import org.openurp.edu.base.model.Project
 import org.openurp.edu.base.model.Student
@@ -32,6 +32,8 @@ import org.openurp.edu.grade.course.model.CourseGrade
 import org.openurp.edu.grade.course.service.StdGradeService
 import org.openurp.edu.course.model.CourseTaker
 import java.time.LocalDate
+
+import org.beangle.commons.lang.Numbers
 
 class StdGradeServiceImpl extends StdGradeService {
 
@@ -89,10 +91,10 @@ class StdGradeServiceImpl extends StdGradeService {
     entityDao:  EntityDao): Array[Any] = {
     val query = OqlBuilder.from(classOf[CourseTaker], "taker")
     query.where("taker.clazz.crn = :crn", crn)
-    query.where("taker.std.id = :stdId", new java.lang.Long(stdId))
+    query.where("taker.std.id = :stdId", Numbers.toLong(stdId))
     query.where("not exists(from " + classOf[CourseGrade].getName +
-      " grade where grade.std.id = :stdId and grade.clazz.crn=:crn)", new java.lang.Long(stdId), crn)
-    query.where("taker.clazz.semester.id = :semesterId", new java.lang.Long(semesterId))
+      " grade where grade.std.id = :stdId and grade.clazz.crn=:crn)", Numbers.toLong(stdId), crn)
+    query.where("taker.clazz.semester.id = :semesterId", Numbers.toInt(semesterId))
     query.select("taker.clazz.id,taker.clazz.course.code,taker.clazz.course.name,taker.clazz.gradeState.gradingMode.id,taker.clazz.gradeState.gradingMode.name")
     val takers = entityDao.search(query)
     if (Collections.isEmpty(takers)) {

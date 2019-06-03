@@ -29,6 +29,7 @@ import org.beangle.commons.logging.Logging
  * Abstract BaseServiceImpl class.
  *
  * @author chaostone
+ * @version $Id: $
  */
 abstract class BaseServiceImpl extends Logging {
 

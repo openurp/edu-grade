@@ -21,7 +21,7 @@ package org.openurp.edu.grade.course.service.internal
 import org.beangle.data.dao.impl.BaseServiceImpl
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.commons.script.ExpressionEvaluator
-import org.openurp.edu.base.code.model.GradingMode
+import org.openurp.code.edu.model.GradingMode
 import org.openurp.edu.base.model.Project
 import org.openurp.edu.grade.model.GradeRateConfig
 import org.openurp.edu.grade.model.GradeRateItem

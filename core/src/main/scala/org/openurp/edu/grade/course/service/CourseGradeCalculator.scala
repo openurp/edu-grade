@@ -18,7 +18,7 @@
  */
 package org.openurp.edu.grade.course.service
 
-import org.openurp.edu.base.code.model.GradingMode
+import org.openurp.code.edu.model.GradingMode
 import org.openurp.edu.grade.course.model.CourseGrade
 import org.openurp.edu.grade.course.model.CourseGradeState
 import org.openurp.edu.grade.course.model.ExamGrade

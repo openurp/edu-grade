@@ -23,12 +23,12 @@ import org.openurp.edu.base.model.Course
 import org.openurp.edu.grade.course.model.CourseGrade
 import org.openurp.edu.grade.course.domain.GradeComparator
 import org.openurp.edu.grade.course.domain.GradeFilter
-import org.openurp.edu.program.plan.model.CourseSubstitution
-import org.openurp.edu.program.plan.service.CourseSubstitutionService
+import org.openurp.edu.program.plan.domain.AlternativeCourseProvider
+import org.openurp.edu.program.plan.model.AlternativeCourse
 
 class BestOriginGradeFilter extends GradeFilter {
 
-  var courseSubstitutionService: CourseSubstitutionService = _
+  var alternativeCourseProvider: AlternativeCourseProvider = _
 
   private def buildGradeMap(grades: Seq[CourseGrade]): collection.mutable.Map[Course, CourseGrade] = {
     val gradesMap = Collections.newMap[Course, CourseGrade]
@@ -75,7 +75,7 @@ class BestOriginGradeFilter extends GradeFilter {
 
   def filter(grades: Seq[CourseGrade]): Seq[CourseGrade] = {
     val gradesMap = buildGradeMap(grades)
-    val substituteCourses = getSubstituteCourses(grades)
+    val substituteCourses = getAlternatives(grades)
     for (subCourse <- substituteCourses) {
       val origin = gradesMap.get(subCourse.olds.head).orNull
       val sub = gradesMap.get(subCourse.news.head).orNull
@@ -90,12 +90,11 @@ class BestOriginGradeFilter extends GradeFilter {
     gradesMap.values.toSeq
   }
 
-  private def getSubstituteCourses(grades: Seq[CourseGrade]): Seq[CourseSubstitution] = {
+  private def getAlternatives(grades: Iterable[CourseGrade]): Seq[AlternativeCourse] = {
     if (grades.isEmpty) {
       List.empty
     } else {
-      val grade = grades.head
-      courseSubstitutionService.getCourseSubstitutions(grade.std)
+      alternativeCourseProvider.getAlternatives(grades.head.std)
     }
   }
 

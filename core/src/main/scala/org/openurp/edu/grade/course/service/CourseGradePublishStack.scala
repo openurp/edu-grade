@@ -20,7 +20,7 @@ package org.openurp.edu.grade.course.service
 
 import org.beangle.commons.collection.Collections
 import org.beangle.data.dao.Operation
-import org.openurp.edu.base.code.model.GradeType
+import org.openurp.code.edu.model.GradeType
 import org.openurp.edu.grade.course.model.CourseGrade
 import org.openurp.edu.grade.course.model.CourseGradeState
 

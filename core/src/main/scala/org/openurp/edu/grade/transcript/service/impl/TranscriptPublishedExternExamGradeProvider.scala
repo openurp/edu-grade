@@ -25,7 +25,7 @@ import org.beangle.data.dao.OqlBuilder
 import org.openurp.edu.base.model.Student
 import org.openurp.edu.grade.transcript.service.TranscriptDataProvider
 import scala.collection.mutable.Buffer
-import org.openurp.edu.extern.exam.model.ExternExamGrade
+import org.openurp.edu.extern.model.ExternExamGrade
 
 class TranscriptPublishedExternExamGradeProvider extends TranscriptDataProvider {
 

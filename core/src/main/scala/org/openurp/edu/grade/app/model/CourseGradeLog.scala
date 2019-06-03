@@ -19,8 +19,8 @@
 package org.openurp.edu.grade.app.model
 
 import org.openurp.edu.base.model.Semester
-import org.openurp.edu.base.code.model.ExamStatus
-import org.openurp.edu.base.code.model.GradeType
+import org.openurp.code.edu.model.ExamStatus
+import org.openurp.code.edu.model.GradeType
 import org.openurp.edu.base.model.Course
 import org.openurp.edu.base.model.Student
 import org.beangle.data.model.LongId

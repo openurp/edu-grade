@@ -27,8 +27,8 @@ import org.beangle.data.dao.OqlBuilder
 import org.beangle.commons.lang.Objects
 import org.beangle.commons.lang.Strings
 import org.beangle.commons.lang.functor.Predicate
-import org.openurp.edu.base.code.model.CourseTakeType
-import org.openurp.edu.base.code.model.GradeType
+import org.openurp.code.edu.model.CourseTakeType
+import org.openurp.code.edu.model.GradeType
 import org.openurp.edu.base.model.Project
 import org.openurp.edu.grade.course.model.CourseGrade
 import org.openurp.edu.grade.course.model.CourseGradeState
@@ -86,7 +86,7 @@ class CourseGradeServiceImpl extends BaseServiceImpl with CourseGradeService {
    * 发布学生成绩
    */
   def publish(clazzIdSeq: String, gradeTypes: Array[GradeType], published: Boolean) {
-    val ids2 = Strings.transformToLong(clazzIdSeq.split(","))
+    val ids2 = Strings.splitToLong(clazzIdSeq)
     val ids: Array[Long] = Array.ofDim(ids2.length)
     for (i <- 0 until ids.length) ids(i) = ids2(i).longValue
     val clazzes = entityDao.find(classOf[Clazz], ids.toList)

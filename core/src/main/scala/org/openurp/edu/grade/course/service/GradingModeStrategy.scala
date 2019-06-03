@@ -18,7 +18,7 @@
  */
 package org.openurp.edu.grade.course.service
 
-import org.openurp.edu.base.code.model.GradeType
+import org.openurp.code.edu.model.GradeType
 import org.openurp.edu.grade.course.model.CourseGradeState
 
 /**

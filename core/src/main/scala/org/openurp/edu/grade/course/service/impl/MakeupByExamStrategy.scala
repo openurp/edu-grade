@@ -21,12 +21,12 @@ package org.openurp.edu.grade.course.service.impl
 import org.beangle.commons.collection.Collections
 import org.beangle.data.dao.impl.BaseServiceImpl
 import org.beangle.data.dao.OqlBuilder
-import org.openurp.edu.base.code.model.ExamType
+import org.openurp.code.edu.model.ExamType
 import org.openurp.edu.grade.course.service.MakeupStdStrategy
 import org.openurp.edu.course.model.CourseTaker
-import org.openurp.edu.course.model.ExamTaker
+import org.openurp.edu.exam.model.ExamTaker
 import org.openurp.edu.course.model.Clazz
-import org.openurp.edu.base.code.model.GradeType
+import org.openurp.code.edu.model.GradeType
 
 /**
  * 按照排考情况，统计补缓名单

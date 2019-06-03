@@ -18,14 +18,11 @@
  */
 package org.openurp.edu.grade.course.service.impl
 
+import org.beangle.commons.bean.Initializing
 import org.beangle.commons.collection.Collections
 import org.beangle.commons.lang.Strings
-import org.springframework.beans.BeansException
-import org.springframework.beans.factory.InitializingBean
-import org.springframework.context.ApplicationContext
-import org.springframework.context.ApplicationContextAware
 import org.openurp.edu.grade.course.domain.GradeFilter
-import org.beangle.commons.bean.Initializing
+import org.springframework.context.{ApplicationContext, ApplicationContextAware}
 
 /**
  * 基于spring的过滤器注册表

@@ -19,8 +19,8 @@
 package org.openurp.edu.grade.course.service.impl
 
 import org.beangle.data.dao.EntityDao
-import org.openurp.edu.base.code.model.GradeType
-import org.openurp.edu.base.code.model.GradingMode
+import org.openurp.code.edu.model.GradeType
+import org.openurp.code.edu.model.GradingMode
 import org.openurp.edu.grade.course.model.CourseGradeState
 import org.openurp.edu.grade.course.model.ExamGradeState
 import org.openurp.edu.grade.model.GradeState

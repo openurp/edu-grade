@@ -29,7 +29,7 @@ import org.openurp.edu.grade.course.service.impl.BestGradeFilter
 import org.openurp.edu.grade.model.Grade
 import scala.collection.mutable.Buffer
 
-class BestGradeCourseGradeProviderImpl extends BaseServiceImpl with CourseGradeProvider {
+class BestCourseGradeProviderImpl extends BaseServiceImpl with CourseGradeProvider {
 
   var bestGradeFilter: BestGradeFilter = _
 
