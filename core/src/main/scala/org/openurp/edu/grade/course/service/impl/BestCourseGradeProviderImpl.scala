@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.openurp.edu.grade.course.service.internal
+package org.openurp.edu.grade.course.service.impl
 
 import org.beangle.commons.collection.Collections
 import org.beangle.data.dao.impl.BaseServiceImpl
@@ -25,7 +25,6 @@ import org.openurp.edu.base.model.Semester
 import org.openurp.edu.base.model.Student
 import org.openurp.edu.grade.course.model.CourseGrade
 import org.openurp.edu.grade.course.domain.CourseGradeProvider
-import org.openurp.edu.grade.course.service.impl.BestGradeFilter
 import org.openurp.edu.grade.model.Grade
 import scala.collection.mutable.Buffer
 

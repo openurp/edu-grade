@@ -39,11 +39,6 @@ import org.openurp.edu.grade.course.service.impl.RecalcGpPublishListener
 import org.openurp.edu.grade.course.service.impl.ScriptGradeFilter
 import org.openurp.edu.grade.course.service.impl.SpringGradeFilterRegistry
 import org.openurp.edu.grade.course.service.impl.StdGradeServiceImpl
-import org.openurp.edu.grade.course.service.internal.BestCourseGradeProviderImpl
-import org.openurp.edu.grade.course.service.internal.CourseGradeProviderImpl
-import org.openurp.edu.grade.course.service.internal.CourseGradeServiceImpl
-import org.openurp.edu.grade.course.service.internal.GradeCourseTypeProviderImpl
-import org.openurp.edu.grade.course.service.internal.GradeRateServiceImpl
 import org.openurp.edu.grade.setting.service.impl.CourseGradeSettingsImpl
 import org.openurp.edu.grade.transcript.service.impl.SpringTranscriptDataProviderRegistry
 import org.openurp.edu.grade.transcript.service.impl.TranscriptGpaProvider
@@ -51,6 +46,11 @@ import org.openurp.edu.grade.transcript.service.impl.TranscriptPlanCourseProvide
 import org.openurp.edu.grade.transcript.service.impl.TranscriptPublishedExternExamGradeProvider
 import org.openurp.edu.grade.transcript.service.impl.TranscriptPublishedGradeProvider
 import org.openurp.edu.grade.transcript.service.impl.TranscriptStdGraduationProvider
+import org.openurp.edu.grade.course.service.impl.CourseGradeProviderImpl
+import org.openurp.edu.grade.course.service.impl.CourseGradeServiceImpl
+import org.openurp.edu.grade.course.service.impl.GradeCourseTypeProviderImpl
+import org.openurp.edu.grade.course.service.impl.GradeRateServiceImpl
+import org.openurp.edu.grade.course.service.impl.BestCourseGradeProviderImpl
 
 class GradeServiceModule extends BindModule {
 

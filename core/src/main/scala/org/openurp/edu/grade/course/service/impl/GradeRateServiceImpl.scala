@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.openurp.edu.grade.course.service.internal
+package org.openurp.edu.grade.course.service.impl
 
 import org.beangle.data.dao.impl.BaseServiceImpl
 import org.beangle.data.dao.OqlBuilder
