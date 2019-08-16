@@ -18,22 +18,28 @@
  */
 package org.openurp.edu.grade
 
+import org.beangle.cdi.bind.BindModule
 import org.openurp.edu.grade.app.service.impl.GradeInputSwithServiceImpl
 import org.openurp.edu.grade.app.service.impl.ReportTemplateServiceImpl
-import org.beangle.cdi.bind.BindModule
-import org.openurp.edu.grade.course.service.{CourseGradePublishStack, GradingModeHelper}
+import org.openurp.edu.grade.course.domain.DefaultGpaPolicy
+import org.openurp.edu.grade.course.domain.NumRounder
+import org.openurp.edu.grade.course.service.CourseGradePublishStack
+import org.openurp.edu.grade.course.service.GradingModeHelper
+import org.openurp.edu.grade.course.service.impl.BestCourseGradeProviderImpl
 import org.openurp.edu.grade.course.service.impl.BestGpaStatService
 import org.openurp.edu.grade.course.service.impl.BestGradeFilter
 import org.openurp.edu.grade.course.service.impl.BestOriginGradeFilter
+import org.openurp.edu.grade.course.service.impl.CourseGradeProviderImpl
+import org.openurp.edu.grade.course.service.impl.CourseGradeServiceImpl
 import org.openurp.edu.grade.course.service.impl.DefaultCourseGradeCalculator
-import org.openurp.edu.grade.course.domain.DefaultGpaPolicy
 import org.openurp.edu.grade.course.service.impl.DefaultGpaService
 import org.openurp.edu.grade.course.service.impl.DefaultGradeTypePolicy
 import org.openurp.edu.grade.course.service.impl.DefaultGradingModeStrategy
 import org.openurp.edu.grade.course.service.impl.ExamTakerGeneratePublishListener
+import org.openurp.edu.grade.course.service.impl.GradeCourseTypeProviderImpl
+import org.openurp.edu.grade.course.service.impl.GradeRateServiceImpl
 import org.openurp.edu.grade.course.service.impl.MakeupByExamStrategy
 import org.openurp.edu.grade.course.service.impl.MakeupGradeFilter
-import org.openurp.edu.grade.course.domain.NumRounder
 import org.openurp.edu.grade.course.service.impl.PassedGradeFilter
 import org.openurp.edu.grade.course.service.impl.RecalcGpPublishListener
 import org.openurp.edu.grade.course.service.impl.ScriptGradeFilter
@@ -46,11 +52,7 @@ import org.openurp.edu.grade.transcript.service.impl.TranscriptPlanCourseProvide
 import org.openurp.edu.grade.transcript.service.impl.TranscriptPublishedExternExamGradeProvider
 import org.openurp.edu.grade.transcript.service.impl.TranscriptPublishedGradeProvider
 import org.openurp.edu.grade.transcript.service.impl.TranscriptStdGraduationProvider
-import org.openurp.edu.grade.course.service.impl.CourseGradeProviderImpl
-import org.openurp.edu.grade.course.service.impl.CourseGradeServiceImpl
-import org.openurp.edu.grade.course.service.impl.GradeCourseTypeProviderImpl
-import org.openurp.edu.grade.course.service.impl.GradeRateServiceImpl
-import org.openurp.edu.grade.course.service.impl.BestCourseGradeProviderImpl
+import org.openurp.edu.program.plan.impl.AlternativeCourseProviderImpl
 
 class GradeServiceModule extends BindModule {
 
@@ -86,5 +88,8 @@ class GradeServiceModule extends BindModule {
     bind(classOf[TranscriptPlanCourseProvider], classOf[TranscriptGpaProvider], classOf[TranscriptPublishedGradeProvider],
       classOf[TranscriptStdGraduationProvider], classOf[SpringTranscriptDataProviderRegistry], classOf[TranscriptPublishedExternExamGradeProvider])
       .shortName()
+
+
+    bind("alternativeCourseProvider", classOf[AlternativeCourseProviderImpl])
   }
 }
