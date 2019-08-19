@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.openurp.edu.grade</groupId>
     <artifactId>openurp-edu-grade-parent</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.openurp.edu.grade</groupId>
@@ -38,23 +38,18 @@
       <version>${openurp.api.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.openurp.edu.student</groupId>
-      <artifactId>openurp-edu-student-api</artifactId>
-      <version>${openurp.api.version}</version>
-    </dependency>
-    <dependency>
       <groupId>org.beangle.security</groupId>
-      <artifactId>beangle-security-core_2.12</artifactId>
+      <artifactId>beangle-security-core_2.13</artifactId>
       <version>${beangle.security.version}</version>
     </dependency>
     <dependency>
       <groupId>org.beangle.data</groupId>
-      <artifactId>beangle-data-transfer_2.12</artifactId>
+      <artifactId>beangle-data-transfer_2.13</artifactId>
       <version>${beangle.data.version}</version>
     </dependency>
     <dependency>
       <groupId>org.beangle.cdi</groupId>
-      <artifactId>beangle-cdi-api_2.12</artifactId>
+      <artifactId>beangle-cdi-api_2.13</artifactId>
       <version>${beangle.cdi.version}</version>
     </dependency>
     <dependency>

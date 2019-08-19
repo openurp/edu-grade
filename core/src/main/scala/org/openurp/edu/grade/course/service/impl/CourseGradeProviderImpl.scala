@@ -71,7 +71,7 @@ class CourseGradeProviderImpl extends BaseServiceImpl with CourseGradeProvider {
     entityDao.search(query)
   }
 
-  def getPublished(stds: Iterable[Student], semesters: Semester*): collection.Map[Student, Seq[CourseGrade]] = {
+  def getPublished(stds: Iterable[Student], semesters: Semester*): collection.Map[Student, collection.Seq[CourseGrade]] = {
     val sw = new Stopwatch()
     sw.start()
     val query = OqlBuilder.from(classOf[CourseGrade], "grade")
@@ -89,7 +89,7 @@ class CourseGradeProviderImpl extends BaseServiceImpl with CourseGradeProvider {
     gradeMap
   }
 
-  def getAll(stds: Iterable[Student], semesters: Semester*): collection.Map[Student, Seq[CourseGrade]] = {
+  def getAll(stds: Iterable[Student], semesters: Semester*): collection.Map[Student, collection.Seq[CourseGrade]] = {
     val query = OqlBuilder.from(classOf[CourseGrade], "grade")
     query.where("grade.std in (:stds)", stds)
     if (null != semesters && semesters.length > 0) {

@@ -35,7 +35,7 @@ class DefaultGpaService extends GpaService {
     gpaPolicy.calcGpa(courseGradeProvider.getPublished(std))
   }
 
-  def getGpa(std: Student, grades: Seq[CourseGrade]): Float = {
+  def getGpa(std: Student, grades: collection.Seq[CourseGrade]): Float = {
     gpaPolicy.calcGpa(grades)
   }
 

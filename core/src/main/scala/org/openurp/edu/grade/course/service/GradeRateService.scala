@@ -35,7 +35,7 @@ trait GradeRateService {
 
   def getConverter(project: Project, gradingMode: GradingMode): ScoreConverter
 
-  def getGradeItems(project: Project): collection.Map[GradingMode, Seq[GradeRateItem]]
+  def getGradeItems(project: Project): collection.Map[GradingMode, collection.Seq[GradeRateItem]]
 
   /**
    * 查询该项目对应的记录方式
@@ -43,5 +43,5 @@ trait GradeRateService {
    * @param project
    * @return
    */
-  def getGradingModes(project: Project): Seq[GradingMode]
+  def getGradingModes(project: Project): collection.Seq[GradingMode]
 }

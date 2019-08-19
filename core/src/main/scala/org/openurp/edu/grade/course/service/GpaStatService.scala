@@ -40,7 +40,7 @@ trait GpaStatService {
    * @param std
    * @return
    */
-  def statBySemester(std: Student, semesters: Seq[Semester]): StdGpa
+  def statBySemester(std: Student, semesters: collection.Seq[Semester]): StdGpa
 
   /**
    * 根据指定数据进行统计绩点
@@ -49,7 +49,7 @@ trait GpaStatService {
    * @param grades
    * @return
    */
-  def stat(std: Student, grades: Seq[CourseGrade]): StdGpa
+  def stat(std: Student, grades: collection.Seq[CourseGrade]): StdGpa
 
   /**
    * 统计多个学生的平均绩点和其他信息 如果semesters不包含元素或者为null则统计这些所有学期
@@ -66,9 +66,9 @@ trait GpaStatService {
    * @param stds
    * @return
    */
-  def statBySemester(stds: Iterable[Student], semesters: Seq[Semester]): MultiStdGpa
+  def statBySemester(stds: Iterable[Student], semesters: collection.Seq[Semester]): MultiStdGpa
 
-  def refresh(stdGpa: StdGpa, grades: Seq[CourseGrade]): Unit
+  def refresh(stdGpa: StdGpa, grades: collection.Seq[CourseGrade]): Unit
 
   def refresh(stdGpa: StdGpa): Unit
 }

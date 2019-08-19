@@ -40,7 +40,7 @@ class TranscriptPlanCourseProvider extends BaseServiceImpl with TranscriptDataPr
     }.toMap
   }
 
-  private def getPlanCourses(std: Student): Seq[PlanCourse] = {
+  private def getPlanCourses(std: Student): collection.Seq[PlanCourse] = {
     val planCourses = Collections.newBuffer[PlanCourse]
     val plan = coursePlanProvider.getCoursePlan(std)
     if (plan == null) {

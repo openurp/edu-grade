@@ -32,7 +32,7 @@ class BestCourseGradeProviderImpl extends BaseServiceImpl with CourseGradeProvid
 
   var bestGradeFilter: BestGradeFilter = _
 
-  def getPublished(std: Student, semesters: Semester*): Seq[CourseGrade] = {
+  def getPublished(std: Student, semesters: Semester*): collection.Seq[CourseGrade] = {
     val query = OqlBuilder.from(classOf[CourseGrade], "grade")
     query.where("grade.std = :std", std)
     query.where("grade.status =:status", Grade.Status.Published)
@@ -43,7 +43,7 @@ class BestCourseGradeProviderImpl extends BaseServiceImpl with CourseGradeProvid
     bestGradeFilter.filter(entityDao.search(query))
   }
 
-  def getAll(std: Student, semesters: Semester*): Seq[CourseGrade] = {
+  def getAll(std: Student, semesters: Semester*): collection.Seq[CourseGrade] = {
     val query = OqlBuilder.from(classOf[CourseGrade], "grade")
     query.where("grade.std = :std", std)
     if (null != semesters && semesters.length > 0) {
@@ -53,7 +53,7 @@ class BestCourseGradeProviderImpl extends BaseServiceImpl with CourseGradeProvid
     bestGradeFilter.filter(entityDao.search(query))
   }
 
-  def getPublished(stds: Iterable[Student], semesters: Semester*): collection.Map[Student, Seq[CourseGrade]] = {
+  def getPublished(stds: Iterable[Student], semesters: Semester*): collection.Map[Student, collection.Seq[CourseGrade]] = {
     val query = OqlBuilder.from(classOf[CourseGrade], "grade")
     query.where("grade.std in (:stds)", stds)
     query.where("grade.status =:status", Grade.Status.Published)
@@ -69,7 +69,7 @@ class BestCourseGradeProviderImpl extends BaseServiceImpl with CourseGradeProvid
     stds.map(s => (s, bestGradeFilter.filter(gradeMap(s)))).toMap
   }
 
-  def getAll(stds: Iterable[Student], semesters: Semester*): collection.Map[Student, Seq[CourseGrade]] = {
+  def getAll(stds: Iterable[Student], semesters: Semester*): collection.Map[Student, collection.Seq[CourseGrade]] = {
     val query = OqlBuilder.from(classOf[CourseGrade], "grade")
     query.where("grade.std in (:stds)", stds)
     if (null != semesters && semesters.length > 0) {

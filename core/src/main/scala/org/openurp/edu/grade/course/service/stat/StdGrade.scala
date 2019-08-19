@@ -32,7 +32,7 @@ class StdGrade {
 
   var std: Student = _
 
-  var grades: Seq[CourseGrade] = _
+  var grades: collection.Seq[CourseGrade] = _
 
   var gradeFilters: List[GradeFilter] = _
 

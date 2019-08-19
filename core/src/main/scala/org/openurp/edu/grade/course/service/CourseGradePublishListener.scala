@@ -35,7 +35,7 @@ trait CourseGradePublishListener {
    * @param gradeTypes
    * @return
    */
-  def onPublish(grade: CourseGrade, gradeTypes: Array[GradeType]): Seq[Operation]
+  def onPublish(grade: CourseGrade, gradeTypes: Array[GradeType]): collection.Seq[Operation]
 
   /**
    * 发布一批成绩
@@ -45,5 +45,5 @@ trait CourseGradePublishListener {
    * @param gradeTypes
    * @return
    */
-  def onPublish(grades: Iterable[CourseGrade], gradeState: CourseGradeState, gradeTypes: Array[GradeType]): Seq[Operation]
+  def onPublish(grades: Iterable[CourseGrade], gradeState: CourseGradeState, gradeTypes: Array[GradeType]): collection.Seq[Operation]
 }

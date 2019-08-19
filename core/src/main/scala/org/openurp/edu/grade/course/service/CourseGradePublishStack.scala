@@ -32,7 +32,7 @@ class CourseGradePublishStack {
 
   protected var listeners = Collections.newBuffer[CourseGradePublishListener]
 
-  def onPublish(grade: CourseGrade, gradeTypes: Array[GradeType]): Seq[Operation] = {
+  def onPublish(grade: CourseGrade, gradeTypes: Array[GradeType]): collection.Seq[Operation] = {
     val results = Collections.newBuffer[Operation]
     for (listener <- listeners) {
       results ++= listener.onPublish(grade, gradeTypes)
@@ -40,7 +40,7 @@ class CourseGradePublishStack {
     results
   }
 
-  def onPublish(grades: Iterable[CourseGrade], gradeState: CourseGradeState, gradeTypes: Array[GradeType]): Seq[Operation] = {
+  def onPublish(grades: Iterable[CourseGrade], gradeState: CourseGradeState, gradeTypes: Array[GradeType]): collection.Seq[Operation] = {
     val results = Collections.newBuffer[Operation]
     for (listener <- listeners) {
       results ++= listener.onPublish(grades, gradeState, gradeTypes)

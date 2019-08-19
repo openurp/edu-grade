@@ -2,20 +2,20 @@
   <parent>
     <groupId>org.openurp</groupId>
     <artifactId>openurp-parent</artifactId>
-    <version>0.2.34</version>
+    <version>0.3.3</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.openurp.edu.grade</groupId>
   <artifactId>openurp-edu-grade-parent</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.2-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>OpenURP Edu Grade Parent</name>
 
   <properties>
     <bundle.symbolicName>org.openurp.edu.grade</bundle.symbolicName>
     <bundle.namespace>org.openurp.edu.grade</bundle.namespace>
-	  <openurp.api.version>0.10.0</openurp.api.version>
-    <spring.version>4.3.22.RELEASE</spring.version>
+    <openurp.api.version>0.11.0</openurp.api.version>
+    <spring.version>5.1.9.RELEASE</spring.version>
   </properties>
 
   <modules>

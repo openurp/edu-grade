@@ -55,7 +55,7 @@ class ExamTakerGeneratePublishListener extends BaseServiceImpl with CourseGradeP
 
   private var forbiddenCourseTakeTypeNames: Array[String] = new Array[String](0)
 
-  def onPublish(grades: Iterable[CourseGrade], gradeState: CourseGradeState, gradeTypes: Array[GradeType]): Seq[Operation] = {
+  def onPublish(grades: Iterable[CourseGrade], gradeState: CourseGradeState, gradeTypes: Array[GradeType]): collection.Seq[Operation] = {
     val operations = Collections.newBuffer[Operation]
     val hasEndGa = gradeTypes.exists(_.id.equals(GradeType.EndGa));
     if (!hasEndGa) return operations
@@ -66,7 +66,7 @@ class ExamTakerGeneratePublishListener extends BaseServiceImpl with CourseGradeP
     operations
   }
 
-  def onPublish(grade: CourseGrade, gradeTypes: Array[GradeType]): Seq[Operation] = {
+  def onPublish(grade: CourseGrade, gradeTypes: Array[GradeType]): collection.Seq[Operation] = {
     val operations = Collections.newBuffer[Operation]
     val hasGa = gradeTypes.exists(_.id.equals(GradeType.EndGa));
     if (!hasGa) return operations
@@ -126,7 +126,7 @@ class ExamTakerGeneratePublishListener extends BaseServiceImpl with CourseGradeP
     grade:      CourseGrade,
     setting:    CourseGradeSetting,
     gradeTypes: Array[GradeType],
-    examTakers: collection.Map[Student, ExamTaker]): Seq[Operation] = {
+    examTakers: collection.Map[Student, ExamTaker]): collection.Seq[Operation] = {
     val operations = Collections.newBuffer[Operation]
     val examGrade = grade.getExamGrade(GradeType.End).orNull
     if (null == examGrade) return operations

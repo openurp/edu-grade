@@ -28,7 +28,7 @@ import org.openurp.edu.grade.course.domain.GradeFilter
  */
 class PassedGradeFilter extends GradeFilter {
 
-  override def filter(grades: Seq[CourseGrade]): Seq[CourseGrade] = {
+  override def filter(grades: collection.Seq[CourseGrade]): collection.Seq[CourseGrade] = {
     grades.filter(_.passed)
   }
 }

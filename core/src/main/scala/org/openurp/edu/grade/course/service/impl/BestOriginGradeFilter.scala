@@ -30,7 +30,7 @@ class BestOriginGradeFilter extends GradeFilter {
 
   var alternativeCourseProvider: AlternativeCourseProvider = _
 
-  private def buildGradeMap(grades: Seq[CourseGrade]): collection.mutable.Map[Course, CourseGrade] = {
+  private def buildGradeMap(grades: collection.Seq[CourseGrade]): collection.mutable.Map[Course, CourseGrade] = {
     val gradesMap = Collections.newMap[Course, CourseGrade]
     var old: CourseGrade = null
     for (grade <- grades) {
@@ -73,7 +73,7 @@ class BestOriginGradeFilter extends GradeFilter {
     cloned
   }
 
-  def filter(grades: Seq[CourseGrade]): Seq[CourseGrade] = {
+  def filter(grades: collection.Seq[CourseGrade]): collection.Seq[CourseGrade] = {
     val gradesMap = buildGradeMap(grades)
     val substituteCourses = getAlternatives(grades)
     for (subCourse <- substituteCourses) {
@@ -90,7 +90,7 @@ class BestOriginGradeFilter extends GradeFilter {
     gradesMap.values.toSeq
   }
 
-  private def getAlternatives(grades: Iterable[CourseGrade]): Seq[AlternativeCourse] = {
+  private def getAlternatives(grades: Iterable[CourseGrade]): collection.Seq[AlternativeCourse] = {
     if (grades.isEmpty) {
       List.empty
     } else {

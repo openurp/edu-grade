@@ -48,7 +48,7 @@ trait GpaService {
    *          可以为null
    * @return
    */
-  def getGpa(std: Student, grades: Seq[CourseGrade]): Float
+  def getGpa(std: Student, grades: collection.Seq[CourseGrade]): Float
 
   /**
    * 统计学生的平均绩点<br>

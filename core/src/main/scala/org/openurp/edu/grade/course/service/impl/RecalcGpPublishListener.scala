@@ -30,7 +30,7 @@ class RecalcGpPublishListener extends CourseGradePublishListener {
 
   var calculator: CourseGradeCalculator = _
 
-  def onPublish(grade: CourseGrade, gradeTypes: Array[GradeType]): Seq[Operation] = {
+  def onPublish(grade: CourseGrade, gradeTypes: Array[GradeType]): collection.Seq[Operation] = {
     if (gradeTypes.exists(x => x.id == GradeType.MakeupGa || x.id == GradeType.DelayGa)) {
       calculator.calcMakeupDelayGa(grade, null)
       Operation.saveOrUpdate(grade).build()
@@ -39,7 +39,7 @@ class RecalcGpPublishListener extends CourseGradePublishListener {
     }
   }
 
-  def onPublish(grades: Iterable[CourseGrade], gradeState: CourseGradeState, gradeTypes: Array[GradeType]): Seq[Operation] = {
+  def onPublish(grades: Iterable[CourseGrade], gradeState: CourseGradeState, gradeTypes: Array[GradeType]): collection.Seq[Operation] = {
     val operations = Collections.newBuffer[Operation]
     var hasMakeupOrDelay = false
     for (

@@ -48,7 +48,7 @@ class GradeRateServiceImpl extends BaseServiceImpl with GradeRateService {
     new ScoreConverter(config, expressionEvaluator)
   }
 
-  def getGradeItems(project: Project): collection.Map[GradingMode, Seq[GradeRateItem]] = {
+  def getGradeItems(project: Project): collection.Map[GradingMode, collection.Seq[GradeRateItem]] = {
     val builder = OqlBuilder.from(classOf[GradeRateConfig], "config")
       .where("config.project=:project and config.gradingMode.numerical=false", project)
     val configs = entityDao.search(builder)

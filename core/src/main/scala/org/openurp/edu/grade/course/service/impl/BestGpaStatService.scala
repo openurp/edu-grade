@@ -18,16 +18,10 @@
  */
 package org.openurp.edu.grade.course.service.impl
 
-import org.openurp.edu.base.model.Semester
-import org.openurp.edu.base.model.Student
-import org.openurp.edu.grade.course.domain.CourseGradeProvider
-import org.openurp.edu.grade.course.domain.GpaPolicy
-import org.openurp.edu.grade.course.model.CourseGrade
-import org.openurp.edu.grade.course.model.StdGpa
-import org.openurp.edu.grade.course.model.StdSemesterGpa
-import org.openurp.edu.grade.course.model.StdYearGpa
+import org.openurp.edu.base.model.{Semester, Student}
+import org.openurp.edu.grade.course.domain.{CourseGradeProvider, GpaPolicy}
+import org.openurp.edu.grade.course.model.{CourseGrade, StdGpa, StdSemesterGpa, StdYearGpa}
 import org.openurp.edu.grade.course.service.GpaStatService
-import org.beangle.commons.collection.Collections
 
 class BestGpaStatService extends GpaStatService {
 
@@ -37,7 +31,7 @@ class BestGpaStatService extends GpaStatService {
 
   private var bestGradeFilter: BestGradeFilter = _
 
-  override def stat(std: Student, grades: Seq[CourseGrade]): StdGpa = {
+  override def stat(std: Student, grades: collection.Seq[CourseGrade]): StdGpa = {
     val stdGpa = gpaPolicy.calc(std, grades, true)
     val stdGpa2 = gpaPolicy.calc(std, bestGradeFilter.filter(grades), false)
     stdGpa.count = stdGpa2.count
@@ -48,12 +42,12 @@ class BestGpaStatService extends GpaStatService {
     stdGpa
   }
 
-  def refresh(stdGpa: StdGpa) {
+  def refresh(stdGpa: StdGpa): Unit = {
     val newer = stat(stdGpa.std)
     merge(stdGpa, newer)
   }
 
-  def refresh(stdGpa: StdGpa, grades: Seq[CourseGrade]) {
+  def refresh(stdGpa: StdGpa, grades: collection.Seq[CourseGrade]) {
     val newer = stat(stdGpa.std, grades)
     merge(stdGpa, newer)
   }
@@ -62,8 +56,8 @@ class BestGpaStatService extends GpaStatService {
     stat(std, courseGradeProvider.getPublished(std))
   }
 
-  override def statBySemester(std: Student, semesters: Seq[Semester]): StdGpa = {
-    stat(std, courseGradeProvider.getPublished(std, semesters: _*))
+  override def statBySemester(std: Student, semesters: collection.Seq[Semester]): StdGpa = {
+    stat(std, courseGradeProvider.getPublished(std, semesters.toSeq: _*))
   }
 
   override def stat(stds: Iterable[Student]): MultiStdGpa = {
@@ -78,7 +72,7 @@ class BestGpaStatService extends GpaStatService {
     multiStdGpa
   }
 
-  override def statBySemester(stds: Iterable[Student], semesters: Seq[Semester]): MultiStdGpa = {
+  override def statBySemester(stds: Iterable[Student], semesters: collection.Seq[Semester]): MultiStdGpa = {
     val multiStdGpa = new MultiStdGpa()
     for (std <- stds) {
       val stdGpa = statBySemester(std, semesters)

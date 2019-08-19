@@ -32,7 +32,7 @@ class MakeupGradeFilter extends GradeFilter {
 
   var gradeRateService: GradeRateService = _
 
-  override def filter(grades: Seq[CourseGrade]): Seq[CourseGrade] = {
+  override def filter(grades: collection.Seq[CourseGrade]): collection.Seq[CourseGrade] = {
     val gradeList = Collections.newBuffer[CourseGrade]
     for (courseGrade <- grades) {
       var finded = false

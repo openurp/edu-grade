@@ -43,7 +43,7 @@ class MultiStdGrade(var semester: Semester, grades: collection.Map[Student, Seq[
   var stdGrades: Seq[StdGrade] = null
 
   // 每个学生除了共同课程之外的其他课程[std.id.toString,courseGrades]
-  var extraGradeMap = Collections.newMap[String, Seq[CourseGrade]]
+  var extraGradeMap = Collections.newMap[String, collection.Seq[CourseGrade]]
 
   // 最大显示列
   var maxDisplay: Int = _
@@ -101,7 +101,7 @@ class MultiStdGrade(var semester: Semester, grades: collection.Map[Student, Seq[
         maxExtra = myExtra
       }
       maxDisplay = courses.size + maxExtra
-      if (!extraGrades.isEmpty) {
+      if (extraGrades.nonEmpty) {
         extraGradeMap.put(stdGrade.std.id.toString, extraGrades)
       }
 
