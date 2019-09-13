@@ -1,22 +1,22 @@
 /*
  * OpenURP, Agile University Resource Planning Solution.
  *
- * Copyright © 2005, The OpenURP Software.
+ * Copyright © 2014, The OpenURP Software.
  *
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful.
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
+ * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.openurp.edu.grade.course.service.internal
+package org.openurp.edu.grade.course.service.impl
 
 import org.openurp.edu.grade.model.Grade.Status.New
 import org.openurp.edu.grade.model.Grade.Status.Published
@@ -27,8 +27,8 @@ import org.beangle.data.dao.OqlBuilder
 import org.beangle.commons.lang.Objects
 import org.beangle.commons.lang.Strings
 import org.beangle.commons.lang.functor.Predicate
-import org.openurp.edu.base.code.model.CourseTakeType
-import org.openurp.edu.base.code.model.GradeType
+import org.openurp.code.edu.model.CourseTakeType
+import org.openurp.code.edu.model.GradeType
 import org.openurp.edu.base.model.Project
 import org.openurp.edu.grade.course.model.CourseGrade
 import org.openurp.edu.grade.course.model.CourseGradeState
@@ -85,8 +85,8 @@ class CourseGradeServiceImpl extends BaseServiceImpl with CourseGradeService {
   /**
    * 发布学生成绩
    */
-  def publish(clazzIdSeq: String, gradeTypes: Array[GradeType], published: Boolean) {
-    val ids2 = Strings.transformToLong(clazzIdSeq.split(","))
+  def publish(clazzIdSeq: String, gradeTypes: Array[GradeType], published: Boolean): Unit = {
+    val ids2 = Strings.splitToLong(clazzIdSeq)
     val ids: Array[Long] = Array.ofDim(ids2.length)
     for (i <- 0 until ids.length) ids(i) = ids2(i).longValue
     val clazzes = entityDao.find(classOf[Clazz], ids.toList)
@@ -98,7 +98,7 @@ class CourseGradeServiceImpl extends BaseServiceImpl with CourseGradeService {
   }
 
   /** 依据状态调整成绩 */
-  def recalculate(gradeState: CourseGradeState) {
+  def recalculate(gradeState: CourseGradeState): Unit = {
     if (null == gradeState) {
       return
     }
@@ -110,7 +110,7 @@ class CourseGradeServiceImpl extends BaseServiceImpl with CourseGradeService {
       updateGradeState(grade, gradeState, grade.project)
       for (state <- gradeState.examStates) {
         val gradeType = state.gradeType
-        updateGradeState(grade.getExamGrade(gradeType.id).get, state, grade.project)
+        updateGradeState(grade.getExamGrade(gradeType).get, state, grade.project)
       }
       calculator.calcAll(grade, gradeState)
     }
@@ -120,7 +120,7 @@ class CourseGradeServiceImpl extends BaseServiceImpl with CourseGradeService {
     }
   }
 
-  def remove(clazz: Clazz, gradeType: GradeType) {
+  def remove(clazz: Clazz, gradeType: GradeType): Unit = {
     val state = getState(clazz)
     val courseGrades = entityDao.findBy(classOf[CourseGrade], "clazz", List(clazz))
     val gradeSetting = settings.getSetting(clazz.project)
@@ -197,7 +197,7 @@ class CourseGradeServiceImpl extends BaseServiceImpl with CourseGradeService {
    * @param grade
    * @param state
    */
-  private def updateGradeState(grade: Grade, state: GradeState, project: Project) {
+  private def updateGradeState(grade: Grade, state: GradeState, project: Project): Unit = {
     if (null != grade && null != state) {
       if (Objects.!=(grade.gradingMode, state.gradingMode)) {
         grade.gradingMode = state.gradingMode
@@ -208,7 +208,7 @@ class CourseGradeServiceImpl extends BaseServiceImpl with CourseGradeService {
     }
   }
 
-  private def updateState(clazz: Clazz, gradeTypes: Array[GradeType], status: Int) {
+  private def updateState(clazz: Clazz, gradeTypes: Array[GradeType], status: Int): Unit = {
     val courseGradeStates = entityDao.findBy(classOf[CourseGradeState].getName, "clazz", List(clazz))
     var gradeState: CourseGradeState = null
     for (gradeType <- gradeTypes) {
@@ -240,7 +240,7 @@ class CourseGradeServiceImpl extends BaseServiceImpl with CourseGradeService {
     if (status == Published) toBeSaved ++= publishStack.onPublish(published, gradeState, gradeTypes)
     toBeSaved ++= Operation.saveOrUpdate(clazz, gradeState).saveOrUpdate(published)
       .build()
-    entityDao.execute(toBeSaved.toArray: _*)
+    entityDao.execute(toBeSaved.toArray.toIndexedSeq: _*)
   }
 
 }

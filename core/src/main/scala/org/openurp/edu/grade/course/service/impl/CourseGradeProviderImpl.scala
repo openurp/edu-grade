@@ -1,22 +1,22 @@
 /*
  * OpenURP, Agile University Resource Planning Solution.
  *
- * Copyright © 2005, The OpenURP Software.
+ * Copyright © 2014, The OpenURP Software.
  *
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful.
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
+ * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.openurp.edu.grade.course.service.internal
+package org.openurp.edu.grade.course.service.impl
 
 import org.beangle.commons.collection.Collections
 import org.beangle.data.dao.impl.BaseServiceImpl
@@ -71,7 +71,7 @@ class CourseGradeProviderImpl extends BaseServiceImpl with CourseGradeProvider {
     entityDao.search(query)
   }
 
-  def getPublished(stds: Iterable[Student], semesters: Semester*): collection.Map[Student, Seq[CourseGrade]] = {
+  def getPublished(stds: Iterable[Student], semesters: Semester*): collection.Map[Student, collection.Seq[CourseGrade]] = {
     val sw = new Stopwatch()
     sw.start()
     val query = OqlBuilder.from(classOf[CourseGrade], "grade")
@@ -89,7 +89,7 @@ class CourseGradeProviderImpl extends BaseServiceImpl with CourseGradeProvider {
     gradeMap
   }
 
-  def getAll(stds: Iterable[Student], semesters: Semester*): collection.Map[Student, Seq[CourseGrade]] = {
+  def getAll(stds: Iterable[Student], semesters: Semester*): collection.Map[Student, collection.Seq[CourseGrade]] = {
     val query = OqlBuilder.from(classOf[CourseGrade], "grade")
     query.where("grade.std in (:stds)", stds)
     if (null != semesters && semesters.length > 0) {

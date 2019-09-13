@@ -1,33 +1,27 @@
 /*
  * OpenURP, Agile University Resource Planning Solution.
  *
- * Copyright © 2005, The OpenURP Software.
+ * Copyright © 2014, The OpenURP Software.
  *
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful.
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
+ * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.openurp.edu.grade.course.service.impl
 
-import org.openurp.edu.base.model.Semester
-import org.openurp.edu.base.model.Student
-import org.openurp.edu.grade.course.domain.CourseGradeProvider
-import org.openurp.edu.grade.course.domain.GpaPolicy
-import org.openurp.edu.grade.course.model.CourseGrade
-import org.openurp.edu.grade.course.model.StdGpa
-import org.openurp.edu.grade.course.model.StdSemesterGpa
-import org.openurp.edu.grade.course.model.StdYearGpa
+import org.openurp.edu.base.model.{Semester, Student}
+import org.openurp.edu.grade.course.domain.{CourseGradeProvider, GpaPolicy}
+import org.openurp.edu.grade.course.model.{CourseGrade, StdGpa, StdSemesterGpa, StdYearGpa}
 import org.openurp.edu.grade.course.service.GpaStatService
-import org.beangle.commons.collection.Collections
 
 class BestGpaStatService extends GpaStatService {
 
@@ -37,7 +31,7 @@ class BestGpaStatService extends GpaStatService {
 
   private var bestGradeFilter: BestGradeFilter = _
 
-  override def stat(std: Student, grades: Seq[CourseGrade]): StdGpa = {
+  override def stat(std: Student, grades: collection.Seq[CourseGrade]): StdGpa = {
     val stdGpa = gpaPolicy.calc(std, grades, true)
     val stdGpa2 = gpaPolicy.calc(std, bestGradeFilter.filter(grades), false)
     stdGpa.count = stdGpa2.count
@@ -48,12 +42,12 @@ class BestGpaStatService extends GpaStatService {
     stdGpa
   }
 
-  def refresh(stdGpa: StdGpa) {
+  def refresh(stdGpa: StdGpa): Unit = {
     val newer = stat(stdGpa.std)
     merge(stdGpa, newer)
   }
 
-  def refresh(stdGpa: StdGpa, grades: Seq[CourseGrade]) {
+  def refresh(stdGpa: StdGpa, grades: collection.Seq[CourseGrade]): Unit = {
     val newer = stat(stdGpa.std, grades)
     merge(stdGpa, newer)
   }
@@ -62,8 +56,8 @@ class BestGpaStatService extends GpaStatService {
     stat(std, courseGradeProvider.getPublished(std))
   }
 
-  override def statBySemester(std: Student, semesters: Seq[Semester]): StdGpa = {
-    stat(std, courseGradeProvider.getPublished(std, semesters: _*))
+  override def statBySemester(std: Student, semesters: collection.Seq[Semester]): StdGpa = {
+    stat(std, courseGradeProvider.getPublished(std, semesters.toSeq: _*))
   }
 
   override def stat(stds: Iterable[Student]): MultiStdGpa = {
@@ -78,7 +72,7 @@ class BestGpaStatService extends GpaStatService {
     multiStdGpa
   }
 
-  override def statBySemester(stds: Iterable[Student], semesters: Seq[Semester]): MultiStdGpa = {
+  override def statBySemester(stds: Iterable[Student], semesters: collection.Seq[Semester]): MultiStdGpa = {
     val multiStdGpa = new MultiStdGpa()
     for (std <- stds) {
       val stdGpa = statBySemester(std, semesters)
@@ -90,7 +84,7 @@ class BestGpaStatService extends GpaStatService {
     multiStdGpa
   }
 
-  private def merge(target: StdGpa, source: StdGpa) {
+  private def merge(target: StdGpa, source: StdGpa): Unit = {
     target.ga = source.ga
     target.gpa = source.gpa
     target.count = source.count

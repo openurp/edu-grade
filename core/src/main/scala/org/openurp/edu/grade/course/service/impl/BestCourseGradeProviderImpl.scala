@@ -1,22 +1,22 @@
 /*
  * OpenURP, Agile University Resource Planning Solution.
  *
- * Copyright © 2005, The OpenURP Software.
+ * Copyright © 2014, The OpenURP Software.
  *
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful.
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
+ * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.openurp.edu.grade.course.service.internal
+package org.openurp.edu.grade.course.service.impl
 
 import org.beangle.commons.collection.Collections
 import org.beangle.data.dao.impl.BaseServiceImpl
@@ -25,15 +25,14 @@ import org.openurp.edu.base.model.Semester
 import org.openurp.edu.base.model.Student
 import org.openurp.edu.grade.course.model.CourseGrade
 import org.openurp.edu.grade.course.domain.CourseGradeProvider
-import org.openurp.edu.grade.course.service.impl.BestGradeFilter
 import org.openurp.edu.grade.model.Grade
 import scala.collection.mutable.Buffer
 
-class BestGradeCourseGradeProviderImpl extends BaseServiceImpl with CourseGradeProvider {
+class BestCourseGradeProviderImpl extends BaseServiceImpl with CourseGradeProvider {
 
   var bestGradeFilter: BestGradeFilter = _
 
-  def getPublished(std: Student, semesters: Semester*): Seq[CourseGrade] = {
+  def getPublished(std: Student, semesters: Semester*): collection.Seq[CourseGrade] = {
     val query = OqlBuilder.from(classOf[CourseGrade], "grade")
     query.where("grade.std = :std", std)
     query.where("grade.status =:status", Grade.Status.Published)
@@ -44,7 +43,7 @@ class BestGradeCourseGradeProviderImpl extends BaseServiceImpl with CourseGradeP
     bestGradeFilter.filter(entityDao.search(query))
   }
 
-  def getAll(std: Student, semesters: Semester*): Seq[CourseGrade] = {
+  def getAll(std: Student, semesters: Semester*): collection.Seq[CourseGrade] = {
     val query = OqlBuilder.from(classOf[CourseGrade], "grade")
     query.where("grade.std = :std", std)
     if (null != semesters && semesters.length > 0) {
@@ -54,7 +53,7 @@ class BestGradeCourseGradeProviderImpl extends BaseServiceImpl with CourseGradeP
     bestGradeFilter.filter(entityDao.search(query))
   }
 
-  def getPublished(stds: Iterable[Student], semesters: Semester*): collection.Map[Student, Seq[CourseGrade]] = {
+  def getPublished(stds: Iterable[Student], semesters: Semester*): collection.Map[Student, collection.Seq[CourseGrade]] = {
     val query = OqlBuilder.from(classOf[CourseGrade], "grade")
     query.where("grade.std in (:stds)", stds)
     query.where("grade.status =:status", Grade.Status.Published)
@@ -70,7 +69,7 @@ class BestGradeCourseGradeProviderImpl extends BaseServiceImpl with CourseGradeP
     stds.map(s => (s, bestGradeFilter.filter(gradeMap(s)))).toMap
   }
 
-  def getAll(stds: Iterable[Student], semesters: Semester*): collection.Map[Student, Seq[CourseGrade]] = {
+  def getAll(stds: Iterable[Student], semesters: Semester*): collection.Map[Student, collection.Seq[CourseGrade]] = {
     val query = OqlBuilder.from(classOf[CourseGrade], "grade")
     query.where("grade.std in (:stds)", stds)
     if (null != semesters && semesters.length > 0) {

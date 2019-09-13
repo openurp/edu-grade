@@ -1,19 +1,19 @@
 /*
  * OpenURP, Agile University Resource Planning Solution.
  *
- * Copyright © 2005, The OpenURP Software.
+ * Copyright © 2014, The OpenURP Software.
  *
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful.
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
+ * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.openurp.edu.grade.course.service.impl
@@ -23,14 +23,14 @@ import org.openurp.edu.base.model.Course
 import org.openurp.edu.grade.course.model.CourseGrade
 import org.openurp.edu.grade.course.domain.GradeComparator
 import org.openurp.edu.grade.course.domain.GradeFilter
-import org.openurp.edu.program.plan.model.CourseSubstitution
-import org.openurp.edu.program.plan.service.CourseSubstitutionService
+import org.openurp.edu.program.plan.domain.AlternativeCourseProvider
+import org.openurp.edu.program.plan.model.AlternativeCourse
 
 class BestOriginGradeFilter extends GradeFilter {
 
-  var courseSubstitutionService: CourseSubstitutionService = _
+  var alternativeCourseProvider: AlternativeCourseProvider = _
 
-  private def buildGradeMap(grades: Seq[CourseGrade]): collection.mutable.Map[Course, CourseGrade] = {
+  private def buildGradeMap(grades: collection.Seq[CourseGrade]): collection.mutable.Map[Course, CourseGrade] = {
     val gradesMap = Collections.newMap[Course, CourseGrade]
     var old: CourseGrade = null
     for (grade <- grades) {
@@ -73,9 +73,9 @@ class BestOriginGradeFilter extends GradeFilter {
     cloned
   }
 
-  def filter(grades: Seq[CourseGrade]): Seq[CourseGrade] = {
+  def filter(grades: collection.Seq[CourseGrade]): collection.Seq[CourseGrade] = {
     val gradesMap = buildGradeMap(grades)
-    val substituteCourses = getSubstituteCourses(grades)
+    val substituteCourses = getAlternatives(grades)
     for (subCourse <- substituteCourses) {
       val origin = gradesMap.get(subCourse.olds.head).orNull
       val sub = gradesMap.get(subCourse.news.head).orNull
@@ -90,12 +90,11 @@ class BestOriginGradeFilter extends GradeFilter {
     gradesMap.values.toSeq
   }
 
-  private def getSubstituteCourses(grades: Seq[CourseGrade]): Seq[CourseSubstitution] = {
+  private def getAlternatives(grades: Iterable[CourseGrade]): collection.Seq[AlternativeCourse] = {
     if (grades.isEmpty) {
       List.empty
     } else {
-      val grade = grades.head
-      courseSubstitutionService.getCourseSubstitutions(grade.std)
+      alternativeCourseProvider.getAlternatives(grades.head.std)
     }
   }
 

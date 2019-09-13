@@ -1,31 +1,28 @@
 /*
  * OpenURP, Agile University Resource Planning Solution.
  *
- * Copyright © 2005, The OpenURP Software.
+ * Copyright © 2014, The OpenURP Software.
  *
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful.
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
+ * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.openurp.edu.grade.course.service.stat
 
-import org.beangle.commons.lang.Objects
-import org.openurp.edu.base.model.Semester
-import org.openurp.edu.base.model.Squad
-import org.openurp.edu.base.model.Course
-import org.openurp.edu.base.model.Student
-import org.openurp.edu.grade.course.model.CourseGrade
 import org.beangle.commons.bean.orderings.PropertyOrdering
 import org.beangle.commons.collection.Collections
+import org.beangle.commons.lang.Objects
+import org.openurp.edu.base.model.{Course, Semester, Squad, Student}
+import org.openurp.edu.grade.course.model.CourseGrade
 
 /**
  * 多名学生的成绩打印模型<br>
@@ -43,7 +40,7 @@ class MultiStdGrade(var semester: Semester, grades: collection.Map[Student, Seq[
   var stdGrades: Seq[StdGrade] = null
 
   // 每个学生除了共同课程之外的其他课程[std.id.toString,courseGrades]
-  var extraGradeMap = Collections.newMap[String, Seq[CourseGrade]]
+  var extraGradeMap = Collections.newMap[String, collection.Seq[CourseGrade]]
 
   // 最大显示列
   var maxDisplay: Int = _
@@ -101,14 +98,14 @@ class MultiStdGrade(var semester: Semester, grades: collection.Map[Student, Seq[
         maxExtra = myExtra
       }
       maxDisplay = courses.size + maxExtra
-      if (!extraGrades.isEmpty) {
+      if (extraGrades.nonEmpty) {
         extraGradeMap.put(stdGrade.std.id.toString, extraGrades)
       }
 
     }
   }
 
-  def sortStdGrades(cmpWhat: String, isAsc: Boolean) {
+  def sortStdGrades(cmpWhat: String, isAsc: Boolean): Unit = {
     if (null != stdGrades) {
       val cmp = new PropertyOrdering(cmpWhat, isAsc)
       stdGrades = stdGrades.sorted(cmp)

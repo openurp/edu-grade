@@ -1,19 +1,19 @@
 /*
  * OpenURP, Agile University Resource Planning Solution.
  *
- * Copyright © 2005, The OpenURP Software.
+ * Copyright © 2014, The OpenURP Software.
  *
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful.
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
+ * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.openurp.edu.grade.course.service
@@ -40,7 +40,7 @@ trait GpaStatService {
    * @param std
    * @return
    */
-  def statBySemester(std: Student, semesters: Seq[Semester]): StdGpa
+  def statBySemester(std: Student, semesters: collection.Seq[Semester]): StdGpa
 
   /**
    * 根据指定数据进行统计绩点
@@ -49,7 +49,7 @@ trait GpaStatService {
    * @param grades
    * @return
    */
-  def stat(std: Student, grades: Seq[CourseGrade]): StdGpa
+  def stat(std: Student, grades: collection.Seq[CourseGrade]): StdGpa
 
   /**
    * 统计多个学生的平均绩点和其他信息 如果semesters不包含元素或者为null则统计这些所有学期
@@ -66,9 +66,9 @@ trait GpaStatService {
    * @param stds
    * @return
    */
-  def statBySemester(stds: Iterable[Student], semesters: Seq[Semester]): MultiStdGpa
+  def statBySemester(stds: Iterable[Student], semesters: collection.Seq[Semester]): MultiStdGpa
 
-  def refresh(stdGpa: StdGpa, grades: Seq[CourseGrade]): Unit
+  def refresh(stdGpa: StdGpa, grades: collection.Seq[CourseGrade]): Unit
 
   def refresh(stdGpa: StdGpa): Unit
 }

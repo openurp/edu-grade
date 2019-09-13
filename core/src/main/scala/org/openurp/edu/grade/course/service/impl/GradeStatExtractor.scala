@@ -1,21 +1,35 @@
+/*
+ * OpenURP, Agile University Resource Planning Solution.
+ *
+ * Copyright © 2014, The OpenURP Software.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful.
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.openurp.edu.grade.course.service.impl
 
-import java.util.List
-import org.beangle.commons.collection.CollectUtils
-import org.beangle.commons.text.i18n.TextResource
-import org.beangle.commons.transfer.exporter.DefaultPropertyExtractor
+import org.beangle.commons.collection.Collections
+import org.beangle.data.transfer.exporter.DefaultPropertyExtractor
 import org.openurp.edu.base.model.Teacher
 import org.openurp.edu.grade.course.model.CourseGradeState
 import org.openurp.edu.course.model.Clazz
-//remove if not needed
-import scala.collection.JavaConversions._
 
-class GradeStatExtractor(textResource: TextResource) extends DefaultPropertyExtractor(textResource) {
+class GradeStatExtractor  extends DefaultPropertyExtractor {
 
-  def getPropertyValue(target: AnyRef, property: String): AnyRef = {
+  override def getPropertyValue(target: Object, property: String): Any = {
     if ("teachers" == property) {
       var teacherName = ""
-      var teachers = CollectUtils.newArrayList()
+      var teachers = Collections.newBuffer[Teacher]
       if (target.isInstanceOf[Clazz]) {
         val clazz = target.asInstanceOf[Clazz]
         teachers = clazz.teachers
@@ -30,7 +44,7 @@ class GradeStatExtractor(textResource: TextResource) extends DefaultPropertyExtr
         if (i > 0) {
           teacherName += ","
         }
-        teacherName += teachers.get(i).name
+        teacherName += teachers(i).user.name
       }
       teacherName
     } else {

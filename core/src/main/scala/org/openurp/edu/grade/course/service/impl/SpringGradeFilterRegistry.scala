@@ -1,31 +1,28 @@
 /*
  * OpenURP, Agile University Resource Planning Solution.
  *
- * Copyright © 2005, The OpenURP Software.
+ * Copyright © 2014, The OpenURP Software.
  *
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful.
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
+ * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.openurp.edu.grade.course.service.impl
 
+import org.beangle.commons.bean.Initializing
 import org.beangle.commons.collection.Collections
 import org.beangle.commons.lang.Strings
-import org.springframework.beans.BeansException
-import org.springframework.beans.factory.InitializingBean
-import org.springframework.context.ApplicationContext
-import org.springframework.context.ApplicationContextAware
 import org.openurp.edu.grade.course.domain.GradeFilter
-import org.beangle.commons.bean.Initializing
+import org.springframework.context.{ApplicationContext, ApplicationContextAware}
 
 /**
  * 基于spring的过滤器注册表
@@ -37,15 +34,16 @@ class SpringGradeFilterRegistry extends GradeFilterRegistry with ApplicationCont
 
   var context: ApplicationContext = _
 
-  override def init() {
+  override def init(): Unit = {
     if (null == context) return
     val names = context.getBeanNamesForType(classOf[GradeFilter])
-    if (null != names && names.length > 0) {
+    if (null != names && names.nonEmpty) {
       for (name <- names) {
         filters.put(name, context.getBean(name).asInstanceOf[GradeFilter])
       }
     }
   }
+
   override def setApplicationContext(context: ApplicationContext): Unit = {
     this.context = context
   }

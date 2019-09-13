@@ -12,10 +12,10 @@ import org.beangle.commons.transfer.TransferMessage
 import org.beangle.commons.transfer.TransferResult
 import org.beangle.commons.transfer.importer.listener.ItemImporterListener
 import org.openurp.edu.base.model.Semester
-import org.openurp.edu.base.code.model.CourseType
-import org.openurp.edu.base.code.model.ExamStatus
-import org.openurp.edu.base.code.model.GradeType
-import org.openurp.edu.base.code.model.GradingMode
+import org.openurp.code.edu.model.CourseType
+import org.openurp.code.edu.model.ExamStatus
+import org.openurp.code.edu.model.GradeType
+import org.openurp.code.edu.model.GradingMode
 import org.openurp.edu.base.model.Course
 import org.openurp.edu.base.model.Project
 import org.openurp.edu.base.model.Student
