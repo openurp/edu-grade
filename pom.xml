@@ -7,7 +7,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.openurp.edu.grade</groupId>
   <artifactId>openurp-edu-grade-parent</artifactId>
-  <version>0.0.2-SNAPSHOT</version>
+  <version>0.0.2</version>
   <packaging>pom</packaging>
   <name>OpenURP Edu Grade Parent</name>
 
