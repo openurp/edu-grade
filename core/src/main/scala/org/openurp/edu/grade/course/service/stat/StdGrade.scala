@@ -77,7 +77,7 @@ class StdGrade {
     this.cmp = cmp
   }
 
-  def filterGrade(gradeFilter: GradeFilter) {
+  def filterGrade(gradeFilter: GradeFilter): Unit = {
     if (null != gradeFilter) {
       grades = gradeFilter.filter(grades)
     }

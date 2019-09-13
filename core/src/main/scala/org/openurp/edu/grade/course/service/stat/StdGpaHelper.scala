@@ -23,7 +23,7 @@ import org.openurp.edu.grade.course.service.GpaService
 
 object StdGpaHelper {
 
-  def statGpa(multiStdGrade: MultiStdGrade, gpaService: GpaService) {
+  def statGpa(multiStdGrade: MultiStdGrade, gpaService: GpaService): Unit = {
     var stdGradeList = multiStdGrade.stdGrades
     if (null != stdGradeList) {
       stdGradeList = List.empty

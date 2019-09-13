@@ -39,10 +39,10 @@ class DefaultGradingModeStrategy extends GradingModeStrategy {
     null == style || style.id == GradingMode.Percent
   }
 
-  def configGradingMode(gradeState: CourseGradeState, gradeTypes: List[GradeType]) {
+  def configGradingMode(gradeState: CourseGradeState, gradeTypes: List[GradeType]): Unit = {
     if (isDefault(gradeState.gradingMode)) gradeState.gradingMode = getDefaultCourseGradeGradingMode(gradeState)
-    for (`type` <- gradeTypes) {
-      val typeState = getState(gradeState, `type`)
+    for (t <- gradeTypes) {
+      val typeState = getState(gradeState, t)
       if (null == typeState.gradingMode) {
         typeState.gradingMode = getDefaultExamGradeGradingMode(gradeState, typeState)
       }

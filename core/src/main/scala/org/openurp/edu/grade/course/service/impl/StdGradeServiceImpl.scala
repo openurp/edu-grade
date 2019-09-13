@@ -18,32 +18,27 @@
  */
 package org.openurp.edu.grade.course.service.impl
 
-import org.beangle.commons.collection.Collections
-import org.beangle.commons.collection.Order
-import org.beangle.data.dao.EntityDao
-import org.beangle.data.dao.OqlBuilder
-import org.openurp.base.model.Department
-import org.openurp.edu.base.model.Semester
-import org.openurp.code.edu.model.GradeType
-import org.openurp.edu.base.model.Course
-import org.openurp.edu.base.model.Project
-import org.openurp.edu.base.model.Student
-import org.openurp.edu.grade.course.model.CourseGrade
-import org.openurp.edu.grade.course.service.StdGradeService
-import org.openurp.edu.course.model.CourseTaker
 import java.time.LocalDate
 
+import org.beangle.commons.collection.{Collections, Order}
 import org.beangle.commons.lang.Numbers
+import org.beangle.data.dao.{EntityDao, OqlBuilder}
+import org.openurp.base.model.Department
+import org.openurp.code.edu.model.GradeType
+import org.openurp.edu.base.model.{Course, Project, Semester, Student}
+import org.openurp.edu.course.model.CourseTaker
+import org.openurp.edu.grade.course.model.CourseGrade
+import org.openurp.edu.grade.course.service.StdGradeService
 
 class StdGradeServiceImpl extends StdGradeService {
 
   private var entityDao: EntityDao = _
 
   def stdByCode(
-    stdCode:     String,
-    project:     Project,
-    departments: List[Department],
-    entityDao:   EntityDao): Student = {
+                 stdCode: String,
+                 project: Project,
+                 departments: List[Department],
+                 entityDao: EntityDao): Student = {
     val query = OqlBuilder.from(classOf[Student], "std")
     query.where("std.user.code=:code", stdCode)
     if (project == null || Collections.isEmpty(departments)) {
@@ -85,10 +80,10 @@ class StdGradeServiceImpl extends StdGradeService {
    * @return
    */
   def getStatus(
-    crn:        String,
-    stdId:      String,
-    semesterId: String,
-    entityDao:  EntityDao): Array[Any] = {
+                 crn: String,
+                 stdId: String,
+                 semesterId: String,
+                 entityDao: EntityDao): Array[Any] = {
     val query = OqlBuilder.from(classOf[CourseTaker], "taker")
     query.where("taker.clazz.crn = :crn", crn)
     query.where("taker.std.id = :stdId", Numbers.toLong(stdId))
@@ -110,30 +105,26 @@ class StdGradeServiceImpl extends StdGradeService {
   /**
    * 判断一个学生在某一学期内某一门课程成绩是否存在
    *
-   * @param std 学生
+   * @param std      学生
    * @param semester 学年学期
-   * @param course 课程
-   * @param project 项目
+   * @param course   课程
+   * @param project  项目
    * @return false 不存在 true 存在
    */
   def checkStdGradeExists(
-    std:      Student,
-    semester: Semester,
-    course:   Course,
-    project:  Project): Boolean = {
+                           std: Student,
+                           semester: Semester,
+                           course: Course,
+                           project: Project): Boolean = {
     val builder = OqlBuilder.from(classOf[CourseGrade], "courseGrade")
     builder.where("courseGrade.semester = :semester", semester)
     builder.where("courseGrade.project = :project", project)
     builder.where("courseGrade.std = :student", std)
     builder.where("courseGrade.course = :course", course)
-    val courseGrades = entityDao.search(builder)
-    if (courseGrades.size > 0) {
-      return true
-    }
-    false
+    entityDao.search(builder).nonEmpty
   }
 
-  def setEntityDao(entityDao: EntityDao) {
+  def setEntityDao(entityDao: EntityDao): Unit = {
     this.entityDao = entityDao
   }
 }

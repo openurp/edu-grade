@@ -32,7 +32,7 @@ class MultiStdGpa {
 
   var stdGpas = Collections.newBuffer[StdGpa]
 
-  def statSemestersFromStdGpa() {
+  def statSemestersFromStdGpa(): Unit = {
     val semesterFromStdGpa = Collections.newSet[Semester]
     for (stdGp <- stdGpas; stdSemesterGpa <- stdGp.semesterGpas) {
       semesterFromStdGpa.add(stdSemesterGpa.semester)

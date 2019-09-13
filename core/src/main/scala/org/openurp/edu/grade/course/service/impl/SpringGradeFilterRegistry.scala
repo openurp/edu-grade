@@ -34,15 +34,16 @@ class SpringGradeFilterRegistry extends GradeFilterRegistry with ApplicationCont
 
   var context: ApplicationContext = _
 
-  override def init() {
+  override def init(): Unit = {
     if (null == context) return
     val names = context.getBeanNamesForType(classOf[GradeFilter])
-    if (null != names && names.length > 0) {
+    if (null != names && names.nonEmpty) {
       for (name <- names) {
         filters.put(name, context.getBean(name).asInstanceOf[GradeFilter])
       }
     }
   }
+
   override def setApplicationContext(context: ApplicationContext): Unit = {
     this.context = context
   }

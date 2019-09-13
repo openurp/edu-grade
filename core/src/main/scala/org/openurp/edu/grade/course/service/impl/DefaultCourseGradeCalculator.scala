@@ -18,28 +18,19 @@
  */
 package org.openurp.edu.grade.course.service.impl
 
-import org.beangle.data.dao.EntityDao
-import org.openurp.code.edu.model.CourseTakeType
-import org.openurp.code.edu.model.ExamStatus
-import org.openurp.code.edu.model.GradeType
-import org.openurp.code.edu.model.GradingMode
-import org.openurp.edu.base.model.Student
-import org.openurp.edu.grade.course.model.CourseGrade
-import org.openurp.edu.grade.course.model.CourseGradeState
-import org.openurp.edu.grade.course.model.ExamGrade
-import org.openurp.edu.grade.course.model.GaGrade
-import org.openurp.edu.grade.course.service.CourseGradeCalculator
-import org.openurp.edu.grade.course.service.CourseGradeSettings
-import org.openurp.edu.grade.course.service.GradeRateService
-import org.openurp.edu.grade.course.service.ScoreConverter
-import DefaultCourseGradeCalculator._
-import org.openurp.edu.grade.model.Grade
-import org.openurp.edu.grade.course.domain.NumRounder
 import java.time.Instant
+
+import org.beangle.data.dao.EntityDao
+import org.openurp.code.edu.model.{CourseTakeType, ExamStatus, GradeType, GradingMode}
+import org.openurp.edu.base.model.Student
+import org.openurp.edu.grade.course.domain.NumRounder
+import org.openurp.edu.grade.course.model.{CourseGrade, CourseGradeState, ExamGrade, GaGrade}
+import org.openurp.edu.grade.course.service.{CourseGradeCalculator, CourseGradeSettings, GradeRateService}
+import org.openurp.edu.grade.model.Grade
 
 object DefaultCourseGradeCalculator {
 
-  private val Ga = new GradeType(GradeType.EndGa)
+  private val EndGa = new GradeType(GradeType.EndGa)
 
   private val MakeupGa = new GradeType(GradeType.MakeupGa)
 
@@ -52,8 +43,8 @@ object DefaultCourseGradeCalculator {
   private val End = new GradeType(GradeType.End)
 }
 
-import DefaultCourseGradeCalculator._
 import org.beangle.security.Securities
+import org.openurp.edu.grade.course.service.impl.DefaultCourseGradeCalculator._
 
 class DefaultCourseGradeCalculator extends CourseGradeCalculator {
 
@@ -69,12 +60,12 @@ class DefaultCourseGradeCalculator extends CourseGradeCalculator {
 
   var numRounder: NumRounder = NumRounder.Normal
 
-  def calcFinal(grade: CourseGrade, state: CourseGradeState) {
+  def calcFinal(grade: CourseGrade, state: CourseGradeState): Unit = {
     if (!grade.published) grade.status = guessFinalStatus(grade)
     updateScore(grade, calcScore(grade, state), null)
   }
 
-  override def calcAll(grade: CourseGrade, state: CourseGradeState) {
+  override def calcAll(grade: CourseGrade, state: CourseGradeState): Unit = {
     calcEndGa(grade, state)
     calcMakeupDelayGa(grade, state)
   }
@@ -82,11 +73,11 @@ class DefaultCourseGradeCalculator extends CourseGradeCalculator {
   override def calcEndGa(grade: CourseGrade, state: CourseGradeState): GaGrade = {
     val stdId = grade.std.id
     grade.std = entityDao.get(classOf[Student], stdId)
-    val gag = getGaGrade(grade, Ga)
+    val gag = getGaGrade(grade, EndGa)
     val gaScore = calcEndGaScore(grade, state)
     updateScore(gag, gaScore, null)
     if (!gag.published && null != state) gag.status = state.getStatus(gag.gradeType)
-    if (!grade.published) grade.status = (guessFinalStatus(grade))
+    if (!grade.published) grade.status = guessFinalStatus(grade)
     if (gag.status == grade.status) {
       updateScore(grade, calcScore(grade, state), null)
     }
@@ -105,18 +96,18 @@ class DefaultCourseGradeCalculator extends CourseGradeCalculator {
     if (isCheating) return Some(0f)
 
     var ga: Option[Float] = None
-    var gaGrade = grade.getGaGrade(GradeType.EndGa).orNull
+    var gaGrade = grade.getGaGrade(EndGa).orNull
     if (gaGrade != null) {
       ga = gaGrade.score
       if (grade.examGrades.isEmpty) return ga
     }
-    val endGrade = grade.getExamGrade(GradeType.End).orNull
-    gaGrade = getGaGrade(grade, Ga)
+    val endGrade = grade.getExamGrade(End).orNull
+    gaGrade = getGaGrade(grade, EndGa)
     if (null != endGrade) {
       if (endIsGaWhenFreeListening && grade.freeListening) {
         return addDelta(gaGrade, endGrade.score, state)
       }
-      if (!hasDelta(gaGrade) && None != endGrade.score &&
+      if (!hasDelta(gaGrade) && endGrade.score.isDefined &&
         java.lang.Float.compare(endGrade.score.get, minEndScore) < 0) {
         return addDelta(gaGrade, endGrade.score, state)
       }
@@ -125,12 +116,12 @@ class DefaultCourseGradeCalculator extends CourseGradeCalculator {
     var totalPercent = 0f
     var scorePercent = 0f
     var hasEmptyEndGrade = false
-    for (examGrade <- grade.examGrades if (examGrade.gradeType != Delay)) {
+    for (examGrade <- grade.examGrades if examGrade.gradeType != Delay) {
       if (examGrade.gradeType == End && null == examGrade.score) {
         hasEmptyEndGrade = true
       }
       getPercent(examGrade, grade, state) foreach { myPercent =>
-        if (None != examGrade.score ||
+        if (examGrade.score.isDefined ||
           (null != examGrade.examStatus && examGrade.examStatus.id != ExamStatus.Normal)) {
           totalPercent += myPercent
           examGrade.score foreach { score =>
@@ -164,9 +155,8 @@ class DefaultCourseGradeCalculator extends CourseGradeCalculator {
       val gag = getGaGrade(grade, gatype)
       var gaScore: Option[Float] = None
       gaScore = if (gatype == DelayGa) calcDelayGaScore(grade, state) else calcMakeupGaScore(grade, state)
-      if (None == gaScore) {
-        val gaGrade = grade.getGrade(gatype).asInstanceOf[GaGrade]
-        grade.gaGrades -= gaGrade
+      if (gaScore.isEmpty) {
+        grade.getGaGrade(gatype) foreach { gaGrade => grade.gaGrades -= gaGrade }
       } else {
         updateScore(gag, gaScore, null)
         if (!gag.published && null != state) gag.status = state.getStatus(gag.gradeType)
@@ -183,10 +173,10 @@ class DefaultCourseGradeCalculator extends CourseGradeCalculator {
   }
 
   private def getPercent(eg: ExamGrade, cg: CourseGrade, cgs: CourseGradeState): Option[Short] = {
-    if (None != eg.percent) return eg.percent
+    if (eg.percent.isDefined) return eg.percent
     if (eg.gradeType == Delay) {
-      val end = cg.getExamGrade(GradeType.End)
-      if (None != end && None != end.get.percent) {
+      val end = cg.getExamGrade(End)
+      if (end.isDefined && end.get.percent.isDefined) {
         end.get.percent
       } else {
         if (null == cgs) None else cgs.getPercent(End)
@@ -198,13 +188,13 @@ class DefaultCourseGradeCalculator extends CourseGradeCalculator {
 
   protected def calcDelayGaScore(grade: CourseGrade, state: CourseGradeState): Option[Float] = {
     var gascore: Option[Float] = None
-    var gaGrade = grade.getGaGrade(GradeType.DelayGa).orNull
+    var gaGrade = grade.getGaGrade(DelayGa).orNull
     if (gaGrade != null) {
       gascore = gaGrade.score
-      if (grade.getExamGrade(GradeType.Delay).isEmpty) return gascore
+      if (grade.getExamGrade(Delay).isEmpty) return gascore
     }
-    val deGrade = grade.getExamGrade(GradeType.Delay).orNull
-    if (deGrade == null) return null
+    val deGrade = grade.getExamGrade(Delay).orNull
+    if (deGrade == null) return None
     if (null != deGrade.examStatus && deGrade.examStatus.cheating) return Some(0f)
 
     val setting = settings.getSetting(grade.project)
@@ -214,13 +204,13 @@ class DefaultCourseGradeCalculator extends CourseGradeCalculator {
     if (endIsGaWhenFreeListening && grade.freeListening) {
       return addDelta(gaGrade, deGrade.score, state)
     }
-    if (!hasDelta(gaGrade) && None != deGrade.score && java.lang.Float.compare(deGrade.score.get, minEndScore) < 0) {
+    if (!hasDelta(gaGrade) && deGrade.score.isDefined && java.lang.Float.compare(deGrade.score.get, minEndScore) < 0) {
       return addDelta(gaGrade, deGrade.score, state)
     }
     var ga = 0f
     var totalPercent = 0f
     var scorePercent = 0f
-    for (examGrade <- grade.examGrades; if (examGrade.gradeType != End)) {
+    for (examGrade <- grade.examGrades; if examGrade.gradeType != End) {
       getPercent(examGrade, grade, state) foreach { myPercent =>
         if (null != examGrade.score ||
           (null != examGrade.examStatus && examGrade.examStatus.id != ExamStatus.Normal)) {
@@ -233,39 +223,39 @@ class DefaultCourseGradeCalculator extends CourseGradeCalculator {
       }
     }
     if (totalPercent < 100) {
-      null
+      None
     } else {
-      if ((scorePercent < 51)) null else addDelta(gaGrade, Some(ga), state)
+      if (scorePercent < 51) null else addDelta(gaGrade, Some(ga), state)
     }
   }
 
   protected def calcMakeupGaScore(grade: CourseGrade, gradeState: CourseGradeState): Option[Float] = {
     var gascore: Option[Float] = None
-    var gaGrade = grade.getGaGrade(GradeType.MakeupGa).orNull
+    var gaGrade = grade.getGaGrade(MakeupGa).orNull
     if (gaGrade != null) {
       gascore = gaGrade.score
-      if (grade.getExamGrade(GradeType.Makeup).isEmpty) return gascore
+      if (grade.getExamGrade(Makeup).isEmpty) return gascore
     }
-    val makeup = grade.getExamGrade(GradeType.Makeup).orNull
-    if (null == makeup || None == makeup.score) return None
+    val makeup = grade.getExamGrade(Makeup).orNull
+    if (null == makeup || makeup.score.isEmpty) return None
     if (null != makeup.examStatus && makeup.examStatus.cheating) return Some(0f)
     gaGrade = getGaGrade(grade, MakeupGa)
     addDelta(gaGrade, makeup.score, gradeState)
-    if ((java.lang.Float.compare(gaGrade.score.get, 60) >= 0)) Some(60f) else gaGrade.score
+    if (java.lang.Float.compare(gaGrade.score.get, 60) >= 0) Some(60f) else gaGrade.score
   }
 
   protected def calcScore(grade: CourseGrade, state: CourseGradeState): Option[Float] = {
     var best: Option[Float] = None
     for (gg <- grade.gaGrades if gg.score.isDefined) {
       var myScore: Option[Float] = None
-      if (gg.gradeType != Ga) {
+      if (gg.gradeType != EndGa) {
         if (gg.published) myScore = gg.score
       } else {
         myScore = gg.score
       }
       myScore.foreach { ms =>
         best match {
-          case None    => best = myScore
+          case None => best = myScore
           case Some(b) => if (ms.compareTo(b) > 0) best = Some(ms)
         }
       }
@@ -274,72 +264,74 @@ class DefaultCourseGradeCalculator extends CourseGradeCalculator {
   }
 
   private def getGaGrade(grade: CourseGrade, gradeType: GradeType): GaGrade = {
-    var gaGrade = grade.getGrade(gradeType).asInstanceOf[GaGrade]
-    if (null != gaGrade) return gaGrade
-    gaGrade = new GaGrade
-    gaGrade.gradingMode = grade.gradingMode
-    gaGrade.gradeType = gradeType
-    gaGrade.updatedAt = Instant.now
-    grade.addGaGrade(gaGrade)
-    gaGrade
+    grade.getGaGrade(gradeType) match {
+      case None =>
+        val gaGrade = new GaGrade
+        gaGrade.gradingMode = grade.gradingMode
+        gaGrade.gradeType = gradeType
+        gaGrade.updatedAt = Instant.now
+        grade.addGaGrade(gaGrade)
+        gaGrade
+      case Some(gaGrade) => gaGrade
+    }
   }
 
   private def guessFinalStatus(grade: CourseGrade): Int = {
     var status = Grade.Status.New
-    grade.getGaGrade(GradeType.EndGa) foreach { ga =>
+    grade.getGaGrade(EndGa) foreach { ga =>
       if (ga.status > status) status = ga.status
     }
-    grade.getGaGrade(GradeType.MakeupGa) foreach { ga =>
+    grade.getGaGrade(MakeupGa) foreach { ga =>
       if (ga.status > status) status = ga.status
     }
-    grade.getGaGrade(GradeType.DelayGa) foreach { ga =>
+    grade.getGaGrade(DelayGa) foreach { ga =>
       if (ga.status > status) status = ga.status
     }
     status
   }
 
-  def updateScore(grade: CourseGrade, score: Option[Float], newStyle: GradingMode) {
+  def updateScore(grade: CourseGrade, score: Option[Float], newStyle: GradingMode): Unit = {
     var gradingMode = newStyle
-    if (null == gradingMode) gradingMode = grade.gradingMode else grade.gradingMode = (gradingMode)
+    if (null == gradingMode) gradingMode = grade.gradingMode else grade.gradingMode = gradingMode
     val converter = gradeRateService.getConverter(grade.project, gradingMode)
-    grade.score = (score)
-    grade.scoreText = (converter.convert(score))
+    grade.score = score
+    grade.scoreText = converter.convert(score)
     if (null != grade.courseTakeType &&
       grade.courseTakeType.id == CourseTakeType.Exemption) {
-      grade.passed = (true)
+      grade.passed = true
     } else {
-      grade.passed = (converter.passed(grade.score))
+      grade.passed = converter.passed(grade.score)
     }
     grade.gp = converter.calcGp(grade.score)
-    grade.operator = Securities.user
+    grade.operator = Some(Securities.user)
     grade.updatedAt = Instant.now
   }
 
-  def updateScore(eg: ExamGrade, score: Option[Float], newStyle: GradingMode) {
+  def updateScore(eg: ExamGrade, score: Option[Float], newStyle: GradingMode): Unit = {
     eg.score = score
     var gradingMode = newStyle
-    if (null == gradingMode) gradingMode = eg.gradingMode else eg.gradingMode = (gradingMode)
+    if (null == gradingMode) gradingMode = eg.gradingMode else eg.gradingMode = gradingMode
     val converter = gradeRateService.getConverter(eg.courseGrade.project, eg.gradingMode)
     eg.scoreText = converter.convert(eg.score)
     eg.passed = converter.passed(eg.score)
     eg.updatedAt = Instant.now
-    eg.operator = Securities.user
+    eg.operator = Some(Securities.user)
   }
 
-  def updateScore(gag: GaGrade, score: Option[Float], newStyle: GradingMode) {
+  def updateScore(gag: GaGrade, score: Option[Float], newStyle: GradingMode): Unit = {
     gag.score = score
     var gradingMode = newStyle
-    if (null == gradingMode) gradingMode = gag.gradingMode else gag.gradingMode = (gradingMode)
+    if (null == gradingMode) gradingMode = gag.gradingMode else gag.gradingMode = gradingMode
     val converter = gradeRateService.getConverter(gag.courseGrade.project, gradingMode)
     gag.scoreText = converter.convert(gag.score)
     gag.passed = converter.passed(gag.score)
     gag.updatedAt = Instant.now
-    gag.operator = Securities.user
+    gag.operator = Some(Securities.user)
     gag.gp = converter.calcGp(gag.score)
   }
 
   protected def hasDelta(gaGrade: GaGrade): Boolean = {
-    gaGrade.delta != None
+    gaGrade.delta.isDefined
   }
 
   protected def getDelta(gaGrade: GaGrade, score: Option[Float], state: CourseGradeState): Float = {
@@ -347,7 +339,7 @@ class DefaultCourseGradeCalculator extends CourseGradeCalculator {
   }
 
   private def addDelta(gaGrade: GaGrade, score: Option[Float], state: CourseGradeState): Option[Float] = {
-    if (None == score) return None
+    if (score.isEmpty) return None
     val delta = getDelta(gaGrade, score, state)
     val ga = reserve(delta + score.get, state)
     gaGrade.score = Some(ga)

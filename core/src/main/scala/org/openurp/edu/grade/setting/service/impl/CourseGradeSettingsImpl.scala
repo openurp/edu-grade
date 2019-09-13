@@ -61,7 +61,7 @@ class CourseGradeSettingsImpl extends BaseServiceImpl with CourseGradeSettings {
     setting
   }
 
-  def setCodeService(codeService: CodeService) {
+  def setCodeService(codeService: CodeService): Unit = {
     this.codeService = codeService
   }
 }

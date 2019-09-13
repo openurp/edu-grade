@@ -61,7 +61,7 @@ class GradeCourseTypeProviderImpl extends BaseServiceImpl with GradeCourseTypePr
     planCourseType
   }
 
-  def setCoursePlanProvider(coursePlanProvider: CoursePlanProvider) {
+  def setCoursePlanProvider(coursePlanProvider: CoursePlanProvider): Unit = {
     this.coursePlanProvider = coursePlanProvider
   }
 }

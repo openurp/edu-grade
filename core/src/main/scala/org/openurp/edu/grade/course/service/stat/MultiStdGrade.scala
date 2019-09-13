@@ -18,14 +18,11 @@
  */
 package org.openurp.edu.grade.course.service.stat
 
-import org.beangle.commons.lang.Objects
-import org.openurp.edu.base.model.Semester
-import org.openurp.edu.base.model.Squad
-import org.openurp.edu.base.model.Course
-import org.openurp.edu.base.model.Student
-import org.openurp.edu.grade.course.model.CourseGrade
 import org.beangle.commons.bean.orderings.PropertyOrdering
 import org.beangle.commons.collection.Collections
+import org.beangle.commons.lang.Objects
+import org.openurp.edu.base.model.{Course, Semester, Squad, Student}
+import org.openurp.edu.grade.course.model.CourseGrade
 
 /**
  * 多名学生的成绩打印模型<br>
@@ -108,7 +105,7 @@ class MultiStdGrade(var semester: Semester, grades: collection.Map[Student, Seq[
     }
   }
 
-  def sortStdGrades(cmpWhat: String, isAsc: Boolean) {
+  def sortStdGrades(cmpWhat: String, isAsc: Boolean): Unit = {
     if (null != stdGrades) {
       val cmp = new PropertyOrdering(cmpWhat, isAsc)
       stdGrades = stdGrades.sorted(cmp)

@@ -35,7 +35,7 @@ class GradingModeHelper {
 
   var entityDao: EntityDao = _
 
-  def init(defaultGradingModeId: Int) {
+  def init(defaultGradingModeId: Int): Unit = {
     val configs = entityDao.getAll(classOf[GradeRateConfig])
     for (config <- configs if !config.gradingMode.numerical) {
       val items = config.items

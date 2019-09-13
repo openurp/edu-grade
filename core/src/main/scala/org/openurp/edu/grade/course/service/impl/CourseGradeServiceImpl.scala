@@ -85,7 +85,7 @@ class CourseGradeServiceImpl extends BaseServiceImpl with CourseGradeService {
   /**
    * 发布学生成绩
    */
-  def publish(clazzIdSeq: String, gradeTypes: Array[GradeType], published: Boolean) {
+  def publish(clazzIdSeq: String, gradeTypes: Array[GradeType], published: Boolean): Unit = {
     val ids2 = Strings.splitToLong(clazzIdSeq)
     val ids: Array[Long] = Array.ofDim(ids2.length)
     for (i <- 0 until ids.length) ids(i) = ids2(i).longValue
@@ -98,7 +98,7 @@ class CourseGradeServiceImpl extends BaseServiceImpl with CourseGradeService {
   }
 
   /** 依据状态调整成绩 */
-  def recalculate(gradeState: CourseGradeState) {
+  def recalculate(gradeState: CourseGradeState): Unit = {
     if (null == gradeState) {
       return
     }
@@ -110,7 +110,7 @@ class CourseGradeServiceImpl extends BaseServiceImpl with CourseGradeService {
       updateGradeState(grade, gradeState, grade.project)
       for (state <- gradeState.examStates) {
         val gradeType = state.gradeType
-        updateGradeState(grade.getExamGrade(gradeType.id).get, state, grade.project)
+        updateGradeState(grade.getExamGrade(gradeType).get, state, grade.project)
       }
       calculator.calcAll(grade, gradeState)
     }
@@ -120,7 +120,7 @@ class CourseGradeServiceImpl extends BaseServiceImpl with CourseGradeService {
     }
   }
 
-  def remove(clazz: Clazz, gradeType: GradeType) {
+  def remove(clazz: Clazz, gradeType: GradeType): Unit = {
     val state = getState(clazz)
     val courseGrades = entityDao.findBy(classOf[CourseGrade], "clazz", List(clazz))
     val gradeSetting = settings.getSetting(clazz.project)
@@ -197,7 +197,7 @@ class CourseGradeServiceImpl extends BaseServiceImpl with CourseGradeService {
    * @param grade
    * @param state
    */
-  private def updateGradeState(grade: Grade, state: GradeState, project: Project) {
+  private def updateGradeState(grade: Grade, state: GradeState, project: Project): Unit = {
     if (null != grade && null != state) {
       if (Objects.!=(grade.gradingMode, state.gradingMode)) {
         grade.gradingMode = state.gradingMode
@@ -208,7 +208,7 @@ class CourseGradeServiceImpl extends BaseServiceImpl with CourseGradeService {
     }
   }
 
-  private def updateState(clazz: Clazz, gradeTypes: Array[GradeType], status: Int) {
+  private def updateState(clazz: Clazz, gradeTypes: Array[GradeType], status: Int): Unit = {
     val courseGradeStates = entityDao.findBy(classOf[CourseGradeState].getName, "clazz", List(clazz))
     var gradeState: CourseGradeState = null
     for (gradeType <- gradeTypes) {
@@ -240,7 +240,7 @@ class CourseGradeServiceImpl extends BaseServiceImpl with CourseGradeService {
     if (status == Published) toBeSaved ++= publishStack.onPublish(published, gradeState, gradeTypes)
     toBeSaved ++= Operation.saveOrUpdate(clazz, gradeState).saveOrUpdate(published)
       .build()
-    entityDao.execute(toBeSaved.toArray: _*)
+    entityDao.execute(toBeSaved.toArray.toIndexedSeq: _*)
   }
 
 }

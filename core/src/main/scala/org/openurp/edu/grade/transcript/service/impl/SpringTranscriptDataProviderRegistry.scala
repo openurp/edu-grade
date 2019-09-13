@@ -38,10 +38,10 @@ class SpringTranscriptDataProviderRegistry extends ApplicationContextAware with 
 
   var context: ApplicationContext = _
 
-  override def init() {
+  override def init(): Unit = {
     if (null == context) return
     val names = context.getBeanNamesForType(classOf[TranscriptDataProvider])
-    if (null != names && names.length > 0) {
+    if (null != names && names.nonEmpty) {
       for (name <- names) {
         providers.put(name, context.getBean(name).asInstanceOf[TranscriptDataProvider])
       }

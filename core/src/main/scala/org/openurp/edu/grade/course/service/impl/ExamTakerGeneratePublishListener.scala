@@ -19,24 +19,16 @@
 package org.openurp.edu.grade.course.service.impl
 
 import org.beangle.commons.collection.Collections
-import org.beangle.data.dao.impl.BaseServiceImpl
-import org.beangle.data.dao.OqlBuilder
 import org.beangle.commons.lang.Strings
-import org.openurp.code.edu.model.ExamStatus
-import org.openurp.code.edu.model.ExamType
-import org.openurp.code.edu.model.GradeType
+import org.beangle.data.dao.impl.BaseServiceImpl
+import org.beangle.data.dao.{Operation, OqlBuilder}
+import org.openurp.code.edu.model.{ExamStatus, ExamType, GradeType}
 import org.openurp.edu.base.model.Student
-import org.openurp.edu.grade.course.model.CourseGrade
-import org.openurp.edu.grade.course.model.CourseGradeState
-import org.openurp.edu.grade.course.model.ExamGrade
-import org.openurp.edu.grade.course.service.CourseGradePublishListener
-import org.openurp.edu.grade.course.service.CourseGradeSettings
-import org.openurp.edu.exam.model.ExamTaker
 import org.openurp.edu.course.model.Clazz
-import ExamTakerGeneratePublishListener._
-import org.openurp.edu.grade.course.service.CourseGradeSetting
-import org.beangle.data.dao.Operation
-import org.beangle.data.orm.Collection
+import org.openurp.edu.exam.model.ExamTaker
+import org.openurp.edu.grade.course.model.{CourseGrade, CourseGradeState, ExamGrade}
+import org.openurp.edu.grade.course.service.impl.ExamTakerGeneratePublishListener._
+import org.openurp.edu.grade.course.service.{CourseGradePublishListener, CourseGradeSetting, CourseGradeSettings}
 
 object ExamTakerGeneratePublishListener {
 
@@ -57,7 +49,7 @@ class ExamTakerGeneratePublishListener extends BaseServiceImpl with CourseGradeP
 
   def onPublish(grades: Iterable[CourseGrade], gradeState: CourseGradeState, gradeTypes: Array[GradeType]): collection.Seq[Operation] = {
     val operations = Collections.newBuffer[Operation]
-    val hasEndGa = gradeTypes.exists(_.id.equals(GradeType.EndGa));
+    val hasEndGa = gradeTypes.exists(_.id.equals(GradeType.EndGa))
     if (!hasEndGa) return operations
     if (isClazzForbidden(gradeState.clazz)) return operations
     val setting = settings.getSetting(gradeState.clazz.project)
@@ -68,7 +60,7 @@ class ExamTakerGeneratePublishListener extends BaseServiceImpl with CourseGradeP
 
   def onPublish(grade: CourseGrade, gradeTypes: Array[GradeType]): collection.Seq[Operation] = {
     val operations = Collections.newBuffer[Operation]
-    val hasGa = gradeTypes.exists(_.id.equals(GradeType.EndGa));
+    val hasGa = gradeTypes.exists(_.id.equals(GradeType.EndGa))
     if (!hasGa) return operations
     val clazz = grade.clazz.get
     if (isClazzForbidden(clazz)) return operations
@@ -87,9 +79,7 @@ class ExamTakerGeneratePublishListener extends BaseServiceImpl with CourseGradeP
   }
 
   protected def isCourseTakeTypeForbidden(grade: CourseGrade): Boolean = {
-    forbiddenCourseTakeTypeNames.find(grade.courseTakeType.name.contains(_))
-      .map(_ => true)
-      .getOrElse(false)
+    forbiddenCourseTakeTypeNames.exists(grade.courseTakeType.name.contains(_))
   }
 
   protected def getMakeupOrDelayExamTypeId(setting: CourseGradeSetting, examGrade: ExamGrade): Int = {
@@ -122,13 +112,12 @@ class ExamTakerGeneratePublishListener extends BaseServiceImpl with CourseGradeP
     examTakers.map(t => (t.std, t)).toMap
   }
 
-  def publishOneGrade(
-    grade:      CourseGrade,
-    setting:    CourseGradeSetting,
-    gradeTypes: Array[GradeType],
-    examTakers: collection.Map[Student, ExamTaker]): collection.Seq[Operation] = {
+  def publishOneGrade(grade: CourseGrade,
+                      setting: CourseGradeSetting,
+                      gradeTypes: Array[GradeType],
+                      examTakers: collection.Map[Student, ExamTaker]): collection.Seq[Operation] = {
     val operations = Collections.newBuffer[Operation]
-    val examGrade = grade.getExamGrade(GradeType.End).orNull
+    val examGrade = grade.getExamGrade(new GradeType(GradeType.End)).orNull
     if (null == examGrade) return operations
     val clazz = grade.clazz.get
     val std = grade.std
@@ -144,7 +133,7 @@ class ExamTakerGeneratePublishListener extends BaseServiceImpl with CourseGradeP
         if (taker.examType == Delay) addRemoveExamTakers(operations, std, examTakers, Makeup)
       }
     } else {
-      if (null != grade.getExamGrade(GradeType.Delay))
+      if (null != grade.getExamGrade(new GradeType(GradeType.Delay)))
         addRemoveExamTakers(
           operations,
           std, examTakers, Makeup)
@@ -156,21 +145,20 @@ class ExamTakerGeneratePublishListener extends BaseServiceImpl with CourseGradeP
     operations
   }
 
-  private def addRemoveExamTakers(
-    operations: collection.mutable.Buffer[Operation],
-    std:        Student,
-    examTakers: collection.Map[Student, ExamTaker],
-    examTypes:  ExamType*) {
+  private def addRemoveExamTakers(operations: collection.mutable.Buffer[Operation],
+                                  std: Student,
+                                  examTakers: collection.Map[Student, ExamTaker],
+                                  examTypes: ExamType*): Unit = {
     examTakers.get(std) foreach { taker =>
       for (examType <- examTypes if taker.examType == examType) operations ++= Operation.remove(taker).build()
     }
   }
 
   private def getOrCreateExamTaker(
-    std:        Student,
-    clazz:      Clazz,
-    examType:   ExamType,
-    examTakers: collection.Map[Student, ExamTaker]): ExamTaker = {
+                                    std: Student,
+                                    clazz: Clazz,
+                                    examType: ExamType,
+                                    examTakers: collection.Map[Student, ExamTaker]): ExamTaker = {
     examTakers.get(std) match {
       case None =>
         val taker = new ExamTaker()
@@ -184,17 +172,17 @@ class ExamTakerGeneratePublishListener extends BaseServiceImpl with CourseGradeP
     }
   }
 
-  def setForbiddenCourseNames(names: String) {
+  def setForbiddenCourseNames(names: String): Unit = {
     forbiddenCourseNames = Strings.split(names, ",")
     if (null == forbiddenCourseNames) forbiddenCourseNames = Array.ofDim[String](0)
   }
 
-  def setForbiddenCourseTypeNames(names: String) {
+  def setForbiddenCourseTypeNames(names: String): Unit = {
     forbiddenCourseTypeNames = Strings.split(names, ",")
     if (null == forbiddenCourseTypeNames) forbiddenCourseTypeNames = Array.ofDim[String](0)
   }
 
-  def setForbiddenCourseTakeTypeNames(names: String) {
+  def setForbiddenCourseTakeTypeNames(names: String): Unit = {
     forbiddenCourseTakeTypeNames = Strings.split(names, ",")
     if (null == forbiddenCourseTakeTypeNames) forbiddenCourseTakeTypeNames = Array.ofDim[String](0)
   }

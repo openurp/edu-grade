@@ -47,7 +47,7 @@ class BestGpaStatService extends GpaStatService {
     merge(stdGpa, newer)
   }
 
-  def refresh(stdGpa: StdGpa, grades: collection.Seq[CourseGrade]) {
+  def refresh(stdGpa: StdGpa, grades: collection.Seq[CourseGrade]): Unit = {
     val newer = stat(stdGpa.std, grades)
     merge(stdGpa, newer)
   }
@@ -84,7 +84,7 @@ class BestGpaStatService extends GpaStatService {
     multiStdGpa
   }
 
-  private def merge(target: StdGpa, source: StdGpa) {
+  private def merge(target: StdGpa, source: StdGpa): Unit = {
     target.ga = source.ga
     target.gpa = source.gpa
     target.count = source.count
