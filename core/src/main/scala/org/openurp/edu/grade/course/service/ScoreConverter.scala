@@ -97,11 +97,11 @@ class ScoreConverter(private var config: GradeRateConfig, private var expression
    */
   def calcGp(score: Option[Float]): Option[Float] = {
     if (score.isEmpty || score.get <= 0) {
-      return Some(0)
+      Some(0)
     } else {
       val s = score.get
-      config.items foreach { gri =>
-        if (gri.contains(s)) {
+      config.items find (_.contains(s)) match {
+        case Some(gri) =>
           gri.gpExp match {
             case None => None
             case Some(exp) =>
@@ -113,10 +113,8 @@ class ScoreConverter(private var config: GradeRateConfig, private var expression
                 Some(Numbers.toFloat(exp))
               }
           }
-        }
+        case None => Some(0f)
       }
     }
-    // 默认绩点为00;
-    Some(0f)
   }
 }
