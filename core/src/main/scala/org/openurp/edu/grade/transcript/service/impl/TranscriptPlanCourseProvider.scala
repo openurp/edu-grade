@@ -22,11 +22,8 @@ import org.beangle.commons.collection.Collections
 import org.beangle.data.dao.impl.BaseServiceImpl
 import org.openurp.edu.base.model.Student
 import org.openurp.edu.grade.transcript.service.TranscriptDataProvider
-import org.openurp.edu.program.plan.model.CourseGroup
-import org.openurp.edu.program.plan.model.CoursePlan
-import org.openurp.edu.program.plan.model.PlanCourse
-import org.openurp.edu.program.plan.model.StdPlan
-import org.openurp.edu.program.plan.domain.CoursePlanProvider
+import org.openurp.edu.program.domain.CoursePlanProvider
+import org.openurp.edu.program.model.PlanCourse
 
 class TranscriptPlanCourseProvider extends BaseServiceImpl with TranscriptDataProvider {
 

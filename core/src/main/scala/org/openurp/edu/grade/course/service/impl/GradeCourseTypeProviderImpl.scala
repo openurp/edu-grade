@@ -18,17 +18,13 @@
  */
 package org.openurp.edu.grade.course.service.impl
 
-import org.beangle.data.dao.impl.BaseServiceImpl
 import org.beangle.data.dao.OqlBuilder
+import org.beangle.data.dao.impl.BaseServiceImpl
 import org.openurp.edu.base.code.model.CourseType
-import org.openurp.edu.base.model.Course
-import org.openurp.edu.base.model.Student
+import org.openurp.edu.base.model.{Course, Student}
 import org.openurp.edu.grade.course.service.GradeCourseTypeProvider
-import org.openurp.edu.program.plan.model.CourseGroup
-import org.openurp.edu.program.plan.model.CoursePlan
-import org.openurp.edu.program.plan.model.PlanCourse
-import org.openurp.edu.program.plan.model.SharePlan
-import org.openurp.edu.program.plan.domain.CoursePlanProvider
+import org.openurp.edu.program.domain.CoursePlanProvider
+import org.openurp.edu.program.model.SharePlan
 
 class GradeCourseTypeProviderImpl extends BaseServiceImpl with GradeCourseTypeProvider {
 
