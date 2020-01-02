@@ -23,8 +23,8 @@ import org.openurp.edu.base.model.Course
 import org.openurp.edu.grade.course.model.CourseGrade
 import org.openurp.edu.grade.course.domain.GradeComparator
 import org.openurp.edu.grade.course.domain.GradeFilter
-import org.openurp.edu.program.plan.domain.AlternativeCourseProvider
-import org.openurp.edu.program.plan.model.AlternativeCourse
+import org.openurp.edu.program.domain.AlternativeCourseProvider
+import org.openurp.edu.program.model.AlternativeCourse
 
 class BestOriginGradeFilter extends GradeFilter {
 

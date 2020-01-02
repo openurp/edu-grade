@@ -18,28 +18,24 @@
  */
 package org.openurp.edu.program.plan.impl
 
-import org.openurp.edu.program.plan.domain.AlternativeCourseProvider
-import org.openurp.edu.base.model.Student
-import org.openurp.edu.program.plan.model.StdAlternativeCourse
-import org.openurp.edu.program.plan.model.MajorAlternativeCourse
-import org.openurp.edu.program.plan.model.AlternativeCourse
 import org.beangle.data.dao.OqlBuilder
-import org.openurp.edu.base.model.Student
-import org.openurp.edu.program.plan.model.MajorAlternativeCourse
 import org.beangle.data.dao.impl.BaseServiceImpl
+import org.openurp.edu.base.model.Student
+import org.openurp.edu.program.domain.AlternativeCourseProvider
+import org.openurp.edu.program.model.{AlternativeCourse, MajorAlternativeCourse, StdAlternativeCourse}
 
 class AlternativeCourseProviderImpl extends BaseServiceImpl with AlternativeCourseProvider {
   /**
    * 得到该学生指定专业类型的所有的替代课程
    */
-  def getAlternatives(std: Student): Seq[AlternativeCourse] = {
+  def getAlternatives(std: Student): collection.Seq[AlternativeCourse] = {
     getStdAlternatives(std) ++ getMajorAlternatives(std)
   }
 
   /**
    * 得到该学生指定专业类型的个人替代课程
    */
-  def getMajorAlternatives(std: Student): Seq[MajorAlternativeCourse] = {
+  def getMajorAlternatives(std: Student): collection.Seq[MajorAlternativeCourse] = {
     val query = OqlBuilder.from(classOf[MajorAlternativeCourse], "alternative")
     query.where("alternative.project = :project", std.project);
     query.where("alternative.level = :level", std.level.toLevel);
@@ -63,7 +59,7 @@ class AlternativeCourseProviderImpl extends BaseServiceImpl with AlternativeCour
    * 得到该学生指定专业类型的专业替代课程
    *
    */
-  def getStdAlternatives(std: Student): Seq[StdAlternativeCourse] = {
+  def getStdAlternatives(std: Student): collection.Seq[StdAlternativeCourse] = {
     val query = OqlBuilder.from(classOf[StdAlternativeCourse], "alternative")
     query.where("alternative.std=:std", std);
     entityDao.search(query)

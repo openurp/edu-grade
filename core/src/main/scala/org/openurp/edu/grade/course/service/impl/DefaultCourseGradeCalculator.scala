@@ -70,6 +70,13 @@ class DefaultCourseGradeCalculator extends CourseGradeCalculator {
     calcMakeupDelayGa(grade, state)
   }
 
+
+  /** 计算期末总评
+   *
+   * @param grade
+   * @param state
+   * @return 总评成绩,但不改动成绩
+   */
   override def calcEndGa(grade: CourseGrade, state: CourseGradeState): GaGrade = {
     val stdId = grade.std.id
     grade.std = entityDao.get(classOf[Student], stdId)
@@ -151,11 +158,18 @@ class DefaultCourseGradeCalculator extends CourseGradeCalculator {
     grade.std = entityDao.get(classOf[Student], stdId)
     val gatypes = List(DelayGa, MakeupGa)
     var makeupDelayGa: GaGrade = null
+    var makeupDelayGrade:Option[ExamGrade]  = None
     for (gatype <- gatypes) {
       val gag = getGaGrade(grade, gatype)
       var gaScore: Option[Float] = None
-      gaScore = if (gatype == DelayGa) calcDelayGaScore(grade, state) else calcMakeupGaScore(grade, state)
-      if (gaScore.isEmpty) {
+      if (gatype == DelayGa){
+        gaScore=calcDelayGaScore(grade, state)
+        makeupDelayGrade = grade.getExamGrade(Delay)
+      } else {
+        gaScore=calcMakeupGaScore(grade, state)
+        makeupDelayGrade = grade.getExamGrade(Makeup)
+      }
+      if (gaScore.isEmpty && (makeupDelayGrade.isEmpty || makeupDelayGrade.get.id == ExamStatus.Normal)) {
         grade.getGaGrade(gatype) foreach { gaGrade => grade.gaGrades -= gaGrade }
       } else {
         updateScore(gag, gaScore, null)
