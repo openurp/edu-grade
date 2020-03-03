@@ -42,7 +42,7 @@ import org.openurp.edu.grade.course.service.CourseGradeService
 import org.openurp.edu.grade.course.service.CourseGradeSettings
 import org.openurp.edu.grade.course.service.GradeCourseTypeProvider
 import org.openurp.edu.grade.course.service.ScoreConverter
-import org.openurp.edu.course.model.Clazz
+import org.openurp.edu.clazz.model.Clazz
 import org.openurp.edu.grade.model.Grade
 import org.openurp.edu.grade.model.GradeState
 import org.beangle.data.dao.Operation

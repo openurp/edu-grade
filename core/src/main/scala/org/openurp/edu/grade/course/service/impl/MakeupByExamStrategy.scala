@@ -23,9 +23,9 @@ import org.beangle.data.dao.impl.BaseServiceImpl
 import org.beangle.data.dao.OqlBuilder
 import org.openurp.code.edu.model.ExamType
 import org.openurp.edu.grade.course.service.MakeupStdStrategy
-import org.openurp.edu.course.model.CourseTaker
+import org.openurp.edu.clazz.model.CourseTaker
 import org.openurp.edu.exam.model.ExamTaker
-import org.openurp.edu.course.model.Clazz
+import org.openurp.edu.clazz.model.Clazz
 import org.openurp.code.edu.model.GradeType
 
 /**

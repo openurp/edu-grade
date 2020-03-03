@@ -19,7 +19,7 @@
 package org.openurp.edu.grade.course.service
 
 import org.openurp.code.edu.model.GradeType
-import org.openurp.edu.course.model.CourseTaker
+import org.openurp.edu.clazz.model.CourseTaker
 import org.openurp.edu.exam.model.ExamTaker
 
 /**

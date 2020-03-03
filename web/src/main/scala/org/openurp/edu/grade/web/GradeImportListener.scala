@@ -26,7 +26,7 @@ import org.openurp.edu.grade.Grade
 import org.openurp.edu.grade.course.domain.GradeType
 import org.openurp.edu.grade.course.model.CourseGrade
 import org.openurp.edu.grade.course.model.ExamGrade
-import org.openurp.edu.course.model.Clazz
+import org.openurp.edu.clazz.model.Clazz
 
 
 
