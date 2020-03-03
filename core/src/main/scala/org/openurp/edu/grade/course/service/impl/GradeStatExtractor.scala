@@ -22,7 +22,7 @@ import org.beangle.commons.collection.Collections
 import org.beangle.data.transfer.exporter.DefaultPropertyExtractor
 import org.openurp.edu.base.model.Teacher
 import org.openurp.edu.grade.course.model.CourseGradeState
-import org.openurp.edu.course.model.Clazz
+import org.openurp.edu.clazz.model.Clazz
 
 class GradeStatExtractor  extends DefaultPropertyExtractor {
 

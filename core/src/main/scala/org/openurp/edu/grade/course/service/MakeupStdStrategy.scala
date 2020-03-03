@@ -18,8 +18,8 @@
  */
 package org.openurp.edu.grade.course.service
 
-import org.openurp.edu.course.model.CourseTaker
-import org.openurp.edu.course.model.Clazz
+import org.openurp.edu.clazz.model.CourseTaker
+import org.openurp.edu.clazz.model.Clazz
 
 /**
  * 补缓成绩设置策略

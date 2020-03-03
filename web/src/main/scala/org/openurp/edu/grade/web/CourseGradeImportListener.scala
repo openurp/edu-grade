@@ -19,7 +19,7 @@ import org.openurp.code.edu.model.GradingMode
 import org.openurp.edu.base.model.Course
 import org.openurp.edu.base.model.Project
 import org.openurp.edu.base.model.Student
-import org.openurp.edu.course.model.Clazz
+import org.openurp.edu.clazz.model.Clazz
 import org.openurp.edu.grade.course.model.CourseGrade
 import org.openurp.edu.grade.course.model.CourseGradeState
 import org.openurp.edu.grade.course.model.ExamGrade

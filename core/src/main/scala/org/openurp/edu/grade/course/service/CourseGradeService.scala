@@ -21,7 +21,7 @@ package org.openurp.edu.grade.course.service
 import org.openurp.code.edu.model.GradeType
 import org.openurp.edu.base.model.Project
 import org.openurp.edu.grade.course.model.CourseGradeState
-import org.openurp.edu.course.model.Clazz
+import org.openurp.edu.clazz.model.Clazz
 
 trait CourseGradeService {
   /**
@@ -38,7 +38,7 @@ trait CourseGradeService {
    * 删除考试成绩<br>
    * 同时将该成绩和总评成绩的教师确认位置为0
    *
-   * @param task
+   * @param clazz
    * @param gradeType
    */
   def remove(clazz: Clazz, gradeType: GradeType): Unit
@@ -46,7 +46,7 @@ trait CourseGradeService {
    * 发布或取消发布成绩
    *
    * @param clazzIdSeq
-   * @param gradeType
+   * @param gradeTypes
    *          如果为空,则发布影响总评和最终
    * @param published
    */
