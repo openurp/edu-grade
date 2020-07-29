@@ -41,11 +41,11 @@ class TranscriptPublishedGradeProvider extends TranscriptDataProvider {
   def dataName: String = "grades"
 
   def getDatas(stds: Seq[Student], options: collection.Map[String, String]): AnyRef = {
-    val datas = Collections.newMap[Student, collection.Seq[CourseGrade]]
+    val datas = Collections.newMap[Student, collection.Iterable[CourseGrade]]
     val matched = getFilters(options)
     val gradeMap = courseGradeProvider.getPublished(stds)
     for (std <- stds) {
-      var grades = gradeMap(std)
+      var grades:Iterable[CourseGrade] = gradeMap(std)
       for (filter <- matched) {
         grades = filter.filter(grades)
       }

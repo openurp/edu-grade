@@ -31,7 +31,7 @@ class GradeCourseTypeProviderImpl extends BaseServiceImpl with GradeCourseTypePr
   var coursePlanProvider: CoursePlanProvider = _
 
   def courseType(std: Student, course: Course, defaultCourseType: CourseType): CourseType = {
-    val plan = coursePlanProvider.getCoursePlan(std)
+    val plan = coursePlanProvider.getCoursePlan(std).orNull
     var planCourseType: CourseType = null
     if (null != plan) {
       for (cg <- plan.groups; if (cg != null && planCourseType == null)) {

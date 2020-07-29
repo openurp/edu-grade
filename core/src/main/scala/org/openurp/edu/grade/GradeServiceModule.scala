@@ -25,7 +25,7 @@ import org.openurp.edu.grade.course.service.{CourseGradePublishStack, GradingMod
 import org.openurp.edu.grade.course.service.impl._
 import org.openurp.edu.grade.setting.service.impl.CourseGradeSettingsImpl
 import org.openurp.edu.grade.transcript.service.impl._
-import org.openurp.edu.program.plan.impl.AlternativeCourseProviderImpl
+import org.openurp.edu.program.domain.DefaultAlternativeCourseProvider
 
 class GradeServiceModule extends BindModule {
 
@@ -36,7 +36,7 @@ class GradeServiceModule extends BindModule {
     bind("bestGradeFilter", classOf[BestGradeFilter])
     bind("gpaPolicy", classOf[DefaultGpaPolicy])
     bind("bestOriginGradeFilter", classOf[BestOriginGradeFilter])
-    bind("passedGradeFilter", classOf[PassedGradeFilter])
+//    bind("passedGradeFilter", classOf[PassedGradeFilter])
     bind("gradeFilterRegistry", classOf[SpringGradeFilterRegistry])
     bind("courseGradeService", classOf[CourseGradeServiceImpl])
     bind("gradeInputSwithService", classOf[GradeInputSwithServiceImpl])
@@ -63,6 +63,6 @@ class GradeServiceModule extends BindModule {
       .shortName()
 
 
-    bind("alternativeCourseProvider", classOf[AlternativeCourseProviderImpl])
+    bind("alternativeCourseProvider", classOf[DefaultAlternativeCourseProvider])
   }
 }

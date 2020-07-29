@@ -44,11 +44,11 @@ trait GpaService {
    * 平均绩点为： gpa=(∑(绩点*学分))/∑(学分) 平均绩点以截断的方式保留后面两位
    *
    * @param std
-   * @param semester
+   * @param grades
    *          可以为null
    * @return
    */
-  def getGpa(std: Student, grades: collection.Seq[CourseGrade]): Float
+  def getGpa(std: Student, grades: collection.Iterable[CourseGrade]): Float
 
   /**
    * 统计学生的平均绩点<br>
