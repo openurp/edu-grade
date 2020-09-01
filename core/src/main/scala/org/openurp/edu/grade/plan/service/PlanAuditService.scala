@@ -16,19 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.openurp.edu.grade.course.service.impl
+package org.openurp.edu.grade.plan.service
 
-import org.beangle.commons.collection.Collections
-import org.beangle.commons.lang.functor.Predicate
-import org.openurp.edu.grade.course.model.CourseGrade
-import org.openurp.edu.grade.course.domain.GradeFilter
+import org.openurp.edu.base.model.Student
+import org.openurp.edu.grade.plan.model.PlanAuditResult
 
-/**
- * 只留下通过课程的成绩
- */
-class PassedGradeFilter extends GradeFilter {
+trait PlanAuditService {
 
-  override def filter(grades: collection.Seq[CourseGrade]): collection.Seq[CourseGrade] = {
-    grades.filter(_.passed)
-  }
+  def audit(std: Student,params: collection.Map[String, Any]): PlanAuditResult
+
+  /**
+   * 获得学生的计划完成审核结果<br>
+   * 这个计划完成审核结果可能是部分审核的结果，也可能是全部审核的结果<br>
+   *
+   * @param std
+   * @return
+   */
+  def getResult(std: Student): Option[PlanAuditResult]
 }

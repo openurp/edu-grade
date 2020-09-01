@@ -20,9 +20,7 @@ package org.openurp.edu.grade.course.service.impl
 
 import org.openurp.edu.grade.model.Grade.Status.New
 import org.openurp.edu.grade.model.Grade.Status.Published
-
 import org.beangle.commons.collection.Collections
-import org.beangle.data.dao.impl.BaseServiceImpl
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.commons.lang.Objects
 import org.beangle.commons.lang.Strings
@@ -48,6 +46,7 @@ import org.openurp.edu.grade.model.GradeState
 import org.beangle.data.dao.Operation
 import org.beangle.commons.bean.orderings.PropertyOrdering
 import org.beangle.data.model.Entity
+import org.openurp.edu.grade.BaseServiceImpl
 
 class CourseGradeServiceImpl extends BaseServiceImpl with CourseGradeService {
 

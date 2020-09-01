@@ -18,13 +18,14 @@
  */
 package org.openurp.edu.grade.app.service.impl
 
-import org.beangle.data.dao.impl.BaseServiceImpl
 import org.beangle.data.dao.OqlBuilder
 import org.openurp.edu.base.model.Semester
 import org.openurp.edu.base.model.Project
 import org.openurp.edu.grade.app.model.GradeInputSwitch
 import org.openurp.edu.grade.app.service.GradeInputSwitchService
 import java.time.Instant
+
+import org.openurp.edu.grade.BaseServiceImpl
 
 class GradeInputSwithServiceImpl extends BaseServiceImpl with GradeInputSwitchService {
 

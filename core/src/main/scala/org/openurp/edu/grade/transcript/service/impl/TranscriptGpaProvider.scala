@@ -48,7 +48,7 @@ class TranscriptGpaProvider extends TranscriptDataProvider {
     val datas = Collections.newMap[Student, StdGpa]
     val gradeMap = courseGradeProvider.getPublished(stds)
     for (std <- stds) {
-      var grades = gradeMap(std)
+      var grades:Iterable[CourseGrade] = gradeMap(std)
       for (filter <- matched) grades = filter.filter(grades)
       datas.put(std, gpaPolicy.calc(std, grades, true))
     }

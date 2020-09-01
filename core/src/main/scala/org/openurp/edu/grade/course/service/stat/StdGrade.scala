@@ -32,7 +32,7 @@ class StdGrade {
 
   var std: Student = _
 
-  var grades: collection.Seq[CourseGrade] = _
+  var grades: collection.Iterable[CourseGrade] = _
 
   var gradeFilters: List[GradeFilter] = _
 
@@ -72,7 +72,7 @@ class StdGrade {
       }
     }
     if (null != cmp) {
-      grades = grades.sorted(cmp)
+      grades = grades.toBuffer.sorted(cmp)
     }
     this.cmp = cmp
   }

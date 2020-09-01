@@ -34,7 +34,7 @@ class BestGpaStatService extends GpaStatService {
   override def stat(std: Student, grades: collection.Seq[CourseGrade]): StdGpa = {
     val stdGpa = gpaPolicy.calc(std, grades, true)
     val stdGpa2 = gpaPolicy.calc(std, bestGradeFilter.filter(grades), false)
-    stdGpa.count = stdGpa2.count
+    stdGpa.gradeCount = stdGpa2.gradeCount
     stdGpa.credits = stdGpa2.credits
     stdGpa.totalCredits = stdGpa2.totalCredits
     stdGpa.ga = stdGpa2.ga
@@ -87,7 +87,7 @@ class BestGpaStatService extends GpaStatService {
   private def merge(target: StdGpa, source: StdGpa): Unit = {
     target.ga = source.ga
     target.gpa = source.gpa
-    target.count = source.count
+    target.gradeCount = source.gradeCount
     target.credits = source.credits
     target.totalCredits = source.totalCredits
     val existedTerms = semesterGpa2Map(target.semesterGpas)
@@ -101,7 +101,7 @@ class BestGpaStatService extends GpaStatService {
         case Some(targetTerm) =>
           targetTerm.ga = sourceTerm.ga
           targetTerm.gpa = sourceTerm.gpa
-          targetTerm.count = sourceTerm.count
+          targetTerm.gradeCount = sourceTerm.gradeCount
           targetTerm.credits = sourceTerm.credits
           targetTerm.totalCredits = sourceTerm.totalCredits
       }
@@ -122,7 +122,7 @@ class BestGpaStatService extends GpaStatService {
         case Some(targetTerm) =>
           targetTerm.ga = sourceTerm.ga
           targetTerm.gpa = sourceTerm.gpa
-          targetTerm.count = sourceTerm.count
+          targetTerm.gradeCount = sourceTerm.gradeCount
           targetTerm.credits = sourceTerm.credits
           targetTerm.totalCredits = sourceTerm.totalCredits
       }

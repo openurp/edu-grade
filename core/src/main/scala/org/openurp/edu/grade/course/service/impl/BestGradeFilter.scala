@@ -43,7 +43,7 @@ class BestGradeFilter extends GradeFilter {
     gradesMap
   }
 
-  override def filter(grades: collection.Seq[CourseGrade]): collection.Seq[CourseGrade] = {
+  override def filter(grades: Iterable[CourseGrade]): Iterable[CourseGrade] = {
     val gradesMap = buildGradeMap(grades)
     val substituteCourses = getAlternatives(grades)
     for (subCourse <- substituteCourses if GradeComparator.isSubstitute(subCourse, gradesMap); c <- subCourse.olds) {

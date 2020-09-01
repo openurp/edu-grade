@@ -19,7 +19,6 @@
 package org.openurp.edu.grade.setting.service.impl
 
 import org.beangle.commons.collection.Collections
-import org.beangle.data.dao.impl.BaseServiceImpl
 import org.beangle.commons.lang.Strings
 import org.openurp.code.service.CodeService
 import org.openurp.code.edu.model.GradeType
@@ -28,6 +27,7 @@ import org.openurp.edu.grade.course.service.CourseGradeSettings
 import CourseGradeSettingsImpl._
 import org.openurp.edu.grade.course.service.CourseGradeSetting
 import com.google.gson.Gson
+import org.openurp.edu.grade.BaseServiceImpl
 
 object CourseGradeSettingsImpl {
 

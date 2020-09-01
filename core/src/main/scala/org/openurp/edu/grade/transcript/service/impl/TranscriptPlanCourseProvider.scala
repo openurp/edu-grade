@@ -19,8 +19,8 @@
 package org.openurp.edu.grade.transcript.service.impl
 
 import org.beangle.commons.collection.Collections
-import org.beangle.data.dao.impl.BaseServiceImpl
 import org.openurp.edu.base.model.Student
+import org.openurp.edu.grade.BaseServiceImpl
 import org.openurp.edu.grade.transcript.service.TranscriptDataProvider
 import org.openurp.edu.program.domain.CoursePlanProvider
 import org.openurp.edu.program.model.PlanCourse
@@ -39,7 +39,7 @@ class TranscriptPlanCourseProvider extends BaseServiceImpl with TranscriptDataPr
 
   private def getPlanCourses(std: Student): collection.Seq[PlanCourse] = {
     val planCourses = Collections.newBuffer[PlanCourse]
-    val plan = coursePlanProvider.getCoursePlan(std)
+    val plan = coursePlanProvider.getCoursePlan(std).orNull
     if (plan == null) {
       for (courseGroup <- plan.groups)
         planCourses ++= courseGroup.planCourses

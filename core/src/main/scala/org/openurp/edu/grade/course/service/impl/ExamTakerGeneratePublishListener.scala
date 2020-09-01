@@ -20,12 +20,12 @@ package org.openurp.edu.grade.course.service.impl
 
 import org.beangle.commons.collection.Collections
 import org.beangle.commons.lang.Strings
-import org.beangle.data.dao.impl.BaseServiceImpl
 import org.beangle.data.dao.{Operation, OqlBuilder}
 import org.openurp.code.edu.model.{ExamStatus, ExamType, GradeType}
 import org.openurp.edu.base.model.Student
 import org.openurp.edu.clazz.model.Clazz
 import org.openurp.edu.exam.model.ExamTaker
+import org.openurp.edu.grade.BaseServiceImpl
 import org.openurp.edu.grade.course.model.{CourseGrade, CourseGradeState, ExamGrade}
 import org.openurp.edu.grade.course.service.impl.ExamTakerGeneratePublishListener._
 import org.openurp.edu.grade.course.service.{CourseGradePublishListener, CourseGradeSetting, CourseGradeSettings}
@@ -85,7 +85,7 @@ class ExamTakerGeneratePublishListener extends BaseServiceImpl with CourseGradeP
   protected def getMakeupOrDelayExamTypeId(setting: CourseGradeSetting, examGrade: ExamGrade): Int = {
     if (isCourseTakeTypeForbidden(examGrade.courseGrade)) return 0
     val examStatus = examGrade.examStatus
-    if (examStatus.deferred) {
+    if (examStatus.hasDeferred) {
       ExamType.Delay
     } else {
       if (setting.allowExamStatuses.contains(examStatus)) {

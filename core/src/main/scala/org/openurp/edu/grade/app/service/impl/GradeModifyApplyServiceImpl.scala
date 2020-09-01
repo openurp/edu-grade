@@ -18,8 +18,8 @@
  */
 package org.openurp.edu.grade.app.service.impl
 
-import org.beangle.data.dao.impl.BaseServiceImpl
 import org.beangle.data.dao.OqlBuilder
+import org.openurp.edu.grade.BaseServiceImpl
 import org.openurp.edu.grade.app.model.GradeModifyApply
 import org.openurp.edu.grade.app.service.GradeModifyApplyService
 import org.openurp.edu.grade.course.model.CourseGrade

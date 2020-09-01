@@ -19,13 +19,14 @@
 package org.openurp.edu.grade.course.service.impl
 
 import org.beangle.commons.collection.Collections
-import org.beangle.data.dao.impl.BaseServiceImpl
 import org.beangle.data.dao.OqlBuilder
 import org.openurp.edu.base.model.Semester
 import org.openurp.edu.base.model.Student
+import org.openurp.edu.grade.BaseServiceImpl
 import org.openurp.edu.grade.course.model.CourseGrade
 import org.openurp.edu.grade.course.domain.CourseGradeProvider
 import org.openurp.edu.grade.model.Grade
+
 import scala.collection.mutable.Buffer
 
 class BestCourseGradeProviderImpl extends BaseServiceImpl with CourseGradeProvider {
@@ -40,7 +41,7 @@ class BestCourseGradeProviderImpl extends BaseServiceImpl with CourseGradeProvid
       query.where("grade.semester in(:semesters)", semesters)
     }
     query.orderBy("grade.semester.beginOn")
-    bestGradeFilter.filter(entityDao.search(query))
+    bestGradeFilter.filter(entityDao.search(query)).toSeq
   }
 
   def getAll(std: Student, semesters: Semester*): collection.Seq[CourseGrade] = {
@@ -50,7 +51,7 @@ class BestCourseGradeProviderImpl extends BaseServiceImpl with CourseGradeProvid
       query.where("grade.semester in(:semesters)", semesters)
     }
     query.orderBy("grade.semester.beginOn")
-    bestGradeFilter.filter(entityDao.search(query))
+    bestGradeFilter.filter(entityDao.search(query)).toSeq
   }
 
   def getPublished(stds: Iterable[Student], semesters: Semester*): collection.Map[Student, collection.Seq[CourseGrade]] = {
@@ -66,7 +67,7 @@ class BestCourseGradeProviderImpl extends BaseServiceImpl with CourseGradeProvid
       gradeMap.put(std, Collections.newBuffer[CourseGrade])
     }
     for (g <- allGrades) gradeMap(g.std) += (g)
-    stds.map(s => (s, bestGradeFilter.filter(gradeMap(s)))).toMap
+    stds.map(s => (s, bestGradeFilter.filter(gradeMap(s)).toSeq)).toMap
   }
 
   def getAll(stds: Iterable[Student], semesters: Semester*): collection.Map[Student, collection.Seq[CourseGrade]] = {
@@ -81,7 +82,7 @@ class BestCourseGradeProviderImpl extends BaseServiceImpl with CourseGradeProvid
       gradeMap.put(std, Collections.newBuffer[CourseGrade])
     }
     for (g <- allGrades) gradeMap(g.std) += g
-    stds.map(s => (s, bestGradeFilter.filter(gradeMap(s)))).toMap
+    stds.map(s => (s, bestGradeFilter.filter(gradeMap(s)).toSeq)).toMap
   }
 
   def getPassedStatus(std: Student): collection.Map[Long, Boolean] = {

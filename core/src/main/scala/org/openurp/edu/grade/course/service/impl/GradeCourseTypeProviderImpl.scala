@@ -19,9 +19,9 @@
 package org.openurp.edu.grade.course.service.impl
 
 import org.beangle.data.dao.OqlBuilder
-import org.beangle.data.dao.impl.BaseServiceImpl
 import org.openurp.edu.base.code.model.CourseType
 import org.openurp.edu.base.model.{Course, Student}
+import org.openurp.edu.grade.BaseServiceImpl
 import org.openurp.edu.grade.course.service.GradeCourseTypeProvider
 import org.openurp.edu.program.domain.CoursePlanProvider
 import org.openurp.edu.program.model.SharePlan
@@ -31,7 +31,7 @@ class GradeCourseTypeProviderImpl extends BaseServiceImpl with GradeCourseTypePr
   var coursePlanProvider: CoursePlanProvider = _
 
   def courseType(std: Student, course: Course, defaultCourseType: CourseType): CourseType = {
-    val plan = coursePlanProvider.getCoursePlan(std)
+    val plan = coursePlanProvider.getCoursePlan(std).orNull
     var planCourseType: CourseType = null
     if (null != plan) {
       for (cg <- plan.groups; if (cg != null && planCourseType == null)) {

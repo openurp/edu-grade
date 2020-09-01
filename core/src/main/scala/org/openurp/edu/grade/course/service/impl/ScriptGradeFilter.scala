@@ -35,7 +35,7 @@ class ScriptGradeFilter extends GradeFilter {
     this.expressionEvaluator = expressionEvaluator
   }
 
-  def filter(grades: collection.Seq[CourseGrade]): collection.Seq[CourseGrade] = {
+  override def filter(grades: Iterable[CourseGrade]): Iterable[CourseGrade] = {
     if (Strings.isEmpty(script)) return grades
     val newGrades = Collections.newBuffer[CourseGrade]
     for (grade <- grades) {

@@ -23,23 +23,24 @@ import org.beangle.commons.collection.Order
 import org.beangle.data.dao.EntityDao
 import org.beangle.data.dao.OqlBuilder
 import org.openurp.edu.base.model.Student
+import org.openurp.edu.extern.model.CertificateGrade
 import org.openurp.edu.grade.transcript.service.TranscriptDataProvider
+
 import scala.collection.mutable.Buffer
-import org.openurp.edu.extern.model.ExternExamGrade
 
 class TranscriptPublishedExternExamGradeProvider extends TranscriptDataProvider {
 
   var entityDao: EntityDao = _
 
   override def getDatas(stds: Seq[Student], options: collection.Map[String, String]): AnyRef = {
-    val builder = OqlBuilder.from(classOf[ExternExamGrade], "eeg")
+    val builder = OqlBuilder.from(classOf[CertificateGrade], "eeg")
     builder.where("eeg.std in (:stds)", stds)
     builder.where("eeg.passed = true")
     builder.orderBy(Order.parse("eeg.score"))
     val eegs = entityDao.search(builder)
-    val mapData = Collections.newMap[Student, Buffer[ExternExamGrade]]
+    val mapData = Collections.newMap[Student, Buffer[CertificateGrade]]
     eegs foreach { eeg =>
-      val lst = mapData.getOrElseUpdate(eeg.std, Collections.newBuffer[ExternExamGrade])
+      val lst = mapData.getOrElseUpdate(eeg.std, Collections.newBuffer[CertificateGrade])
       lst += eeg
     }
     mapData
