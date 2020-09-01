@@ -23,7 +23,7 @@ import org.openurp.edu.grade.plan.service.impl._
 
 class AuditServiceModule extends BindModule {
 
-  protected override def binding() {
+  protected override def binding(): Unit = {
     //    bind("planAuditSkipListener", classOf[PlanAuditSkipListener])
     bind("planAuditCourseSubstitutionListener", classOf[PlanAuditCourseSubstitutionListener])
     bind("planAuditCourseTakerListener", classOf[PlanAuditCourseTakerListener])

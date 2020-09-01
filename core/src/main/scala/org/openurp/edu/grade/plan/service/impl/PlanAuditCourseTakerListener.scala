@@ -76,7 +76,7 @@ class PlanAuditCourseTakerListener extends PlanAuditListener {
     true
   }
 
-  override def end(context: PlanAuditContext) {
+  override def end(context: PlanAuditContext): Unit = {
     val course2Types = context.params.remove(TakeCourse2Types).asInstanceOf[collection.mutable.Map[Course, CourseType]]
     val results = context.params.remove(Group2CoursesKey).asInstanceOf[mutable.Buffer[(GroupAuditResult, Course)]]
     val used = Collections.newSet[GroupAuditResult]
@@ -103,7 +103,7 @@ class PlanAuditCourseTakerListener extends PlanAuditListener {
     }
   }
 
-  private def add2Group(course: Course, groupResult: GroupAuditResult) {
+  private def add2Group(course: Course, groupResult: GroupAuditResult): Unit = {
     var existedResult = groupResult.courseResults.find(_.course == course).orNull
     if (existedResult == null) {
       existedResult = new CourseAuditResult()
@@ -133,7 +133,7 @@ class PlanAuditCourseTakerListener extends PlanAuditListener {
     groupResult
   }
 
-  def setEntityDao(entityDao: EntityDao) {
+  def setEntityDao(entityDao: EntityDao): Unit = {
     this.entityDao = entityDao
   }
 }

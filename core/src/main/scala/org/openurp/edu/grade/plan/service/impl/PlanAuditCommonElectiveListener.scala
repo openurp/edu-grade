@@ -25,7 +25,7 @@ import org.openurp.edu.program.model.{CourseGroup, PlanCourse}
 
 class PlanAuditCommonElectiveListener extends PlanAuditListener {
 
-  def end(context: PlanAuditContext) {
+  def end(context: PlanAuditContext) : Unit = {
     val result = context.result
     val stdGrade = context.stdGrade
     val electiveType = context.coursePlan.program.offsetType
@@ -56,13 +56,13 @@ class PlanAuditCommonElectiveListener extends PlanAuditListener {
     groupResult.checkPassed(true)
   }
 
-  protected def processConvertCredits(target: GroupAuditResult, result: PlanAuditResult, context: PlanAuditContext) {
+  protected def processConvertCredits(target: GroupAuditResult, result: PlanAuditResult, context: PlanAuditContext) : Unit = {
     val parents = Collections.newSet[GroupAuditResult]
     val sibling = Collections.newSet[GroupAuditResult]
-    var start = target.parent.getOrElse(null)
+    var start = target.parent.orNull
     while (null != start && !parents.contains(start)) {
       parents.add(start)
-      start = start.parent.getOrElse(null)
+      start = start.parent.orNull
     }
     target.parent foreach { parent =>
       sibling ++= parent.children

@@ -48,7 +48,7 @@ class PlanAuditCourseSubstitutionListener extends PlanAuditListener {
     true
   }
 
-  override def end(context: PlanAuditContext) {
+  override def end(context: PlanAuditContext) : Unit = {
   }
 
   def startCourseAudit(context: PlanAuditContext, groupResult: GroupAuditResult, planCourse: PlanCourse): Boolean = {

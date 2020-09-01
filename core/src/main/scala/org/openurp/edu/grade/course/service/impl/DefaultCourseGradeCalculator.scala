@@ -187,11 +187,11 @@ class DefaultCourseGradeCalculator extends CourseGradeCalculator {
   }
 
   private def getPercent(eg: ExamGrade, cg: CourseGrade, cgs: CourseGradeState): Option[Short] = {
-    if (eg.percent.isDefined) return eg.percent
+    if (eg.scorePercent.isDefined) return eg.scorePercent
     if (eg.gradeType == Delay) {
       val end = cg.getExamGrade(End)
-      if (end.isDefined && end.get.percent.isDefined) {
-        end.get.percent
+      if (end.isDefined && end.get.scorePercent.isDefined) {
+        end.get.scorePercent
       } else {
         if (null == cgs) None else cgs.getPercent(End)
       }
@@ -283,6 +283,7 @@ class DefaultCourseGradeCalculator extends CourseGradeCalculator {
         val gaGrade = new GaGrade
         gaGrade.gradingMode = grade.gradingMode
         gaGrade.gradeType = gradeType
+        gaGrade.createdAt = Instant.now
         gaGrade.updatedAt = Instant.now
         grade.addGaGrade(gaGrade)
         gaGrade

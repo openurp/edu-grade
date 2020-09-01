@@ -43,7 +43,7 @@ class PlanAuditPersistObserver extends Logging {
     entityDao.search(query).headOption
   }
 
-  def notifyEnd(context: PlanAuditContext, index: Int) {
+  def notifyEnd(context: PlanAuditContext, index: Int) : Unit = {
     val newResult = context.result
     var existedResult = result(context.std).orNull
     if (null != existedResult) {
@@ -82,7 +82,7 @@ class PlanAuditPersistObserver extends Logging {
                                 existedResult: PlanAuditResult,
                                 target: GroupAuditResult,
                                 source: GroupAuditResult,
-                                updates: StringBuilder) {
+                                updates: StringBuilder) : Unit = {
     // 统计完成学分的变化
     val delta = source.auditStat.passedCredits - target.auditStat.passedCredits
     if (java.lang.Float.compare(delta, 0) != 0) {

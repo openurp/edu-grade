@@ -85,7 +85,7 @@ class ExamTakerGeneratePublishListener extends BaseServiceImpl with CourseGradeP
   protected def getMakeupOrDelayExamTypeId(setting: CourseGradeSetting, examGrade: ExamGrade): Int = {
     if (isCourseTakeTypeForbidden(examGrade.courseGrade)) return 0
     val examStatus = examGrade.examStatus
-    if (examStatus.deferred) {
+    if (examStatus.hasDeferred) {
       ExamType.Delay
     } else {
       if (setting.allowExamStatuses.contains(examStatus)) {

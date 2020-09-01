@@ -32,14 +32,14 @@ import org.openurp.edu.program.model.CourseGroup
  */
 class PlanAuditCourseTypeMatchListener extends PlanAuditListener {
 
-  protected def addGroupResult(results: collection.mutable.Map[CourseType, GroupAuditResult], gr: GroupAuditResult) {
+  protected def addGroupResult(results: collection.mutable.Map[CourseType, GroupAuditResult], gr: GroupAuditResult) : Unit = {
     results.put(gr.courseType, gr)
     for (child <- gr.children) {
       addGroupResult(results, child)
     }
   }
 
-  override def end(context: PlanAuditContext) {
+  override def end(context: PlanAuditContext) : Unit = {
     val results = Collections.newMap[CourseType, GroupAuditResult]
     val stdGrade = context.stdGrade
     val restCourses = stdGrade.restCourses
@@ -60,7 +60,7 @@ class PlanAuditCourseTypeMatchListener extends PlanAuditListener {
       if (null == groupResult)
         g = context.coursePlan.getGroup(groupResult.courseType).orNull
       // 计划里的必修组，不能按照类别匹配
-      if (null != groupResult && (null == g || !g.compulsory)) {
+      if (null != groupResult && (null == g || !g.autoAddup)) {
         stdGrade.useGrades(course)
         val remark = new StringBuilder()
         /*
