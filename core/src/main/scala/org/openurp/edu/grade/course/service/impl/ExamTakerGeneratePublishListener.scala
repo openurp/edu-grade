@@ -20,12 +20,12 @@ package org.openurp.edu.grade.course.service.impl
 
 import org.beangle.commons.collection.Collections
 import org.beangle.commons.lang.Strings
-import org.beangle.data.dao.impl.BaseServiceImpl
 import org.beangle.data.dao.{Operation, OqlBuilder}
 import org.openurp.code.edu.model.{ExamStatus, ExamType, GradeType}
 import org.openurp.edu.base.model.Student
 import org.openurp.edu.clazz.model.Clazz
 import org.openurp.edu.exam.model.ExamTaker
+import org.openurp.edu.grade.BaseServiceImpl
 import org.openurp.edu.grade.course.model.{CourseGrade, CourseGradeState, ExamGrade}
 import org.openurp.edu.grade.course.service.impl.ExamTakerGeneratePublishListener._
 import org.openurp.edu.grade.course.service.{CourseGradePublishListener, CourseGradeSetting, CourseGradeSettings}

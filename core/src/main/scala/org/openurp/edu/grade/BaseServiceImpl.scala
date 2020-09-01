@@ -16,14 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.beangle.data.dao.impl
+package org.openurp.edu.grade
 
-import org.beangle.commons.event.Event
-import org.beangle.commons.event.EventMulticaster
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-import org.beangle.data.dao.EntityDao
+import org.beangle.commons.event.{Event, EventMulticaster}
 import org.beangle.commons.logging.Logging
+import org.beangle.data.dao.EntityDao
 
 /**
  * Abstract BaseServiceImpl class.

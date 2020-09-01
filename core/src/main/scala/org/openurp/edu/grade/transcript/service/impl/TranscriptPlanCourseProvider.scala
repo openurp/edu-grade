@@ -19,8 +19,8 @@
 package org.openurp.edu.grade.transcript.service.impl
 
 import org.beangle.commons.collection.Collections
-import org.beangle.data.dao.impl.BaseServiceImpl
 import org.openurp.edu.base.model.Student
+import org.openurp.edu.grade.BaseServiceImpl
 import org.openurp.edu.grade.transcript.service.TranscriptDataProvider
 import org.openurp.edu.program.domain.CoursePlanProvider
 import org.openurp.edu.program.model.PlanCourse

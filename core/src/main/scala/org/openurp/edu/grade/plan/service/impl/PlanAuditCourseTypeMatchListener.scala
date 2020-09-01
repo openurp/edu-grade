@@ -60,7 +60,7 @@ class PlanAuditCourseTypeMatchListener extends PlanAuditListener {
       if (null == groupResult)
         g = context.coursePlan.getGroup(groupResult.courseType).orNull
       // 计划里的必修组，不能按照类别匹配
-      if (null != groupResult && (null == g || !g.autoAddup)) {
+      if (null != groupResult && (null == g || g.children.isEmpty && g.courseType.optional)) {
         stdGrade.useGrades(course)
         val remark = new StringBuilder()
         /*
