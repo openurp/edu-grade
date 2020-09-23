@@ -18,9 +18,8 @@
  */
 package org.openurp.edu.grade.course.service
 
-import org.openurp.code.edu.model.ExamStatus
-import org.openurp.code.edu.model.GradeType
 import org.beangle.commons.collection.Collections
+import org.openurp.code.edu.model.{ExamStatus, GradeType}
 import org.openurp.edu.base.model.Project
 
 class CourseGradeSetting {
@@ -37,9 +36,9 @@ class CourseGradeSetting {
   /** 是否提交即发布 */
   var submitIsPublish = false
 
-  var delayIsGa=false
+  var delayIsGa = false
 
-  def this(project:Project){
+  def this(project: Project) = {
     this()
   }
 }

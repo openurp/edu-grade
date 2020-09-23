@@ -20,9 +20,8 @@ package org.openurp.edu.grade.course.service.stat
 
 import org.beangle.commons.collection.Collections
 import org.openurp.edu.base.model.Student
-import org.openurp.edu.grade.course.model.CourseGrade
-import org.openurp.edu.grade.course.model.StdGpa
 import org.openurp.edu.grade.course.domain.GradeFilter
+import org.openurp.edu.grade.course.model.{CourseGrade, StdGpa}
 
 /**
  * 学生成绩单打印模型
@@ -43,12 +42,12 @@ class StdGrade {
   /**
    * 将grades转换成[course.id.toString,courseGrade]样式的map<br>
    * 主要用于快速根据课程找到成绩.对于重修课程(课程出现重复)对应的成绩是不可预知的. FIXME
-   *
    * @return
    */
   def toGradeMap(): collection.Map[String, CourseGrade] = {
-    if (null == grades || grades.isEmpty) { Map.empty }
-    else {
+    if (null == grades || grades.isEmpty) {
+      Map.empty
+    } else {
       val gradeMap = Collections.newMap[String, CourseGrade]
       grades foreach { g =>
         gradeMap.put(g.course.id.toString, g)
@@ -57,11 +56,10 @@ class StdGrade {
     }
   }
 
-  def this(
-    std:          Student,
-    courseGrades: Seq[CourseGrade],
-    cmp:          Ordering[CourseGrade],
-    gradeFilters: List[GradeFilter]) {
+  def this(std: Student,
+           courseGrades: Seq[CourseGrade],
+           cmp: Ordering[CourseGrade],
+           gradeFilters: List[GradeFilter]) = {
     this()
     this.std = std
     this.gradeFilters = gradeFilters
@@ -85,7 +83,6 @@ class StdGrade {
 
   /**
    * 计算学生已经获得的学分(成绩合格)
-   *
    * @return
    */
   def credits: Float = {

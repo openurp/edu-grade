@@ -17,11 +17,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.openurp.edu.grade.course.service.impl
+
 import org.beangle.commons.collection.Collections
 import org.beangle.commons.lang.Strings
 import org.beangle.commons.script.ExpressionEvaluator
-import org.openurp.edu.grade.course.model.CourseGrade
 import org.openurp.edu.grade.course.domain.GradeFilter
+import org.openurp.edu.grade.course.model.CourseGrade
 
 class ScriptGradeFilter extends GradeFilter {
 
@@ -29,7 +30,7 @@ class ScriptGradeFilter extends GradeFilter {
 
   var expressionEvaluator: ExpressionEvaluator = _
 
-  def this(script: String, expressionEvaluator: ExpressionEvaluator) {
+  def this(script: String, expressionEvaluator: ExpressionEvaluator) = {
     this()
     this.script = script
     this.expressionEvaluator = expressionEvaluator

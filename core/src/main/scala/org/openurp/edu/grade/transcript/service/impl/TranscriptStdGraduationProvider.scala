@@ -23,7 +23,7 @@ import org.beangle.data.dao.OqlBuilder
 import org.openurp.edu.base.model.Student
 import org.openurp.edu.grade.BaseServiceImpl
 import org.openurp.edu.grade.transcript.service.TranscriptDataProvider
-import org.openurp.edu.student.info.model.Graduation
+import org.openurp.std.info.model.Graduation
 
 import scala.collection.mutable.Buffer
 
