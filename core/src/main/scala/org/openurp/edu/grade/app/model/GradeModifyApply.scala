@@ -54,7 +54,7 @@ object GradeModifyApply {
 
     class GradeModifyStatus extends Val {
       var fullName: String = _
-      def this(fullName: String) {
+      def this(fullName: String) = {
         this()
         this.fullName = fullName
       }

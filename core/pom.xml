@@ -27,8 +27,8 @@
       <version>${openurp.api.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.openurp.edu.student</groupId>
-      <artifactId>openurp-edu-student-api</artifactId>
+      <groupId>org.openurp.std.info</groupId>
+      <artifactId>openurp-std-info-api</artifactId>
       <version>${openurp.api.version}</version>
     </dependency>
     <dependency>
