@@ -18,8 +18,8 @@
  */
 package org.openurp.edu.grade.app.service
 
-import org.openurp.edu.base.model.Semester
-import org.openurp.edu.base.model.Project
+import org.openurp.base.edu.model.Semester
+import org.openurp.base.edu.model.Project
 import org.openurp.edu.grade.app.model.GradeInputSwitch
 
 trait GradeInputSwitchService {

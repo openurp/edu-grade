@@ -22,8 +22,8 @@ import java.time.LocalDate
 
 import org.beangle.commons.collection.Collections
 import org.beangle.data.dao.{EntityDao, OqlBuilder}
-import org.openurp.edu.base.code.model.CourseType
-import org.openurp.edu.base.model.Course
+import org.openurp.base.edu.code.model.CourseType
+import org.openurp.base.edu.model.Course
 import org.openurp.edu.clazz.model.CourseTaker
 import org.openurp.edu.grade.course.model.CourseGrade
 import org.openurp.edu.grade.model.Grade
@@ -85,14 +85,14 @@ class PlanAuditCourseTakerListener extends PlanAuditListener {
       course2Types.remove(tuple._2)
       used.add(tuple._1)
     }
-    val lastTarget = getTargroupResult(context)
+    val lastTarget = getTargetGroupResult(context)
     for ((key, value) <- course2Types) {
       val g = context.coursePlan.getGroup(value).orNull
       var gr: GroupAuditResult = null
       if (null == g || g.planCourses.isEmpty) {
         gr = context.result.getGroupResult(value).orNull
       }
-      if (null == gr) gr = lastTarget
+      if (null == gr) gr = lastTarget.orNull
       if (null != gr) {
         add2Group(key, gr)
         used.add(gr)
@@ -117,20 +117,21 @@ class PlanAuditCourseTakerListener extends PlanAuditListener {
     existedResult.remark = Some(existedResult.remark.getOrElse("") + "/在读")
   }
 
-  private def getTargroupResult(context: PlanAuditContext): GroupAuditResult = {
-    val electiveType = context.coursePlan.program.offsetType
+  private def getTargetGroupResult(context: PlanAuditContext): Option[GroupAuditResult] = {
     val result = context.result
-    var groupResult = result.getGroupResult(electiveType).orNull
-    if (null == groupResult) {
-      val groupRs = new GroupAuditResult()
-      groupRs.indexno = "99.99"
-      groupRs.courseType = electiveType
-      groupRs.name = electiveType.name
-      groupRs.subCount = 0.toShort
-      groupResult = groupRs
-      result.addGroupResult(groupResult)
+    context.coursePlan.program.offsetType.map { electiveType =>
+      var groupResult = result.getGroupResult(electiveType).orNull
+      if (null == groupResult) {
+        val groupRs = new GroupAuditResult()
+        groupRs.indexno = "99.99"
+        groupRs.courseType = electiveType
+        groupRs.name = electiveType.name
+        groupRs.subCount = 0.toShort
+        groupResult = groupRs
+        result.addGroupResult(groupResult)
+      }
+      groupResult
     }
-    groupResult
   }
 
   def setEntityDao(entityDao: EntityDao): Unit = {

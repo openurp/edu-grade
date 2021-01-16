@@ -27,7 +27,7 @@ import org.beangle.commons.lang.Strings
 import org.beangle.commons.lang.functor.Predicate
 import org.openurp.code.edu.model.CourseTakeType
 import org.openurp.code.edu.model.GradeType
-import org.openurp.edu.base.model.Project
+import org.openurp.base.edu.model.Project
 import org.openurp.edu.grade.course.model.CourseGrade
 import org.openurp.edu.grade.course.model.CourseGradeState
 import org.openurp.edu.grade.course.model.ExamGrade

@@ -19,7 +19,7 @@
 package org.openurp.edu.grade.course.service
 
 import org.openurp.code.edu.model.GradingMode
-import org.openurp.edu.base.model.Project
+import org.openurp.base.edu.model.Project
 import org.openurp.edu.grade.model.GradeRateItem
 
 /**

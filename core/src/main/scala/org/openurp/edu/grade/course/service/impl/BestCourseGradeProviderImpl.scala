@@ -20,14 +20,14 @@ package org.openurp.edu.grade.course.service.impl
 
 import org.beangle.commons.collection.Collections
 import org.beangle.data.dao.OqlBuilder
-import org.openurp.edu.base.model.Semester
-import org.openurp.edu.base.model.Student
+import org.openurp.base.edu.model.Semester
+import org.openurp.base.edu.model.Student
 import org.openurp.edu.grade.BaseServiceImpl
 import org.openurp.edu.grade.course.model.CourseGrade
 import org.openurp.edu.grade.course.domain.CourseGradeProvider
 import org.openurp.edu.grade.model.Grade
 
-import scala.collection.mutable.Buffer
+import scala.collection.mutable
 
 class BestCourseGradeProviderImpl extends BaseServiceImpl with CourseGradeProvider {
 
@@ -37,7 +37,7 @@ class BestCourseGradeProviderImpl extends BaseServiceImpl with CourseGradeProvid
     val query = OqlBuilder.from(classOf[CourseGrade], "grade")
     query.where("grade.std = :std", std)
     query.where("grade.status =:status", Grade.Status.Published)
-    if (null != semesters && semesters.length > 0) {
+    if (null != semesters && semesters.nonEmpty) {
       query.where("grade.semester in(:semesters)", semesters)
     }
     query.orderBy("grade.semester.beginOn")
@@ -47,7 +47,7 @@ class BestCourseGradeProviderImpl extends BaseServiceImpl with CourseGradeProvid
   def getAll(std: Student, semesters: Semester*): collection.Seq[CourseGrade] = {
     val query = OqlBuilder.from(classOf[CourseGrade], "grade")
     query.where("grade.std = :std", std)
-    if (null != semesters && semesters.length > 0) {
+    if (null != semesters && semesters.nonEmpty) {
       query.where("grade.semester in(:semesters)", semesters)
     }
     query.orderBy("grade.semester.beginOn")
@@ -58,26 +58,26 @@ class BestCourseGradeProviderImpl extends BaseServiceImpl with CourseGradeProvid
     val query = OqlBuilder.from(classOf[CourseGrade], "grade")
     query.where("grade.std in (:stds)", stds)
     query.where("grade.status =:status", Grade.Status.Published)
-    if (null != semesters && semesters.length > 0) {
+    if (null != semesters && semesters.nonEmpty) {
       query.where("grade.semester in(:semesters)", semesters)
     }
     val allGrades = entityDao.search(query)
-    val gradeMap = Collections.newMap[Student, Buffer[CourseGrade]]
+    val gradeMap = Collections.newMap[Student, mutable.Buffer[CourseGrade]]
     for (std <- stds) {
       gradeMap.put(std, Collections.newBuffer[CourseGrade])
     }
-    for (g <- allGrades) gradeMap(g.std) += (g)
+    for (g <- allGrades) gradeMap(g.std) += g
     stds.map(s => (s, bestGradeFilter.filter(gradeMap(s)).toSeq)).toMap
   }
 
   def getAll(stds: Iterable[Student], semesters: Semester*): collection.Map[Student, collection.Seq[CourseGrade]] = {
     val query = OqlBuilder.from(classOf[CourseGrade], "grade")
     query.where("grade.std in (:stds)", stds)
-    if (null != semesters && semesters.length > 0) {
+    if (null != semesters && semesters.nonEmpty) {
       query.where("grade.semester in(:semesters)", semesters)
     }
     val allGrades = entityDao.search(query)
-    val gradeMap = Collections.newMap[Student, Buffer[CourseGrade]]
+    val gradeMap = Collections.newMap[Student, mutable.Buffer[CourseGrade]]
     for (std <- stds) {
       gradeMap.put(std, Collections.newBuffer[CourseGrade])
     }

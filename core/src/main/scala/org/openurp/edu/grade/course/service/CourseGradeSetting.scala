@@ -20,7 +20,7 @@ package org.openurp.edu.grade.course.service
 
 import org.beangle.commons.collection.Collections
 import org.openurp.code.edu.model.{ExamStatus, GradeType}
-import org.openurp.edu.base.model.Project
+import org.openurp.base.edu.model.Project
 
 class CourseGradeSetting {
 

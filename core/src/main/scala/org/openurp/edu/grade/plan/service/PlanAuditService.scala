@@ -18,7 +18,7 @@
  */
 package org.openurp.edu.grade.plan.service
 
-import org.openurp.edu.base.model.Student
+import org.openurp.base.edu.model.Student
 import org.openurp.edu.grade.plan.model.PlanAuditResult
 
 trait PlanAuditService {

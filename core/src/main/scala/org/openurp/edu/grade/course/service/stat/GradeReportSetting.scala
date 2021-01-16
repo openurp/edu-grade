@@ -22,7 +22,7 @@ import java.time.Instant
 
 import org.beangle.commons.collection.Order
 import org.openurp.code.edu.model.GradeType
-import org.openurp.edu.base.model.Project
+import org.openurp.base.edu.model.Project
 
 /**
   * 报表设置

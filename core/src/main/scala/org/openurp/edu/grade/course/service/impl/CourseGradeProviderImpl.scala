@@ -21,8 +21,8 @@ package org.openurp.edu.grade.course.service.impl
 import org.beangle.commons.collection.Collections
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.commons.lang.time.Stopwatch
-import org.openurp.edu.base.model.Semester
-import org.openurp.edu.base.model.Student
+import org.openurp.base.edu.model.Semester
+import org.openurp.base.edu.model.Student
 import org.openurp.edu.grade.BaseServiceImpl
 import org.openurp.edu.grade.course.model.CourseGrade
 import org.openurp.edu.grade.course.domain.CourseGradeProvider

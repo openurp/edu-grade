@@ -19,7 +19,7 @@
 package org.openurp.edu.grade.app.service.impl
 
 import org.beangle.data.dao.OqlBuilder
-import org.openurp.edu.base.model.Project
+import org.openurp.base.edu.model.Project
 import org.openurp.edu.grade.BaseServiceImpl
 import org.openurp.edu.grade.app.model.ReportTemplate
 import org.openurp.edu.grade.app.service.ReportTemplateService

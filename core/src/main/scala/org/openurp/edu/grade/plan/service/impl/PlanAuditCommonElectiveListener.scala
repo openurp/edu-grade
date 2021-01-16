@@ -25,38 +25,38 @@ import org.openurp.edu.program.model.{CourseGroup, PlanCourse}
 
 class PlanAuditCommonElectiveListener extends PlanAuditListener {
 
-  def end(context: PlanAuditContext) : Unit = {
+  def end(context: PlanAuditContext): Unit = {
     val result = context.result
     val stdGrade = context.stdGrade
-    val electiveType = context.coursePlan.program.offsetType
-    val groupResult =
-      result.getGroupResult(electiveType) match {
-        case Some(r) => r
-        case None =>
-          val groupRs = new GroupAuditResult()
-          groupRs.courseType = electiveType
-          groupRs.name = electiveType.name
-          groupRs.subCount = 0.toShort
-          groupRs.indexno = "99.99"
-          result.addGroupResult(groupRs)
-          groupRs
+    context.coursePlan.program.offsetType foreach { electiveType =>
+      val groupResult =
+        result.getGroupResult(electiveType) match {
+          case Some(r) => r
+          case None =>
+            val groupRs = new GroupAuditResult()
+            groupRs.courseType = electiveType
+            groupRs.name = electiveType.name
+            groupRs.subCount = 0.toShort
+            groupRs.indexno = "99.99"
+            result.addGroupResult(groupRs)
+            groupRs
+        }
+      for (course <- stdGrade.restCourses) {
+        val courseResult = new CourseAuditResult()
+        courseResult.course = (course)
+        val grades = stdGrade.useGrades(course)
+        if (grades.nonEmpty && grades.head.courseType.id != electiveType.id) {
+          courseResult.remark = Some("计划外")
+        }
+        courseResult.checkPassed(grades)
+        groupResult.addCourseResult(courseResult)
       }
-    for (course <- stdGrade.restCourses) {
-      val courseResult = new CourseAuditResult()
-      courseResult.course = (course)
-      val grades = stdGrade.useGrades(course)
-      if (!grades.isEmpty &&
-        grades.head.courseType.id != electiveType.id) {
-        courseResult.remark = Some("计划外")
-      }
-      courseResult.checkPassed(grades)
-      groupResult.addCourseResult(courseResult)
+      processConvertCredits(groupResult, result, context)
+      groupResult.checkPassed(true)
     }
-    processConvertCredits(groupResult, result, context)
-    groupResult.checkPassed(true)
   }
 
-  protected def processConvertCredits(target: GroupAuditResult, result: PlanAuditResult, context: PlanAuditContext) : Unit = {
+  protected def processConvertCredits(target: GroupAuditResult, result: PlanAuditResult, context: PlanAuditContext): Unit = {
     val parents = Collections.newSet[GroupAuditResult]
     val sibling = Collections.newSet[GroupAuditResult]
     var start = target.parent.orNull
@@ -96,7 +96,7 @@ class PlanAuditCommonElectiveListener extends PlanAuditListener {
   }
 
   override def startGroup(context: PlanAuditContext, courseGroup: CourseGroup,
-                      groupResult: GroupAuditResult): Boolean = {
+                          groupResult: GroupAuditResult): Boolean = {
     true
   }
 }

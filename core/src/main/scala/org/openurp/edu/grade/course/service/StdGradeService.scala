@@ -21,11 +21,11 @@ package org.openurp.edu.grade.course.service
 import org.beangle.data.dao.EntityDao
 import org.beangle.data.dao.OqlBuilder
 import org.openurp.base.model.Department
-import org.openurp.edu.base.model.Semester
+import org.openurp.base.edu.model.Semester
 import org.openurp.code.edu.model.GradeType
-import org.openurp.edu.base.model.Course
-import org.openurp.edu.base.model.Project
-import org.openurp.edu.base.model.Student
+import org.openurp.base.edu.model.Course
+import org.openurp.base.edu.model.Project
+import org.openurp.base.edu.model.Student
 
 trait StdGradeService {
 

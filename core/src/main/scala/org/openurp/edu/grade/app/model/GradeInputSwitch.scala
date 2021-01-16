@@ -23,8 +23,8 @@ import java.time.Instant
 import org.beangle.commons.collection.Collections
 import org.beangle.data.model.LongId
 import org.openurp.code.edu.model.GradeType
-import org.openurp.edu.base.model.Project
-import org.openurp.edu.base.model.Semester
+import org.openurp.base.edu.model.Project
+import org.openurp.base.edu.model.Semester
 
 /**
  * 成绩录入开关

@@ -19,7 +19,7 @@
 package org.openurp.edu.grade.course.service.stat
 
 import org.beangle.commons.collection.Collections
-import org.openurp.edu.base.model.Student
+import org.openurp.base.edu.model.Student
 import org.openurp.edu.grade.course.domain.GradeFilter
 import org.openurp.edu.grade.course.model.{CourseGrade, StdGpa}
 

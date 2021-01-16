@@ -19,8 +19,8 @@
 package org.openurp.edu.grade.course.service.impl
 
 import org.beangle.data.dao.OqlBuilder
-import org.openurp.edu.base.code.model.CourseType
-import org.openurp.edu.base.model.{Course, Student}
+import org.openurp.base.edu.code.model.CourseType
+import org.openurp.base.edu.model.{Course, Student}
 import org.openurp.edu.grade.BaseServiceImpl
 import org.openurp.edu.grade.course.service.GradeCourseTypeProvider
 import org.openurp.edu.program.domain.CoursePlanProvider

@@ -18,7 +18,7 @@
  */
 package org.openurp.edu.grade.app.model
 
-import org.openurp.edu.base.model.Project
+import org.openurp.base.edu.model.Project
 import org.beangle.data.model.LongId
 import org.beangle.data.model.pojo.Updated
 

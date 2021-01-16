@@ -22,7 +22,7 @@ import org.beangle.commons.collection.Collections
 import org.beangle.commons.lang.Strings
 import org.openurp.code.service.CodeService
 import org.openurp.code.edu.model.GradeType
-import org.openurp.edu.base.model.Project
+import org.openurp.base.edu.model.Project
 import org.openurp.edu.grade.course.service.CourseGradeSettings
 import CourseGradeSettingsImpl._
 import org.openurp.edu.grade.course.service.CourseGradeSetting

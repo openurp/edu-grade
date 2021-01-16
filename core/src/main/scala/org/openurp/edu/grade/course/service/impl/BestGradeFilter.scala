@@ -19,7 +19,7 @@
 package org.openurp.edu.grade.course.service.impl
 
 import org.beangle.commons.collection.Collections
-import org.openurp.edu.base.model.Course
+import org.openurp.base.edu.model.Course
 import org.openurp.edu.grade.course.model.CourseGrade
 import org.openurp.edu.grade.course.domain.GradeComparator
 import org.openurp.edu.grade.course.domain.GradeFilter
