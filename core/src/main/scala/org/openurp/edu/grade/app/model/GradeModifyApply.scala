@@ -21,10 +21,10 @@ package org.openurp.edu.grade.app.model
 import org.beangle.data.model.LongId
 import org.openurp.code.edu.model.ExamStatus
 import org.openurp.code.edu.model.GradeType
-import org.openurp.edu.base.model.Course
-import org.openurp.edu.base.model.Project
-import org.openurp.edu.base.model.Semester
-import org.openurp.edu.base.model.Student
+import org.openurp.base.edu.model.Course
+import org.openurp.base.edu.model.Project
+import org.openurp.base.edu.model.Semester
+import org.openurp.base.edu.model.Student
 
 import GradeModifyApply._
 

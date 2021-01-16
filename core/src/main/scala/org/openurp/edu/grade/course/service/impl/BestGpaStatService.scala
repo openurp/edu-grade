@@ -18,7 +18,7 @@
  */
 package org.openurp.edu.grade.course.service.impl
 
-import org.openurp.edu.base.model.{Semester, Student}
+import org.openurp.base.edu.model.{Semester, Student}
 import org.openurp.edu.grade.course.domain.{CourseGradeProvider, GpaPolicy}
 import org.openurp.edu.grade.course.model.{CourseGrade, StdGpa, StdSemesterGpa, StdYearGpa}
 import org.openurp.edu.grade.course.service.GpaStatService

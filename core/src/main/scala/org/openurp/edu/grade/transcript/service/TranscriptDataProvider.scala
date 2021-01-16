@@ -18,7 +18,7 @@
  */
 package org.openurp.edu.grade.transcript.service
 
-import org.openurp.edu.base.model.Student
+import org.openurp.base.edu.model.Student
 
 /**
  * 成绩单信息提供者

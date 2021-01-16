@@ -18,7 +18,7 @@
  */
 package org.openurp.edu.grade.course.service
 
-import org.openurp.edu.base.model.Project
+import org.openurp.base.edu.model.Project
 
 /**
  * 课程成绩设置服务

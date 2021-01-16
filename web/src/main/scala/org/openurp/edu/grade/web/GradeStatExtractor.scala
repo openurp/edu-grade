@@ -4,7 +4,7 @@ package org.openurp.edu.grade.course.service.impl
 import org.beangle.commons.collection.Collections
 import org.beangle.commons.text.i18n.TextResource
 import org.beangle.commons.transfer.exporter.DefaultPropertyExtractor
-import org.openurp.edu.base.model.Teacher
+import org.openurp.base.edu.model.Teacher
 import org.openurp.edu.grade.course.model.CourseGradeState
 import org.openurp.edu.clazz.model.Clazz
 

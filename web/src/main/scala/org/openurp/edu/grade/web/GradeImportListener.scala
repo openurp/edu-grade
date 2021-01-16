@@ -14,14 +14,14 @@ import org.beangle.commons.entity.metadata.Model
 import org.beangle.commons.lang.Strings
 import org.beangle.commons.transfer.TransferResult
 import org.beangle.commons.transfer.importer.listener.ItemImporterListener
-import org.openurp.edu.base.model.Semester
+import org.openurp.base.edu.model.Semester
 import org.openurp.code.edu.model.CourseTakeType
 import org.openurp.code.edu.model.ExamStatus
 import org.openurp.code.edu.model.GradeType
 import org.openurp.code.edu.model.GradingMode
-import org.openurp.edu.base.model.Course
-import org.openurp.edu.base.model.Project
-import org.openurp.edu.base.model.Student
+import org.openurp.base.edu.model.Course
+import org.openurp.base.edu.model.Project
+import org.openurp.base.edu.model.Student
 import org.openurp.edu.grade.Grade
 import org.openurp.edu.grade.course.domain.GradeType
 import org.openurp.edu.grade.course.model.CourseGrade
@@ -57,9 +57,9 @@ class GradeImportListener(private var entityDao: EntityDao, private var project:
     }
   }
 
-  private def getPropEntity[T <: Entity[_]](clazz: Class[T], 
-      tr: TransferResult, 
-      key: String, 
+  private def getPropEntity[T <: Entity[_]](clazz: Class[T],
+      tr: TransferResult,
+      key: String,
       notNull: Boolean): T = {
     val description = importer.getDescriptions.get(key)
     val value = importer.getCurData.get(key).asInstanceOf[String]
@@ -85,10 +85,10 @@ class GradeImportListener(private var entityDao: EntityDao, private var project:
     nameList.head
   }
 
-  private def checkCourseGradeExists(project: Project, 
-      std: Student, 
-      course: Course, 
-      semester: Semester, 
+  private def checkCourseGradeExists(project: Project,
+      std: Student,
+      course: Course,
+      semester: Semester,
       tr: TransferResult): CourseGrade = {
     val builder = OqlBuilder.from(classOf[CourseGrade], "courseGrade")
     builder.where("courseGrade.std = :student", std)
@@ -102,9 +102,9 @@ class GradeImportListener(private var entityDao: EntityDao, private var project:
       if (courseGrades.size == 1) {
         return courseGrades.head
       } else if (courseGrades.size > 1) {
-        tr.addFailure("存在多条记录(", std.name + "," + project.name + "," + course.name + 
-          "," + 
-          semester.getCode + 
+        tr.addFailure("存在多条记录(", std.name + "," + project.name + "," + course.name +
+          "," +
+          semester.getCode +
           ")")
         return null
       }
@@ -113,7 +113,7 @@ class GradeImportListener(private var entityDao: EntityDao, private var project:
       courseGrade.setSemester(semester)
       courseGrade.course=(course)
     } catch {
-      case e: Exception => 
+      case e: Exception =>
     }
     courseGrade
   }

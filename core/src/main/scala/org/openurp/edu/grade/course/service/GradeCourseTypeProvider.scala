@@ -18,9 +18,9 @@
  */
 package org.openurp.edu.grade.course.service
 
-import org.openurp.edu.base.code.model.CourseType
-import org.openurp.edu.base.model.Course
-import org.openurp.edu.base.model.Student
+import org.openurp.base.edu.code.model.CourseType
+import org.openurp.base.edu.model.Course
+import org.openurp.base.edu.model.Student
 
 /**
  * 判断学生修读课程的课程类别

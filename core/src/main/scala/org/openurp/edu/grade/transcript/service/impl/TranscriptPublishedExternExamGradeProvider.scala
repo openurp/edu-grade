@@ -22,7 +22,7 @@ import org.beangle.commons.collection.Collections
 import org.beangle.commons.collection.Order
 import org.beangle.data.dao.EntityDao
 import org.beangle.data.dao.OqlBuilder
-import org.openurp.edu.base.model.Student
+import org.openurp.base.edu.model.Student
 import org.openurp.edu.extern.model.CertificateGrade
 import org.openurp.edu.grade.transcript.service.TranscriptDataProvider
 

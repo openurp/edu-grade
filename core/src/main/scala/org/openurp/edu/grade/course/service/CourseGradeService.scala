@@ -19,7 +19,7 @@
 package org.openurp.edu.grade.course.service
 
 import org.openurp.code.edu.model.GradeType
-import org.openurp.edu.base.model.Project
+import org.openurp.base.edu.model.Project
 import org.openurp.edu.grade.course.model.CourseGradeState
 import org.openurp.edu.clazz.model.Clazz
 

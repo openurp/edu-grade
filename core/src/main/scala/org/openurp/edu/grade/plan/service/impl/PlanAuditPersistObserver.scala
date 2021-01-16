@@ -23,7 +23,7 @@ import java.time.Instant
 import org.beangle.commons.collection.Collections
 import org.beangle.commons.logging.Logging
 import org.beangle.data.dao.{EntityDao, OqlBuilder}
-import org.openurp.edu.base.model.{Course, Student}
+import org.openurp.base.edu.model.{Course, Student}
 import org.openurp.edu.grade.plan.domain.{GroupResultAdapter, PlanAuditContext}
 import org.openurp.edu.grade.plan.model.{CourseAuditResult, GroupAuditResult, PlanAuditResult}
 
@@ -70,7 +70,7 @@ class PlanAuditPersistObserver extends Logging {
       }
       // delete last ';'
       if (updates.nonEmpty) updates.deleteCharAt(updates.length - 1)
-      existedResult.updates = updates.toString
+      existedResult.updates = Some(updates.toString)
     } else {
       existedResult = newResult
     }

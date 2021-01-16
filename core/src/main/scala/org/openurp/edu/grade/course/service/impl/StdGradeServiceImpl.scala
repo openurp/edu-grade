@@ -25,7 +25,7 @@ import org.beangle.commons.lang.Numbers
 import org.beangle.data.dao.{EntityDao, OqlBuilder}
 import org.openurp.base.model.Department
 import org.openurp.code.edu.model.GradeType
-import org.openurp.edu.base.model.{Course, Project, Semester, Student}
+import org.openurp.base.edu.model.{Course, Project, Semester, Student}
 import org.openurp.edu.clazz.model.CourseTaker
 import org.openurp.edu.grade.course.model.CourseGrade
 import org.openurp.edu.grade.course.service.StdGradeService

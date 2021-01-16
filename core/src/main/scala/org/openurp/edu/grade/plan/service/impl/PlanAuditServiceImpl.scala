@@ -21,7 +21,7 @@ package org.openurp.edu.grade.plan.service.impl
 import org.beangle.commons.collection.Collections
 import org.beangle.commons.logging.Logging
 import org.beangle.data.dao.{EntityDao, OqlBuilder}
-import org.openurp.edu.base.model.Student
+import org.openurp.base.edu.model.Student
 import org.openurp.edu.grade.course.domain.CourseGradeProvider
 import org.openurp.edu.grade.plan.domain.{DefaultPlanAuditor, PlanAuditContext, PlanAuditListener, StdGrade}
 import org.openurp.edu.grade.plan.model.PlanAuditResult

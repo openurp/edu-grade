@@ -21,7 +21,7 @@ package org.openurp.edu.grade.course.service.stat
 import org.beangle.commons.bean.orderings.PropertyOrdering
 import org.beangle.commons.collection.Collections
 import org.beangle.commons.lang.Objects
-import org.openurp.edu.base.model.{Course, Semester, Squad, Student}
+import org.openurp.base.edu.model.{Course, Semester, Squad, Student}
 import org.openurp.edu.grade.course.model.CourseGrade
 
 /**
