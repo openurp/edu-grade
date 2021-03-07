@@ -14,7 +14,7 @@
   <properties>
     <bundle.symbolicName>org.openurp.edu.grade</bundle.symbolicName>
     <bundle.namespace>org.openurp.edu.grade</bundle.namespace>
-    <openurp.api.version>0.20.4</openurp.api.version>
+    <openurp.api.version>0.21.0</openurp.api.version>
   </properties>
 
   <modules>
