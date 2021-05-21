@@ -70,7 +70,6 @@ class DefaultCourseGradeCalculator extends CourseGradeCalculator {
     calcMakeupDelayGa(grade, state)
   }
 
-
   /** 计算期末总评
    *
    * @param grade

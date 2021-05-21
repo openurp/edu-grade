@@ -62,7 +62,6 @@ class GradeServiceModule extends BindModule {
       classOf[TranscriptStdGraduationProvider], classOf[SpringTranscriptDataProviderRegistry], classOf[TranscriptPublishedExternExamGradeProvider])
       .shortName()
 
-
     bind("alternativeCourseProvider", classOf[DefaultAlternativeCourseProvider])
   }
 }
