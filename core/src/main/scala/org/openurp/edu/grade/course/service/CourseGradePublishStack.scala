@@ -29,7 +29,7 @@ import org.openurp.edu.grade.course.model.CourseGradeState
  */
 class CourseGradePublishStack {
 
-  protected var listeners = Collections.newBuffer[CourseGradePublishListener]
+  var listeners = Collections.newBuffer[CourseGradePublishListener]
 
   def onPublish(grade: CourseGrade, gradeTypes: Array[GradeType]): collection.Seq[Operation] = {
     val results = Collections.newBuffer[Operation]
