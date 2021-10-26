@@ -3,7 +3,7 @@ import org.openurp.parent.Dependencies._
 import org.beangle.tools.sbt.Sas
 
 ThisBuild / organization := "org.openurp.edu.grade"
-ThisBuild / version := "0.0.14"
+ThisBuild / version := "0.0.15-SNAPSHOT"
 
 ThisBuild / scmInfo := Some(
   ScmInfo(
