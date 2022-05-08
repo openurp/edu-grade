@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005, The OpenURP Software.
+ * Copyright (C) 2014, The OpenURP Software.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published
@@ -17,12 +17,12 @@
 
 package org.openurp.edu.grade.app.model
 
-import org.openurp.base.edu.model.Semester
-import org.openurp.code.edu.model.ExamStatus
-import org.openurp.code.edu.model.GradeType
-import org.openurp.base.edu.model.Course
-import org.openurp.base.edu.model.Student
 import org.beangle.data.model.LongId
+import org.openurp.base.edu.model.Course
+import org.openurp.base.model.Semester
+import org.openurp.base.std.model.Student
+import org.openurp.code.edu.model.{ExamStatus, GradeType}
+
 import java.time.Instant
 
 /**

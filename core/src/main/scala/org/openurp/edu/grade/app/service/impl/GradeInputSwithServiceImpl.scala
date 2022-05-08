@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005, The OpenURP Software.
+ * Copyright (C) 2014, The OpenURP Software.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published
@@ -18,8 +18,8 @@
 package org.openurp.edu.grade.app.service.impl
 
 import org.beangle.data.dao.OqlBuilder
-import org.openurp.base.edu.model.Semester
-import org.openurp.base.edu.model.Project
+import org.openurp.base.model.Semester
+import org.openurp.base.model.Project
 import org.openurp.edu.grade.app.model.GradeInputSwitch
 import org.openurp.edu.grade.app.service.GradeInputSwitchService
 import java.time.Instant
@@ -33,7 +33,7 @@ class GradeInputSwithServiceImpl extends BaseServiceImpl with GradeInputSwitchSe
     query.where("switch.project=:project", project)
     query.where("switch.semester=:semester", semester)
     query.where("switch.opened = true")
-    entityDao.uniqueResult(query)
+    entityDao.unique(query)
   }
 
   def getOpenedSemesters(project: Project): Seq[Semester] = {

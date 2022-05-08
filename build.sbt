@@ -1,14 +1,13 @@
 import org.openurp.parent.Settings._
 import org.openurp.parent.Dependencies._
-import org.beangle.tools.sbt.Sas
 
 ThisBuild / organization := "org.openurp.edu.grade"
-ThisBuild / version := "0.0.15"
+ThisBuild / version := "0.0.16"
 
 ThisBuild / scmInfo := Some(
   ScmInfo(
     url("https://github.com/openurp/edu-grade"),
-    "scm:git@github.com:openurp/std-grade.git"
+    "scm:git@github.com:openurp/edu-grade.git"
   )
 )
 
@@ -24,7 +23,7 @@ ThisBuild / developers := List(
 ThisBuild / description := "OpenURP Starter"
 ThisBuild / homepage := Some(url("http://openurp.github.io/edu-grade/index.html"))
 
-val apiVer = "0.23.4"
+val apiVer = "0.25.0"
 val openurp_std_api = "org.openurp.std" % "openurp-std-api" % apiVer
 val openurp_edu_api = "org.openurp.edu" % "openurp-edu-api" % apiVer
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005, The OpenURP Software.
+ * Copyright (C) 2014, The OpenURP Software.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published
@@ -17,8 +17,8 @@
 
 package org.openurp.edu.grade.course.service
 
-import org.openurp.base.edu.model.Semester
-import org.openurp.base.edu.model.Student
+import org.openurp.base.model.Semester
+import org.openurp.base.std.model.Student
 import org.openurp.edu.grade.course.model.CourseGrade
 /**
  * 平均绩点计算服务

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005, The OpenURP Software.
+ * Copyright (C) 2014, The OpenURP Software.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published
@@ -21,7 +21,7 @@ import java.time.Instant
 
 import org.beangle.data.dao.EntityDao
 import org.openurp.code.edu.model.{CourseTakeType, ExamStatus, GradeType, GradingMode}
-import org.openurp.base.edu.model.Student
+import org.openurp.base.std.model.Student
 import org.openurp.edu.grade.course.domain.NumRounder
 import org.openurp.edu.grade.course.model.{CourseGrade, CourseGradeState, ExamGrade, GaGrade}
 import org.openurp.edu.grade.course.service.{CourseGradeCalculator, CourseGradeSettings, GradeRateService}

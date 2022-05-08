@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005, The OpenURP Software.
+ * Copyright (C) 2014, The OpenURP Software.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published
@@ -17,13 +17,12 @@
 
 package org.openurp.edu.grade.app.model
 
-import java.time.Instant
-
 import org.beangle.commons.collection.Collections
 import org.beangle.data.model.LongId
+import org.openurp.base.model.{Project, Semester}
 import org.openurp.code.edu.model.GradeType
-import org.openurp.base.edu.model.Project
-import org.openurp.base.edu.model.Semester
+
+import java.time.Instant
 
 /**
  * 成绩录入开关
@@ -53,6 +52,8 @@ class GradeInputSwitch extends LongId {
   /** 备注 */
   var remark: String = _
 
+  def checkOpen(): Boolean = checkOpen(Instant.now)
+
   /**
    * 检查该开关是否开放
    *
@@ -69,6 +70,4 @@ class GradeInputSwitch extends LongId {
       opened
     }
   }
-
-  def checkOpen(): Boolean = checkOpen(Instant.now)
 }
