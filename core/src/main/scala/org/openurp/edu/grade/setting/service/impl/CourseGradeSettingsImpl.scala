@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005, The OpenURP Software.
+ * Copyright (C) 2014, The OpenURP Software.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published
@@ -21,7 +21,7 @@ import org.beangle.commons.collection.Collections
 import org.beangle.commons.lang.Strings
 import org.openurp.code.service.CodeService
 import org.openurp.code.edu.model.GradeType
-import org.openurp.base.edu.model.Project
+import org.openurp.base.model.Project
 import org.openurp.edu.grade.course.service.CourseGradeSettings
 import CourseGradeSettingsImpl._
 import org.openurp.edu.grade.course.service.CourseGradeSetting

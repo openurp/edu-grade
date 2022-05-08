@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005, The OpenURP Software.
+ * Copyright (C) 2014, The OpenURP Software.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published
@@ -17,35 +17,20 @@
 
 package org.openurp.edu.grade.course.service.impl
 
-import org.openurp.edu.grade.model.Grade.Status.New
-import org.openurp.edu.grade.model.Grade.Status.Published
-import org.beangle.commons.collection.Collections
-import org.beangle.data.dao.OqlBuilder
-import org.beangle.commons.lang.Objects
-import org.beangle.commons.lang.Strings
-import org.beangle.commons.lang.functor.Predicate
-import org.openurp.code.edu.model.CourseTakeType
-import org.openurp.code.edu.model.GradeType
-import org.openurp.base.edu.model.Project
-import org.openurp.edu.grade.course.model.CourseGrade
-import org.openurp.edu.grade.course.model.CourseGradeState
-import org.openurp.edu.grade.course.model.ExamGrade
-import org.openurp.edu.grade.course.model.ExamGradeState
-import org.openurp.edu.grade.course.model.GaGrade
-import org.openurp.edu.grade.course.model.GaGradeState
-import org.openurp.edu.grade.course.service.CourseGradeCalculator
-import org.openurp.edu.grade.course.service.CourseGradePublishStack
-import org.openurp.edu.grade.course.service.CourseGradeService
-import org.openurp.edu.grade.course.service.CourseGradeSettings
-import org.openurp.edu.grade.course.service.GradeCourseTypeProvider
-import org.openurp.edu.grade.course.service.ScoreConverter
-import org.openurp.edu.clazz.model.Clazz
-import org.openurp.edu.grade.model.Grade
-import org.openurp.edu.grade.model.GradeState
-import org.beangle.data.dao.Operation
 import org.beangle.commons.bean.orderings.PropertyOrdering
+import org.beangle.commons.collection.Collections
+import org.beangle.commons.lang.functor.Predicate
+import org.beangle.commons.lang.{Objects, Strings}
+import org.beangle.data.dao.{Operation, OqlBuilder}
 import org.beangle.data.model.Entity
+import org.openurp.base.model.Project
+import org.openurp.code.edu.model.{CourseTakeType, GradeType}
+import org.openurp.edu.clazz.model.Clazz
 import org.openurp.edu.grade.BaseServiceImpl
+import org.openurp.edu.grade.course.model.*
+import org.openurp.edu.grade.course.service.*
+import org.openurp.edu.grade.model.Grade.Status.{New, Published}
+import org.openurp.edu.grade.model.{Grade, GradeState}
 
 class CourseGradeServiceImpl extends BaseServiceImpl with CourseGradeService {
 
@@ -57,20 +42,6 @@ class CourseGradeServiceImpl extends BaseServiceImpl with CourseGradeService {
 
   var settings: CourseGradeSettings = _
 
-  private def getGrades(clazz: Clazz): Seq[CourseGrade] = {
-    val query = OqlBuilder.from(classOf[CourseGrade], "courseGrade")
-    query.where("courseGrade.clazz = :clazz", clazz)
-    entityDao.search(query)
-  }
-
-  def getState(clazz: Clazz): CourseGradeState = {
-    val list = entityDao.findBy(classOf[CourseGradeState].getName, "clazz", List(clazz))
-    if (list.isEmpty) {
-      return null
-    }
-    list.head
-  }
-
   def getPublishableGradeTypes(project: Project): Seq[GradeType] = {
     // 查找除去最终成绩之外的所有可发布成绩
     var gradeTypes = entityDao.getAll(classOf[GradeType])
@@ -78,21 +49,6 @@ class CourseGradeServiceImpl extends BaseServiceImpl with CourseGradeService {
       input.isGa || input.id == GradeType.Final
     }
     gradeTypes.sorted(new PropertyOrdering("code"))
-  }
-
-  /**
-   * 发布学生成绩
-   */
-  def publish(clazzIdSeq: String, gradeTypes: Array[GradeType], published: Boolean): Unit = {
-    val ids2 = Strings.splitToLong(clazzIdSeq)
-    val ids: Array[Long] = Array.ofDim(ids2.length)
-    for (i <- 0 until ids.length) ids(i) = ids2(i).longValue
-    val clazzes = entityDao.find(classOf[Clazz], ids.toList)
-    if (Collections.isNotEmpty(clazzes)) {
-      for (clazz <- clazzes) {
-        updateState(clazz, gradeTypes, if (published) Published else New)
-      }
-    }
   }
 
   /** 依据状态调整成绩 */
@@ -115,6 +71,79 @@ class CourseGradeServiceImpl extends BaseServiceImpl with CourseGradeService {
     entityDao.saveOrUpdate(grades)
     if (!published.isEmpty) {
       publish(gradeState.clazz.id.toString, published.toArray, true)
+    }
+  }
+
+  private def getGrades(clazz: Clazz): Seq[CourseGrade] = {
+    val query = OqlBuilder.from(classOf[CourseGrade], "courseGrade")
+    query.where("courseGrade.clazz = :clazz", clazz)
+    entityDao.search(query)
+  }
+
+  /**
+   * 发布学生成绩
+   */
+  def publish(clazzIdSeq: String, gradeTypes: Array[GradeType], published: Boolean): Unit = {
+    val ids2 = Strings.splitToLong(clazzIdSeq)
+    val ids: Array[Long] = Array.ofDim(ids2.length)
+    for (i <- 0 until ids.length) ids(i) = ids2(i).longValue
+    val clazzes = entityDao.find(classOf[Clazz], ids.toList)
+    if (Collections.isNotEmpty(clazzes)) {
+      for (clazz <- clazzes) {
+        updateState(clazz, gradeTypes, if (published) Published else New)
+      }
+    }
+  }
+
+  private def updateState(clazz: Clazz, gradeTypes: Array[GradeType], status: Int): Unit = {
+    val courseGradeStates = entityDao.findBy(classOf[CourseGradeState], "clazz",clazz)
+    var gradeState: CourseGradeState = null
+    for (gradeType <- gradeTypes) {
+      gradeState = if (courseGradeStates.isEmpty) new CourseGradeState else courseGradeStates.head
+      if (gradeType.id == GradeType.Final) {
+        gradeState.status = status
+      } else {
+        gradeState.updateStatus(gradeType, status)
+      }
+    }
+    val grades = entityDao.findBy(classOf[CourseGrade], "clazz", List(clazz))
+    val toBeSaved = Collections.newBuffer[Operation]
+    val published = Collections.newSet[CourseGrade]
+    for (grade <- grades; if (grade.courseTakeType.id != CourseTakeType.Exemption)) {
+      for (gradeType <- gradeTypes) {
+        var updated = false
+        if (gradeType.id == GradeType.Final) {
+          grade.status = status
+          updated = true
+        } else {
+          grade.getGrade(gradeType) foreach { examGrade =>
+            examGrade.status = status
+            updated = true
+          }
+        }
+        if (updated) published += grade
+      }
+    }
+    if (status == Published) toBeSaved ++= publishStack.onPublish(published, gradeState, gradeTypes)
+    toBeSaved ++= Operation.saveOrUpdate(clazz, gradeState).saveOrUpdate(published)
+      .build()
+    entityDao.execute(toBeSaved.toArray.toIndexedSeq: _*)
+  }
+
+  /**
+   * 依据状态信息更新成绩的状态和记录方式
+   *
+   * @param grade
+   * @param state
+   */
+  private def updateGradeState(grade: Grade, state: GradeState, project: Project): Unit = {
+    if (null != grade && null != state) {
+      if (Objects.!=(grade.gradingMode, state.gradingMode)) {
+        grade.gradingMode = state.gradingMode
+        val converter = calculator.gradeRateService.getConverter(project, state.gradingMode)
+        grade.scoreText = converter.convert(grade.score)
+      }
+      grade.status = state.status
     }
   }
 
@@ -171,6 +200,14 @@ class CourseGradeServiceImpl extends BaseServiceImpl with CourseGradeService {
     entityDao.execute(Operation.saveOrUpdate(save).remove(remove))
   }
 
+  def getState(clazz: Clazz): CourseGradeState = {
+    val list = entityDao.findBy(classOf[CourseGradeState], "clazz", clazz)
+    if (list.isEmpty) {
+      return null
+    }
+    list.head
+  }
+
   private def removeGrade(courseGrade: CourseGrade, gradeTypes: Iterable[GradeType], state: CourseGradeState): Boolean = {
     for (gradeType <- gradeTypes) {
       if (gradeType.isGa) {
@@ -187,58 +224,6 @@ class CourseGradeServiceImpl extends BaseServiceImpl with CourseGradeService {
     } else {
       true
     }
-  }
-
-  /**
-   * 依据状态信息更新成绩的状态和记录方式
-   *
-   * @param grade
-   * @param state
-   */
-  private def updateGradeState(grade: Grade, state: GradeState, project: Project): Unit = {
-    if (null != grade && null != state) {
-      if (Objects.!=(grade.gradingMode, state.gradingMode)) {
-        grade.gradingMode = state.gradingMode
-        val converter = calculator.gradeRateService.getConverter(project, state.gradingMode)
-        grade.scoreText = converter.convert(grade.score)
-      }
-      grade.status = state.status
-    }
-  }
-
-  private def updateState(clazz: Clazz, gradeTypes: Array[GradeType], status: Int): Unit = {
-    val courseGradeStates = entityDao.findBy(classOf[CourseGradeState].getName, "clazz", List(clazz))
-    var gradeState: CourseGradeState = null
-    for (gradeType <- gradeTypes) {
-      gradeState = if (courseGradeStates.isEmpty) new CourseGradeState else courseGradeStates.head
-      if (gradeType.id == GradeType.Final) {
-        gradeState.status = status
-      } else {
-        gradeState.updateStatus(gradeType, status)
-      }
-    }
-    val grades = entityDao.findBy(classOf[CourseGrade], "clazz", List(clazz))
-    val toBeSaved = Collections.newBuffer[Operation]
-    val published = Collections.newSet[CourseGrade]
-    for (grade <- grades; if (grade.courseTakeType.id != CourseTakeType.Exemption)) {
-      for (gradeType <- gradeTypes) {
-        var updated = false
-        if (gradeType.id == GradeType.Final) {
-          grade.status = status
-          updated = true
-        } else {
-          grade.getGrade(gradeType) foreach { examGrade =>
-            examGrade.status = status
-            updated = true
-          }
-        }
-        if (updated) published += grade
-      }
-    }
-    if (status == Published) toBeSaved ++= publishStack.onPublish(published, gradeState, gradeTypes)
-    toBeSaved ++= Operation.saveOrUpdate(clazz, gradeState).saveOrUpdate(published)
-      .build()
-    entityDao.execute(toBeSaved.toArray.toIndexedSeq: _*)
   }
 
 }

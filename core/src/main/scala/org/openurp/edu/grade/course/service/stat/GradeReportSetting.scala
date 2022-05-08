@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005, The OpenURP Software.
+ * Copyright (C) 2014, The OpenURP Software.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published
@@ -21,7 +21,7 @@ import java.time.Instant
 
 import org.beangle.commons.collection.Order
 import org.openurp.code.edu.model.GradeType
-import org.openurp.base.edu.model.Project
+import org.openurp.base.model.Project
 
 /**
   * 报表设置

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005, The OpenURP Software.
+ * Copyright (C) 2014, The OpenURP Software.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published
@@ -17,7 +17,8 @@
 
 package org.openurp.edu.grade.course.service.impl
 
-import org.openurp.base.edu.model.{Semester, Student}
+import org.openurp.base.model.Semester
+import org.openurp.base.std.model.Student
 import org.openurp.edu.grade.course.domain.{CourseGradeProvider, GpaPolicy}
 import org.openurp.edu.grade.course.model.{CourseGrade, StdGpa, StdSemesterGpa, StdYearGpa}
 import org.openurp.edu.grade.course.service.GpaStatService
@@ -30,57 +31,9 @@ class BestGpaStatService extends GpaStatService {
 
   private var bestGradeFilter: BestGradeFilter = _
 
-  override def stat(std: Student, grades: collection.Seq[CourseGrade]): StdGpa = {
-    val stdGpa = gpaPolicy.calc(std, grades, true)
-    val stdGpa2 = gpaPolicy.calc(std, bestGradeFilter.filter(grades), false)
-    stdGpa.gradeCount = stdGpa2.gradeCount
-    stdGpa.credits = stdGpa2.credits
-    stdGpa.totalCredits = stdGpa2.totalCredits
-    stdGpa.ga = stdGpa2.ga
-    stdGpa.gpa = stdGpa2.gpa
-    stdGpa
-  }
-
   def refresh(stdGpa: StdGpa): Unit = {
     val newer = stat(stdGpa.std)
     merge(stdGpa, newer)
-  }
-
-  def refresh(stdGpa: StdGpa, grades: collection.Seq[CourseGrade]): Unit = {
-    val newer = stat(stdGpa.std, grades)
-    merge(stdGpa, newer)
-  }
-
-  def stat(std: Student): StdGpa = {
-    stat(std, courseGradeProvider.getPublished(std))
-  }
-
-  override def statBySemester(std: Student, semesters: collection.Seq[Semester]): StdGpa = {
-    stat(std, courseGradeProvider.getPublished(std, semesters.toSeq: _*))
-  }
-
-  override def stat(stds: Iterable[Student]): MultiStdGpa = {
-    val multiStdGpa = new MultiStdGpa()
-    for (std <- stds) {
-      val stdGpa = stat(std)
-      if (stdGpa != null) {
-        multiStdGpa.stdGpas += stdGpa
-      }
-    }
-    multiStdGpa.statSemestersFromStdGpa()
-    multiStdGpa
-  }
-
-  override def statBySemester(stds: Iterable[Student], semesters: collection.Seq[Semester]): MultiStdGpa = {
-    val multiStdGpa = new MultiStdGpa()
-    for (std <- stds) {
-      val stdGpa = statBySemester(std, semesters)
-      if (stdGpa != null) {
-        multiStdGpa.stdGpas += stdGpa
-      }
-    }
-    multiStdGpa.statSemestersFromStdGpa()
-    multiStdGpa
   }
 
   private def merge(target: StdGpa, source: StdGpa): Unit = {
@@ -140,6 +93,54 @@ class BestGpaStatService extends GpaStatService {
 
   private def yearGpa2Map(gpas: Iterable[StdYearGpa]): Map[String, StdYearGpa] = {
     gpas.map { x => (x.schoolYear, x) }.toMap
+  }
+
+  def refresh(stdGpa: StdGpa, grades: collection.Seq[CourseGrade]): Unit = {
+    val newer = stat(stdGpa.std, grades)
+    merge(stdGpa, newer)
+  }
+
+  override def stat(stds: Iterable[Student]): MultiStdGpa = {
+    val multiStdGpa = new MultiStdGpa()
+    for (std <- stds) {
+      val stdGpa = stat(std)
+      if (stdGpa != null) {
+        multiStdGpa.stdGpas += stdGpa
+      }
+    }
+    multiStdGpa.statSemestersFromStdGpa()
+    multiStdGpa
+  }
+
+  def stat(std: Student): StdGpa = {
+    stat(std, courseGradeProvider.getPublished(std))
+  }
+
+  override def stat(std: Student, grades: collection.Seq[CourseGrade]): StdGpa = {
+    val stdGpa = gpaPolicy.calc(std, grades, true)
+    val stdGpa2 = gpaPolicy.calc(std, bestGradeFilter.filter(grades), false)
+    stdGpa.gradeCount = stdGpa2.gradeCount
+    stdGpa.credits = stdGpa2.credits
+    stdGpa.totalCredits = stdGpa2.totalCredits
+    stdGpa.ga = stdGpa2.ga
+    stdGpa.gpa = stdGpa2.gpa
+    stdGpa
+  }
+
+  override def statBySemester(stds: Iterable[Student], semesters: collection.Seq[Semester]): MultiStdGpa = {
+    val multiStdGpa = new MultiStdGpa()
+    for (std <- stds) {
+      val stdGpa = statBySemester(std, semesters)
+      if (stdGpa != null) {
+        multiStdGpa.stdGpas += stdGpa
+      }
+    }
+    multiStdGpa.statSemestersFromStdGpa()
+    multiStdGpa
+  }
+
+  override def statBySemester(std: Student, semesters: collection.Seq[Semester]): StdGpa = {
+    stat(std, courseGradeProvider.getPublished(std, semesters.toSeq: _*))
   }
 
 }

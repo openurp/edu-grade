@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005, The OpenURP Software.
+ * Copyright (C) 2014, The OpenURP Software.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published
@@ -42,7 +42,7 @@ class PlanAuditCommonElectiveListener extends PlanAuditListener {
         }
       for (course <- stdGrade.restCourses) {
         val courseResult = new CourseAuditResult()
-        courseResult.course = (course)
+        courseResult.course = course
         val grades = stdGrade.useGrades(course)
         if (grades.nonEmpty && grades.head.courseType.id != electiveType.id) {
           courseResult.remark = Some("计划外")

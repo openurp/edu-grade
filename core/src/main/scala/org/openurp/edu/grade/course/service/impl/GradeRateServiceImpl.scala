@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005, The OpenURP Software.
+ * Copyright (C) 2014, The OpenURP Software.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published
@@ -20,7 +20,7 @@ package org.openurp.edu.grade.course.service.impl
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.commons.script.ExpressionEvaluator
 import org.openurp.code.edu.model.GradingMode
-import org.openurp.base.edu.model.Project
+import org.openurp.base.model.Project
 import org.openurp.edu.grade.model.GradeRateConfig
 import org.openurp.edu.grade.model.GradeRateItem
 import org.openurp.edu.grade.course.service.GradeRateService
@@ -42,7 +42,7 @@ class GradeRateServiceImpl extends BaseServiceImpl with GradeRateService {
     val builder = OqlBuilder.from(classOf[GradeRateConfig], "config")
       .where("config.project=:project and config.gradingMode=:gradingMode", project, gradingMode)
       .cacheable()
-    val config = entityDao.uniqueResult(builder)
+    val config = entityDao.unique(builder)
     if (null == config) throw new RuntimeException("Cannot find ScoreConverter for " + gradingMode.name)
     new ScoreConverter(config, expressionEvaluator)
   }

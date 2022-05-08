@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005, The OpenURP Software.
+ * Copyright (C) 2014, The OpenURP Software.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published
@@ -17,17 +17,18 @@
 
 package org.openurp.edu.grade.course.service.impl
 
-import java.time.LocalDate
-
 import org.beangle.commons.collection.{Collections, Order}
 import org.beangle.commons.lang.Numbers
 import org.beangle.data.dao.{EntityDao, OqlBuilder}
-import org.openurp.base.model.Department
+import org.openurp.base.edu.model.Course
+import org.openurp.base.model.{Department, Project, Semester}
+import org.openurp.base.std.model.Student
 import org.openurp.code.edu.model.GradeType
-import org.openurp.base.edu.model.{Course, Project, Semester, Student}
 import org.openurp.edu.clazz.model.CourseTaker
 import org.openurp.edu.grade.course.model.CourseGrade
 import org.openurp.edu.grade.course.service.StdGradeService
+
+import java.time.LocalDate
 
 class StdGradeServiceImpl extends StdGradeService {
 

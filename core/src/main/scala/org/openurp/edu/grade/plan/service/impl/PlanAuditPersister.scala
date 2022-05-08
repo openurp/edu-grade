@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005, The OpenURP Software.
+ * Copyright (C) 2014, The OpenURP Software.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published
@@ -20,7 +20,8 @@ package org.openurp.edu.grade.plan.service.impl
 import org.beangle.commons.collection.Collections
 import org.beangle.commons.logging.Logging
 import org.beangle.data.dao.{EntityDao, OqlBuilder}
-import org.openurp.base.edu.model.{Course, Student}
+import org.openurp.base.edu.model.Course
+import org.openurp.base.std.model.Student
 import org.openurp.edu.grade.plan.domain.GroupResultAdapter
 import org.openurp.edu.grade.plan.model.{CourseAuditResult, GroupAuditResult, PlanAuditResult}
 
